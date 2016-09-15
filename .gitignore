@@ -1,0 +1,58 @@
+### https://raw.github.com/github/gitignore//C++.gitignore
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+
+### https://raw.github.com/github/gitignore//CMake.gitignore
+
+CMakeCache.txt
+CMakeFiles
+Makefile
+cmake_install.cmake
+install_manifest.txt
+
+
+### Qtcreator
+
+CMakeLists.txt.user
+
+
+### flexc++
+
+lex.cpp
+scannerbase.h
+
+
+### bisonc++
+
+parse.cpp
+parserbase.h
+
+

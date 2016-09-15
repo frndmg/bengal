@@ -1,0 +1,14 @@
+%scanner                    ../scanner/scanner.h
+%scanner-class-name         Scanner
+
+%target-directory           parser
+%filenames                  parser
+%parsefun-source            parse.cpp
+
+%token T_ID T_NUM T_ASSIGN T_SEMI
+%start program
+
+%%
+
+program:
+;

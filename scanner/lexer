@@ -1,0 +1,37 @@
+%target-directory = "scanner"
+%class-name = "Scanner"
+%filenames = "scanner"
+%lex-source = "lex.cpp"
+
+%%
+
+[ \t\n]+                            // skip white spaces
+
+// Identifier
+[[:alpha:]][[:alnum:]_]*            return Parser::T_ID;
+
+// Integrer constant
+[0-9]+                              return Parser::T_NUM;
+
+"="                                 return Parser::T_ASSIGN;
+";"                                 return Parser::T_SEMI;
+
+// Reserved words
+// TODO: Write the returns (use subl)
+"array";      // return Parser::T_ARRAY;
+"break";      // return Parser::T_BREAK;
+"do";         // return PARSER::T_DO
+"else";       //
+"end";        //
+"for";        //
+"function";   //
+"if";         //
+"in";         //
+"let";        //
+"nil";        //
+"of";         //
+"then";       //
+"to";         //
+"type";       //
+"var";        //
+"while";      //
