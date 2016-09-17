@@ -20,4 +20,6 @@ expr:
     T_NUM                   { std::cout << d_scanner.matched() << std::endl; }
 |
     T_STRING                { std::cout << d_scanner.matched() << std::endl; }
+|
+    T_NIL                   { std::cout << d_scanner.matched() << std::endl; }
 ;
