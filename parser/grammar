@@ -16,10 +16,15 @@ program:
     expr
 ;
 
+// TODO: Remove the prints for real ast nodes
 expr:
-    T_NUM                   { std::cout << d_scanner.matched() << std::endl; }
+    constant
 |
-    T_STRING                { std::cout << d_scanner.matched() << std::endl; }
+    T_NIL                   { std::cout << "T_NIL: "    << d_scanner.matched() << std::endl; }
+;
+
+constant:
+    T_NUM                   { std::cout << "T_NUM: "    << d_scanner.matched() << std::endl; }
 |
-    T_NIL                   { std::cout << d_scanner.matched() << std::endl; }
+    T_STRING                { std::cout << "T_STRING: " << d_scanner.matched() << std::endl; }
 ;
