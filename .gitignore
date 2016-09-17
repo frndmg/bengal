@@ -44,6 +44,11 @@ install_manifest.txt
 CMakeLists.txt.user
 
 
+### CLion
+
+.idea/
+
+
 ### flexc++
 
 lex.cpp
