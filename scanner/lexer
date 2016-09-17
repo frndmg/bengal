@@ -13,10 +13,16 @@
 // Integrer constant
 [0-9]+                              return Parser::T_NUM;
 
+// String constant
+\"[[:alnum:]\t\ ]*\"                return Parser::T_STRING;
+
+// Punctuation symbols
 "="                                 return Parser::T_ASSIGN;
 ";"                                 return Parser::T_SEMI;
 
 // Reserved words
+"nil"            return Parser::T_NIL;
+
 // TODO: Write the returns (use subl)
 "array";      // return Parser::T_ARRAY;
 "break";      // return Parser::T_BREAK;
@@ -28,7 +34,6 @@
 "if";         //
 "in";         //
 "let";        //
-"nil";        //
 "of";         //
 "then";       //
 "to";         //

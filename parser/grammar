@@ -5,10 +5,21 @@
 %filenames                  parser
 %parsefun-source            parse.cpp
 
-%token T_ID T_NUM T_ASSIGN T_SEMI
+%token T_ID T_NUM T_ASSIGN T_SEMI T_NIL T_STRING
 %start program
 
 %%
 
 program:
+    expr program
+|
+    expr
+;
+
+expr:
+    T_NUM                   { std::cout << d_scanner.matched() << std::endl; }
+|
+    T_STRING                { std::cout << d_scanner.matched() << std::endl; }
+|
+    T_NIL                   { std::cout << d_scanner.matched() << std::endl; }
 ;
