@@ -7,6 +7,9 @@
 
 [ \t\n]+                            // skip white spaces
 
+// Reserved words
+nil            return Parser::T_NIL;
+
 // Identifier
 [[:alpha:]][[:alnum:]_]*            return Parser::T_ID;
 
@@ -18,10 +21,11 @@
 
 // Punctuation symbols
 "="                                 return Parser::T_ASSIGN;
+"+"                                 return Parser::T_PLUS;
+"-"                                 return Parser::T_MINUS;
+"*"                                 return Parser::T_TIMES;
+"/"                                 return Parser::T_DIV;
 ";"                                 return Parser::T_SEMI;
-
-// Reserved words
-"nil"            return Parser::T_NIL;
 
 // TODO: Write the returns (use subl)
 "array";      // return Parser::T_ARRAY;
