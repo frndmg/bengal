@@ -7,6 +7,50 @@
 
 [ \t\n]+                            // skip white spaces
 
+// Reserved words
+nil                                 return Parser::T_NIL;
+array                               return Parser::T_ARRAY;
+break                               return Parser::T_BREAK;
+do                                  return Parser::T_DO;
+else                                return Parser::T_ELSE;
+end                                 return Parser::T_END;
+for                                 return Parser::T_FOR;
+function                            return Parser::T_FUNCTION;
+if                                  return Parser::T_IF;
+in                                  return Parser::T_IN;
+let                                 return Parser::T_LET;
+of                                  return Parser::T_OF;
+then                                return Parser::T_THEN;
+to                                  return Parser::T_TO;
+type                                return Parser::T_TYPE;
+var                                 return Parser::T_VAR;
+while                               return Parser::T_WHILE;
+
+// Punctuation symbols
+","
+":"
+";"
+"("
+")"
+"["
+"]"
+"{"
+"}"
+"."
+"+"                                 return Parser::T_PLUS;
+"-"                                 return Parser::T_MINUS;
+"*"                                 return Parser::T_TIMES;
+"/"                                 return Parser::T_DIV;
+"="
+"<>"
+"<"
+"<="
+">"
+">="
+"&"
+"|"
+":="
+
 // Identifier
 [[:alpha:]][[:alnum:]_]*            return Parser::T_ID;
 
@@ -14,29 +58,7 @@
 [0-9]+                              return Parser::T_NUM;
 
 // String constant
+// TODO: Fix this expression
 \"[[:alnum:]\t\ ]*\"                return Parser::T_STRING;
 
-// Punctuation symbols
-"="                                 return Parser::T_ASSIGN;
-";"                                 return Parser::T_SEMI;
 
-// Reserved words
-"nil"            return Parser::T_NIL;
-
-// TODO: Write the returns (use subl)
-"array";      // return Parser::T_ARRAY;
-"break";      // return Parser::T_BREAK;
-"do";         // return PARSER::T_DO
-"else";       //
-"end";        //
-"for";        //
-"function";   //
-"if";         //
-"in";         //
-"let";        //
-"of";         //
-"then";       //
-"to";         //
-"type";       //
-"var";        //
-"while";      //
