@@ -36,7 +36,7 @@ while                               return Parser::T_WHILE;
 "]"
 "{"
 "}"
-"\."
+"."
 "+"                                 return Parser::T_PLUS;
 "-"                                 return Parser::T_MINUS;
 "*"                                 return Parser::T_TIMES;
