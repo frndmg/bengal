@@ -15,36 +15,28 @@
 %%
 
 program:
-    expr program
-|
-    expr
+    expr EOF
 ;
 
-// TODO: Remove the prints for real ast nodes
 expr:
-    T_STRING                { std::cout << "T_STRING: " << d_scanner.matched() << std::endl; }
+    T_STRING
 |
-    T_NIL                   { std::cout << "T_NIL" << std::endl; }
+    T_NUM
 |
-    int_expr                { std::cout << "int_expr: " << $1 << std::endl; }
+    T_NIL
+|
+    lvalue
+|
+    expr T_PLUS expr
+|
+    expr T_MINUS expr
+|
+    expr T_TIMES expr
+|
+    expr T_DIV expr
+|
 ;
 
-int_expr:
-    int_expr T_PLUS int_expr
-    {
-        $$ = $1 + $3;
-    }
-|
-    int_expr T_MINUS int_expr    { $$ = $1 - $3; }
-|
-    int_expr T_TIMES int_expr    { $$ = $1 * $3; }
-|
-    int_expr T_DIV int_expr      { $$ = $1 / $3; }
-|
-    T_NUM                        { $$ = std::stoi(d_scanner.matched()); }
-|
+lvalue:
     T_ID
-    {
-        $$ = $1;
-    }
 ;
