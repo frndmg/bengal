@@ -5,12 +5,16 @@
 %filenames                  parser
 %parsefun-source            parse.cpp
 
-%token T_ID T_NUM T_ASSIGN T_SEMI T_NIL T_STRING
-       T_ARRAY T_BREAK T_DO T_ELSE T_END T_FOR T_FUNCTION T_IF T_IN T_LET T_OF
-       T_THEN T_TO T_TYPE T_VAR T_WHILE
 %start program
 
-%left T_PLUS T_MINUS T_TIMES T_DIV
+%token T_ID T_NUM T_SEMI T_NIL T_STRING T_COMMA T_DOT T_ASSIGN T_COLON T_EQUAL
+       T_ARRAY T_BREAK T_DO T_ELSE T_END T_FOR T_FUNCTION T_IF T_IN T_LET T_OF
+       T_THEN T_TO T_TYPE T_VAR T_WHILE T_LEFT_BRACKET T_RIGHT_BRACKET
+       T_LEFT_BRACE T_RIGHT_BRACE T_NEQUAL T_LESS T_LEQ T_GREATER T_GEQ T_AND T_OR
+%left T_TIMES T_DIV T_LEFT_PAR T_RIGHT_PAR
+%left T_PLUS T_MINUS
+
+%right T_NEG
 
 %%
 
@@ -27,6 +31,8 @@ expr:
 |
     lvalue
 |
+    T_MINUS expr %prec T_NEG
+|
     expr T_PLUS expr
 |
     expr T_MINUS expr
@@ -35,8 +41,109 @@ expr:
 |
     expr T_DIV expr
 |
+    lvalue T_ASSIGN expr
+|
+    id T_LEFT_PAR expr_list T_RIGHT_PAR
+    // TODO: expr_list optional
+|
+    T_LEFT_PAR expr_seq T_RIGHT_PAR
+    // TODO: expr_seq optional
+|
+    id T_LEFT_BRACE field_list T_RIGHT_BRACE
+    // TODO: field_list optional
+|
+    id T_LEFT_BRACKET expr T_RIGHT_BRACKET T_OF expr
+|
+    T_IF expr T_THEN expr
+|
+    T_IF expr T_THEN expr T_ELSE expr
+|
+    T_WHILE expr T_DO expr
+|
+    T_FOR id T_ASSIGN expr T_TO expr T_DO expr
+|
+    break
+|
+    T_LET declaration_list T_IN expr_seq T_END
+    // TODO: expr_seq optional
+;
+
+expr_list:
+    expr
+|
+    expr_list T_COMMA expr
+;
+
+expr_seq:
+    expr
+|
+    expr_seq T_SEMI expr
 ;
 
 lvalue:
+    id
+|
+    lvalue T_DOT id
+|
+    lvalue T_LEFT_BRACKET expr T_RIGHT_BRACKET
+;
+
+id:
     T_ID
+;
+
+field_list:
+    id T_EQUAL expr
+|
+    field_list T_COLON id T_EQUAL expr
+;
+
+break:
+    T_BREAK
+;
+
+declaration_list:
+    declaration
+|
+    declaration_list declaration
+;
+
+declaration:
+    type_declaration
+|
+    variable_declaration
+|
+    function_declaration
+;
+
+type_declaration:
+    T_TYPE id T_EQUAL type
+;
+
+type:
+    id
+|
+    T_LEFT_BRACE type_fields T_RIGHT_BRACE
+|
+    T_ARRAY T_OF id
+;
+
+type_fields:
+    type_field
+|
+    type_fields T_COMMA type_field
+;
+
+type_field:
+    id T_COLON id
+;
+
+variable_declaration:
+    T_VAR id T_ASSIGN expr
+    T_VAR id T_COLON id T_ASSIGN expr
+;
+
+function_declaration:
+    T_FUNCTION id T_LEFT_PAR type_fields T_RIGHT_PAR T_EQUAL expr
+    T_FUNCTION id T_LEFT_PAR type_fields T_RIGHT_PAR T_COLON id T_EQUAL expr
 ;
