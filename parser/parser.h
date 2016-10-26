@@ -8,7 +8,6 @@
 // $insert scanner.h
 #include "../scanner/scanner.h"
 
-
 #undef Parser
 class Parser: public ParserBase
 {

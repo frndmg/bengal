@@ -10,14 +10,15 @@
 namespace ast
 {
 
-static std::unique_ptr<llvm::Module> *TheModule;
-static llvm::IRBuilder<> Builder(llvm::getGlobalContext());
-static std::map<std::string, llvm::Value *> NamedValues;
+//static std::unique_ptr<llvm::Module> *MainModule;
+//static llvm::IRBuilder<> Builder(llvm::getGlobalContext());
+//static std::map<std::string, llvm::Value *> NamedValues;
 
 class Expr : public Node
 {
 public:
-    virtual ~Expr();
+    Expr() = default;
+//    virtual ~Expr();
 };
 
 } // namespace ast

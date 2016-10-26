@@ -4,19 +4,24 @@
 #include <llvm/IR/Value.h>
 #include <llvm/IR/IRBuilder.h>
 
-#include "Expr.hpp"
+#include "RValue.hpp"
 
 namespace ast
 {
 
-class NumExpr : public Expr
+class NumExpr : public RValue
 {
-    int m_val;
+    long long m_val;
 
 public:
-    NumExpr();
+    NumExpr() = default;
 
-    virtual void generateCode();
+    NumExpr(long long val) : RValue()
+    {
+        m_val = val;
+    }
+
+//    virtual void generateCode();
 };
 
 } // ast namespace

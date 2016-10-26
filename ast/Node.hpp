@@ -7,10 +7,10 @@ namespace ast
 class Node
 {
 public:
-    Node();
-    virtual ~Node();
+    Node() = default;
+//    virtual ~Node();
 
-    virtual void generateCode() = 0;
+//    virtual void generateCode() = 0;
 };
 
 } // ast namespace

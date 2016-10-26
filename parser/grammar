@@ -5,12 +5,16 @@
 %filenames                  parser
 %parsefun-source            parse.cpp
 
+%baseclass-preinclude       parserPreinclude.hpp
+
 %start program
 
-// %polymorphic T_NUM: int; T_STRING: std::string;
+%polymorphic
+    EXPR: std::shared_ptr<Expr>;
+    NUM: std::shared_ptr<NumExpr>;
 
-// %type <T_NUM> int
-// %type <T_STRING> string
+%type <EXPR> expr
+%type <NUM> num
 
 %token T_ID T_NUM T_SEMI T_NIL T_STRING T_COMMA T_DOT T_COLON
        T_ARRAY T_BREAK T_DO T_ELSE T_END T_FOR T_FUNCTION T_IF T_IN T_LET T_OF
@@ -33,7 +37,7 @@ program:
 expr:
     T_STRING
 |
-    T_NUM
+    num { $$ = $1; }
 |
     T_NIL
 |
@@ -64,6 +68,10 @@ expr:
     break
 |
     T_LET declaration_list T_IN expr_seq T_END
+;
+
+num:
+    T_NUM { $$ = std::make_shared<NumExpr>(std::stoll(d_scanner.matched())); }
 ;
 
 bin_exp:
