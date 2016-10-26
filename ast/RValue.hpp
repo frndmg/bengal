@@ -9,7 +9,7 @@ namespace ast
 class RValue : public Expr
 {
 public:
-    RValue();
+    RValue() = default;
 };
 
 } // ast namespace

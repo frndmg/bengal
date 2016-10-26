@@ -8,4 +8,4 @@ set(SOURCE Expr.cpp
            Node.cpp
            StringExpr.cpp
            NilExpr.cpp)
-add_library(ast ${SOURCE})
+add_library(ast SHARED ${SOURCE})
