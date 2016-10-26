@@ -7,6 +7,11 @@
 
 %start program
 
+// %polymorphic T_NUM: int; T_STRING: std::string;
+
+// %type <T_NUM> int
+// %type <T_STRING> string
+
 %token T_ID T_NUM T_SEMI T_NIL T_STRING T_COMMA T_DOT T_COLON
        T_ARRAY T_BREAK T_DO T_ELSE T_END T_FOR T_FUNCTION T_IF T_IN T_LET T_OF
        T_THEN T_TO T_TYPE T_VAR T_WHILE
