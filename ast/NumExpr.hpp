@@ -6,7 +6,8 @@
 
 #include "Expr.hpp"
 
-namespace ast {
+namespace ast
+{
 
 class NumExpr : public Expr
 {
@@ -15,9 +16,9 @@ class NumExpr : public Expr
 public:
     NumExpr();
 
-    virtual llvm::Value *generateCode();
+    virtual void generateCode();
 };
 
-}
+} // ast namespace
 
 #endif // NUMEXPR_HPP

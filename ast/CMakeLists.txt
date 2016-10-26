@@ -4,5 +4,6 @@ message("USING LLVM: " ${LLVM_DIR})
 
 set(SOURCE Expr.cpp
            NumExpr.cpp
-           RValue.cpp)
+           RValue.cpp
+           Node.cpp)
 add_library(ast ${SOURCE})

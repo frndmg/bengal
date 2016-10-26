@@ -1,12 +1,17 @@
 #ifndef RVALUE_HPP
 #define RVALUE_HPP
 
-#include <qglobal.h>
+#include "Expr.hpp"
+
+namespace ast
+{
 
 class RValue : public Expr
 {
 public:
     RValue();
 };
+
+} // ast namespace
 
 #endif // RVALUE_HPP

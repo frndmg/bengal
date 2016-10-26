@@ -1,12 +1,18 @@
 #ifndef NODE_HPP
 #define NODE_HPP
 
-#include <qglobal.h>
+namespace ast
+{
 
 class Node
 {
 public:
     Node();
+    virtual ~Node();
+
+    virtual void generateCode() = 0;
 };
+
+} // ast namespace
 
 #endif // NODE_HPP

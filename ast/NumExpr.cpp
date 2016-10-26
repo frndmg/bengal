@@ -7,7 +7,7 @@ NumExpr::NumExpr()
 
 }
 
-llvm::Value *NumExpr::generateCode()
+void NumExpr::generateCode()
 {
-    return llvm::ConstantInt::get(llvm::getGlobalContext(), llvm::APInt(32, m_val));
+    llvm::ConstantInt::get(llvm::getGlobalContext(), llvm::APInt(32, m_val));
 }
