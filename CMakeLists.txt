@@ -6,10 +6,11 @@ cmake_minimum_required(VERSION 2.8)
 #include(cmake/FindBISONCPP.cmake)
 
 set(TARGET tiger)
+include_directories(ast parsing/parser)
 
 add_subdirectory(ast)
+add_subdirectory(parsing)
 
-add_executable(${TARGET} main.cpp scanner/lex.cpp parser/parse.cpp)
+add_executable(${TARGET} main.cpp)
 set_property(TARGET ${TARGET} PROPERTY CXX_STANDARD 11)
-
-target_link_libraries(${TARGET} ast)
+target_link_libraries(${TARGET} ast parsing)
