@@ -1,6 +1,6 @@
-find_package(LLVM 3.6)
+find_package(LLVM 3.6 REQUIRED)
 
-message("USING LLVM: " ${LLVM_DIR})
+# message("USING LLVM: " ${LLVM_DIR})
 
 set(SOURCE Expr.cpp
            NumExpr.cpp
