@@ -12,12 +12,29 @@
 %start program
 
 %polymorphic
+    ARRAYEXPR: std::shared_ptr<ArrayExpr>;
+    EXPRSEQEXPR: std::shared_ptr<ExprSeqExpr>;
+    LVALUE: std::shared_ptr<LValue>;
+    RVALUE: std::shared_ptr<RValue>;
+    ASSIGNEXPR: std::shared_ptr<AssignExpr>;
+    FOREXPR: std::shared_ptr<ForExpr>;
+    NILEXPR: std::shared_ptr<NilExpr>;
+    STRINGEXPR: std::shared_ptr<StringExpr>;
+    BINEXPR: std::shared_ptr<BinExpr>;
+    FUNCTIONCALLEXPR: std::shared_ptr<FunctionCallExpr>;
+    NODE: std::shared_ptr<Node>;
+    WHILEEXPR: std::shared_ptr<WhileExpr>;
+    BREAKABLEEXPR: std::shared_ptr<BreakableExpr>;
+    IFEXPR: std::shared_ptr<IfExpr>;
+    NUMEXPR: std::shared_ptr<NumExpr>;
     EXPR: std::shared_ptr<Expr>;
-    NUM: std::shared_ptr<NumExpr>;
-
+    LETEXPR: std::shared_ptr<LetExpr>;
+    RECORDEXPR: std::shared_ptr<RecordExpr>;
 
 %type <EXPR> expr
-%type <NUM> num
+%type <NUMEXPR> num
+%type <BINEXPR> bin_exp
+%type <LVALUE> lvalue
 
 %token T_ID T_NUM T_SEMI T_NIL T_STRING T_COMMA T_DOT T_COLON
        T_ARRAY T_BREAK T_DO T_ELSE T_END T_FOR T_FUNCTION T_IF T_IN T_LET T_OF
@@ -44,11 +61,11 @@ expr:
 |
     T_NIL
 |
-    lvalue
+    lvalue { $$ = $1; }
 |
     T_MINUS expr %prec UNARY
 |
-    bin_exp
+    bin_exp { $$ = $1; }
 |
     lvalue T_ASSIGN expr
 |

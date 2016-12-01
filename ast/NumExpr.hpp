@@ -16,9 +16,10 @@ class NumExpr : public RValue
 public:
     NumExpr() = default;
 
-    NumExpr(long long val) : RValue()
+    NumExpr(long long val) :
+        RValue()
+      , m_val(val)
     {
-        m_val = val;
     }
 
 //    virtual void generateCode();
