@@ -17,6 +17,13 @@ class Parser: public ParserBase
     public:
         int parse();
 
+        Parser(std::istream &in = std::cin,
+                        std::ostream &out = std::cout) :
+            ParserBase(),
+            d_scanner(in, out)
+        {
+        }
+
     private:
         void error(char const *msg);    // called on (syntax) errors
         int lex();                      // returns the next token from the

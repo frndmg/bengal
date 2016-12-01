@@ -15,6 +15,9 @@ include_directories(ast parsing/parser)
 add_subdirectory(ast)
 add_subdirectory(parsing)
 
+enable_testing()
+add_subdirectory(tests)
+
 set(TARGET tiger)
 add_executable(${TARGET} main.cpp)
 set_property(TARGET ${TARGET} PROPERTY CXX_STANDARD 11)
