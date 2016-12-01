@@ -9,9 +9,13 @@ add_custom_command(
     COMMENT "Generating lexer"
 )
 
+if (${BENGAL_DEBUG_PARSING})
+    set(BISON_FLAGS --debug --construction)
+endif()
+
 add_custom_command(
     OUTPUT ${PROJECT_SOURCE_DIR}/parsing/parser/parse.cpp
-    COMMAND bisonc++ ARGS $<$<STREQUAL:BENGAL_DEBUG_PARSING,ON>:"--debug --construction"> parser/grammar.y
+    COMMAND bisonc++ ARGS ${BISON_FLAGS} parser/grammar.y
     MAIN_DEPENDENCY parser/grammar.y
     DEPENDS parser/parser.h parser/parser.ih parser/parserPreinclude.hpp
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/parsing

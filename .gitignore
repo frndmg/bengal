@@ -59,6 +59,6 @@ scannerbase.h
 
 parse.cpp
 parserbase.h
-grammar.output
+grammar.y.output
 
 

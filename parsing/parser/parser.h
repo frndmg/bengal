@@ -13,14 +13,14 @@ class Parser: public ParserBase
 {
     // $insert scannerobject
     Scanner d_scanner;
-        
+
     public:
         int parse();
 
     private:
         void error(char const *msg);    // called on (syntax) errors
         int lex();                      // returns the next token from the
-                                        // lexical scanner. 
+                                        // lexical scanner.
         void print();                   // use, e.g., d_token, d_loc
 
     // support functions for parse():
