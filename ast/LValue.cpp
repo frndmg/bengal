@@ -2,3 +2,7 @@
 
 using namespace ast;
 
+LValue::LValue()
+{
+
+}

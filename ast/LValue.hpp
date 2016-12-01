@@ -8,6 +8,8 @@ namespace ast
 
 class LValue : public RValue
 {
+public:
+    LValue();
 };
 
 } // ast namespace
