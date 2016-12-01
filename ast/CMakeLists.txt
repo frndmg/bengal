@@ -8,6 +8,25 @@ set(SOURCE
     Node.cpp
     StringExpr.cpp
     NilExpr.cpp
+    BinExpr.cpp
+    LValue.cpp
+    ArrayExpr.cpp
+    RecordExpr.cpp
+    ExprSeqExpr.cpp
+    IfExpr.cpp
+    FunctionCallExpr.cpp
+    LetExpr.cpp
+    WhileExpr.cpp
+    ForExpr.cpp
+    AssignExpr.cpp
+    BreakableExpr.cpp
+    Id.cpp
+    DeclarationList.cpp
+    Declaration.cpp
+    TypeDeclaration.cpp
+    FunctionDeclaration.cpp
+    FieldList.cpp
+    Field.cpp
 )
 
 add_library(${BENGAL_AST_LIBRARY} SHARED ${SOURCE})

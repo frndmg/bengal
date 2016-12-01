@@ -6,7 +6,7 @@ project(bengal CXX)
 #include(cmake/FindFLEXCPP.cmake)
 #include(cmake/FindBISONCPP.cmake)
 
-set(BOOST_COMPONENTS program_options filesystem)
+set(BOOST_COMPONENTS program_options)
 find_package(Boost 1.54 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
