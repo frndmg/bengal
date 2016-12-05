@@ -20,5 +20,5 @@ add_subdirectory(tests)
 
 set(TARGET tiger)
 add_executable(${TARGET} main.cpp)
-set_property(TARGET ${TARGET} PROPERTY CXX_STANDARD 11)
+set_property(TARGET ${TARGET} PROPERTY CXX_STANDARD 14)
 target_link_libraries(${TARGET} ast parsing ${Boost_LIBRARIES})
