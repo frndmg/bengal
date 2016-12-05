@@ -1,12 +1,12 @@
 #ifndef VARIABLEDECLARATION_HPP
 #define VARIABLEDECLARATION_HPP
 
-#include "Declaration.hpp"
+#include "DeclarationScope.hpp"
 
 namespace ast
 {
 
-class VariableDeclaration : public Declaration
+class VariableDeclaration : public DeclarationScope
 {
 public:
     VariableDeclaration();

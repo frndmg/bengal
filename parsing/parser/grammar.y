@@ -38,14 +38,22 @@
     WHILEEXPR: std::shared_ptr<WhileExpr>;
     FIELD: std::shared_ptr<Field>;
     NILEXPR: std::shared_ptr<NilExpr>;
+    DECLARATIONSCOPE: std::shared_ptr<DeclarationScope>;
+    FUNCTIONDECLARATIONSCOPE: std::shared_ptr<FunctionDeclarationScope>;
+    TYPEDECLARATIONSCOPE: std::shared_ptr<TypeDeclarationScope>;
 
 %type <EXPR> expr
 %type <NUMEXPR> num
 %type <BINEXPR> bin_exp
 %type <LVALUE> lvalue
+%type <DECLARATIONLIST> declaration_list
+%type <DECLARATIONSCOPE> declaration_scope
+%type <FUNCTIONDECLARATIONSCOPE> function_declaration_scope
+%type <TYPEDECLARATIONSCOPE> type_declaration_scope
+%type <VARIABLEDECLARATION> variable_declaration
 
 %token T_ID T_NUM T_SEMI T_NIL T_STRING T_COMMA T_DOT T_COLON
-       T_ARRAY T_BREAK T_DO T_ELSE T_END T_FOR T_FUNCTION T_IF T_IN T_LET T_OF
+       T_ARRAY T_BREAK T_DO T_END T_FOR T_FUNCTION T_IF T_IN T_LET T_OF
        T_THEN T_TO T_TYPE T_VAR T_WHILE
        T_LEFT_BRACKET T_RIGHT_BRACKET
        T_LEFT_BRACE T_RIGHT_BRACE
@@ -54,6 +62,7 @@
 %nonassoc T_EQUAL T_NEQUAL T_GREATER T_LESS T_GEQ T_LEQ T_AND T_OR
 %left T_PLUS T_MINUS
 %left T_TIMES T_DIV
+%left T_ELSE
 %right UNARY
 
 %%
@@ -65,15 +74,15 @@ program:
 expr:
     T_STRING
 |
-    num { $$ = $1; }
+    num { $$($1); }
 |
     T_NIL
 |
-    lvalue { $$ = $1; }
+    lvalue { $$($1); }
 |
     T_MINUS expr %prec UNARY
 |
-    bin_exp { $$ = $1; }
+    bin_exp { $$($1); }
 |
     lvalue T_ASSIGN expr
 |
@@ -99,33 +108,33 @@ expr:
 ;
 
 num:
-    T_NUM { $$ = std::make_shared<NumExpr>(std::stoll(d_scanner.matched())); }
+    T_NUM { $$(std::make_shared<NumExpr>(std::stoll(d_scanner.matched()))); }
 ;
 
 bin_exp:
-    expr T_EQUAL expr
+    expr T_EQUAL expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::EQUAL)); }
 |
-    expr T_NEQUAL expr
+    expr T_NEQUAL expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::NEQUAL)); }
 |
-    expr T_GREATER expr
+    expr T_GREATER expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::GREATER)); }
 |
-    expr T_LESS expr
+    expr T_LESS expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::LESS)); }
 |
-    expr T_GEQ expr
+    expr T_GEQ expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::GEQ)); }
 |
-    expr T_LEQ expr
+    expr T_LEQ expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::LEQ)); }
 |
-    expr T_AND expr
+    expr T_AND expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::AND)); }
 |
-    expr T_OR expr
+    expr T_OR expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::OR)); }
 |
-    expr T_TIMES expr
+    expr T_TIMES expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::MUL)); }
 |
-    expr T_DIV expr
+    expr T_DIV expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::DIV)); }
 |
-    expr T_PLUS expr
+    expr T_PLUS expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::ADD)); }
 |
-    expr T_MINUS expr
+    expr T_MINUS expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::SUB)); }
 ;
 
 expr_list:
@@ -168,16 +177,30 @@ break:
 ;
 
 declaration_list:
+    { $$(); }
 |
-    declaration_scope declaration_list
+    declaration_list declaration_scope
+    {
+        $$($1);
+        $$->push_back($2);
+    }
 ;
 
 declaration_scope:
     type_declaration_scope
+    {
+        $$($1);
+    }
 |
     function_declaration_scope
+    {
+        $$($1);
+    }
 |
     variable_declaration
+    {
+        $$($1);
+    }
 ;
 
 type_declaration_scope:

@@ -27,6 +27,9 @@
 #include <WhileExpr.hpp>
 #include <Field.hpp>
 #include <NilExpr.hpp>
+#include <DeclarationScope.hpp>
+#include <FunctionDeclarationScope.hpp>
+#include <TypeDeclarationScope.hpp>
 
 using namespace ast;
 

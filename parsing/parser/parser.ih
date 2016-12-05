@@ -14,6 +14,7 @@ inline void Parser::error(char const *msg)
 // $insert lex
 inline int Parser::lex()
 {
+    std::cout << "d_scanner.matched(): " << d_scanner.matched() << std::endl;
     return d_scanner.lex();
 }
 

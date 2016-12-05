@@ -27,6 +27,9 @@ set(SOURCE
     FunctionDeclaration.cpp
     FieldList.cpp
     Field.cpp
+    DeclarationScope.cpp
+    FunctionDeclarationScope.cpp
+    TypeDeclarationScope.cpp
 )
 
 add_library(${BENGAL_AST_LIBRARY} SHARED ${SOURCE})
