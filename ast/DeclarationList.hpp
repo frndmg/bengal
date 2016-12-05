@@ -5,17 +5,16 @@
 #include "DeclarationScope.hpp"
 
 #include <vector>
-#include <memory>
 
 namespace ast
 {
 
-class DeclarationList : public Node, private std::vector<std::shared_ptr<DeclarationScope>>
+class DeclarationList : public Node, private std::vector<ptr<DeclarationScope>>
 {
 public:
     DeclarationList();
 
-    using std::vector<std::shared_ptr<DeclarationScope>>::push_back;
+    using std::vector<ptr<DeclarationScope>>::push_back;
 };
 
 } // ast namespace
