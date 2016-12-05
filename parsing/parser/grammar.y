@@ -7,7 +7,7 @@
 
 %baseclass-preinclude       parserPreinclude.hpp
 
-%expect 1
+// %expect 1
 
 %start program
 
@@ -168,17 +168,22 @@ break:
 ;
 
 declaration_list:
-    declaration
 |
-    declaration_list declaration
+    declaration_scope declaration_list
 ;
 
-declaration:
-    type_declaration
+declaration_scope:
+    type_declaration_scope
+|
+    function_declaration_scope
 |
     variable_declaration
+;
+
+type_declaration_scope:
+    type_declaration
 |
-    function_declaration
+    type_declaration_scope type_declaration
 ;
 
 type_declaration:
@@ -208,6 +213,12 @@ variable_declaration:
     T_VAR id T_ASSIGN expr
 |
     T_VAR id T_COLON id T_ASSIGN expr
+;
+
+function_declaration_scope:
+    function_declaration
+|
+    function_declaration_scope function_declaration
 ;
 
 function_declaration:
