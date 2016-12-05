@@ -14,15 +14,19 @@ class Parser: public ParserBase
     // $insert scannerobject
     Scanner d_scanner;
 
+    // Abstract syntax tree
+    ast::Expr m_ast;
+
     public:
         int parse();
 
-        Parser(std::istream &in = std::cin,
-                        std::ostream &out = std::cout) :
+        Parser(std::istream &in = std::cin, std::ostream &out = std::cout) :
             ParserBase(),
             d_scanner(in, out)
         {
         }
+
+        auto ast() const { return m_ast; }
 
     private:
         void error(char const *msg);    // called on (syntax) errors

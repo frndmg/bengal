@@ -44,5 +44,9 @@ int main(int argc, char *argv[])
 
 //    parser.setDebug(true);
 
-    return parser.parse();
+    int parse_out = parser.parse();
+
+    auto ast = parser.ast();
+
+    return parse_out;
 }
