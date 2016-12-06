@@ -43,6 +43,7 @@
     TYPEDECLARATIONSCOPE: std::shared_ptr<TypeDeclarationScope>;
     TYPEFIELD: std::shared_ptr<TypeField>;
     TYPEFIELDS: std::shared_ptr<TypeFields>;
+    EXPRLIST: std::shared_ptr<ExprList>;
 
 %type <EXPR> expr
 %type <NUMEXPR> num
@@ -58,6 +59,7 @@
 %type <TYPEDECLARATION> type_declaration
 %type <TYPEFIELD> type_field
 %type <TYPEFIELDS> type_fields _type_fields
+%type <EXPRLIST> expr_list _expr_list
 
 %token T_ID T_NUM T_SEMI T_NIL T_STRING T_COMMA T_DOT T_COLON
        T_ARRAY T_BREAK T_DO T_END T_FOR T_FUNCTION T_IF T_IN T_LET T_OF
@@ -103,6 +105,7 @@ expr:
     lvalue T_ASSIGN expr
     { $$( std::make_shared<AssignExpr>($1, $3) ); }
 |
+    // Function call
     id T_LEFT_PAR expr_list T_RIGHT_PAR
 |
     T_LEFT_PAR expr_seq T_RIGHT_PAR
@@ -171,10 +174,24 @@ bin_exp:
 ;
 
 expr_list:
+    { $$( std::make_shared<ExprList>() ); }
 |
+    _expr_list
+    { $$( $1 ); }
+;
+
+_expr_list:
     expr
+    {
+        $$( std::make_shared<ExprList>() );
+        $$->push_back($1);
+    }
 |
     expr_list T_COMMA expr
+    {
+        $$( $1 );
+        $$->push_back($3);
+    }
 ;
 
 expr_seq:

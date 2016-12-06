@@ -32,6 +32,7 @@ set(SOURCE
     TypeDeclarationScope.cpp
     TypeField.cpp
     TypeFields.cpp
+    ExprList.cpp
 )
 
 add_library(${BENGAL_AST_LIBRARY} SHARED ${SOURCE})

@@ -32,6 +32,7 @@
 #include <TypeDeclarationScope.hpp>
 #include <TypeField.hpp>
 #include <TypeFields.hpp>
+#include <ExprList.hpp>
 
 using namespace ast;
 
