@@ -2,6 +2,8 @@
 #define VARIABLEDECLARATION_HPP
 
 #include "DeclarationScope.hpp"
+#include "Expr.hpp"
+#include "Id.hpp"
 
 namespace ast
 {
@@ -9,7 +11,8 @@ namespace ast
 class VariableDeclaration : public DeclarationScope
 {
 public:
-    VariableDeclaration();
+    VariableDeclaration(ptr<Id> id, ptr<Expr> expr);
+    VariableDeclaration(ptr<Id> id, ptr<Id> type, ptr<Expr> expr);
 };
 
 } // ast namespace

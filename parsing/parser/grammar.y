@@ -52,6 +52,7 @@
 %type <TYPEDECLARATIONSCOPE> type_declaration_scope
 %type <VARIABLEDECLARATION> variable_declaration
 %type <EXPRSEQEXPR> expr_seq _expr_seq
+%type <ID> id
 
 %token T_ID T_NUM T_SEMI T_NIL T_STRING T_COMMA T_DOT T_COLON
        T_ARRAY T_BREAK T_DO T_END T_FOR T_FUNCTION T_IF T_IN T_LET T_OF
@@ -252,8 +253,14 @@ type_field:
 
 variable_declaration:
     T_VAR id T_ASSIGN expr
+    {
+        $$(std::make_shared<VariableDeclaration>($2, $4));
+    }
 |
     T_VAR id T_COLON id T_ASSIGN expr
+    {
+        $$(std::make_shared<VariableDeclaration>($2, $4, $6));
+    }
 ;
 
 function_declaration_scope:

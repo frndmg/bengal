@@ -2,7 +2,12 @@
 
 using namespace ast;
 
-VariableDeclaration::VariableDeclaration()
+ast::VariableDeclaration::VariableDeclaration(ptr<ast::Id> id, ptr<ast::Expr> expr)
+{
+
+}
+
+VariableDeclaration::VariableDeclaration(ptr<Id> id, ptr<Id> type, ptr<Expr> expr)
 {
 
 }

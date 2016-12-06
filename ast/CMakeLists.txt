@@ -25,6 +25,7 @@ set(SOURCE
     Declaration.cpp
     TypeDeclaration.cpp
     FunctionDeclaration.cpp
+    VariableDeclaration.cpp
     FieldList.cpp
     Field.cpp
     DeclarationScope.cpp
