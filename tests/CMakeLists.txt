@@ -7,9 +7,14 @@ function(add_tiger_test TEST_NAME TEST_TYPE TEST_LABEL)
     )
 endfunction()
 
+# INT EXPRESSION
+## POSITIVE
 add_tiger_test(int_expr positive 01)
+## NEGATIVE
 add_tiger_test(int_expr negative 01)
 
+# LVALUE EXPRESSION
+## SIMPLE
 add_tiger_test(lvalue_expr simple 01)
 add_tiger_test(lvalue_expr simple 02)
 
