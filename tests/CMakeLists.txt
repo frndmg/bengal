@@ -13,6 +13,13 @@ add_tiger_test(int_expr negative 01)
 add_tiger_test(lvalue_expr simple 01)
 add_tiger_test(lvalue_expr simple 02)
 
+# BINARY EXPRESSION
+## SIMPLE
+add_tiger_test(bin_expr simple 01)
+add_tiger_test(bin_expr simple 02)
+## WITH PARENTECES
+add_tiger_test(bin_expr with_par 01)
+
 # LET EXPRESSION
 ## SIMPLE
 add_tiger_test(let_expr simple 01)

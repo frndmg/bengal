@@ -97,7 +97,8 @@ expr:
 |
     T_MINUS expr %prec UNARY
 |
-    bin_exp { $$($1); }
+    bin_exp
+    { $$( $1 ); }
 |
     lvalue T_ASSIGN expr
     { $$( std::make_shared<AssignExpr>($1, $3) ); }
@@ -132,29 +133,41 @@ num:
 ;
 
 bin_exp:
-    expr T_EQUAL expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::EQUAL)); }
+    expr T_EQUAL expr
+    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::EQUAL) ); }
 |
-    expr T_NEQUAL expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::NEQUAL)); }
+    expr T_NEQUAL expr
+    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::NEQUAL) ); }
 |
-    expr T_GREATER expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::GREATER)); }
+    expr T_GREATER expr
+    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::GREATER) ); }
 |
-    expr T_LESS expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::LESS)); }
+    expr T_LESS expr
+    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::LESS) ); }
 |
-    expr T_GEQ expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::GEQ)); }
+    expr T_GEQ expr
+    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::GEQ) ); }
 |
-    expr T_LEQ expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::LEQ)); }
+    expr T_LEQ expr
+    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::LEQ) ); }
 |
-    expr T_AND expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::AND)); }
+    expr T_AND expr
+    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::AND) ); }
 |
-    expr T_OR expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::OR)); }
+    expr T_OR expr
+    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::OR) ); }
 |
-    expr T_TIMES expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::MUL)); }
+    expr T_TIMES expr
+    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::MUL) ); }
 |
-    expr T_DIV expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::DIV)); }
+    expr T_DIV expr
+    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::DIV) ); }
 |
-    expr T_PLUS expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::ADD)); }
+    expr T_PLUS expr
+    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::ADD) ); }
 |
-    expr T_MINUS expr { $$(std::make_shared<BinExpr>($1, $3, BinExpr::Operator::SUB)); }
+    expr T_MINUS expr
+    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::SUB) ); }
 ;
 
 expr_list:
