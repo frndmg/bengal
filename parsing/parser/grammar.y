@@ -107,6 +107,7 @@ expr:
 |
     // Function call
     id T_LEFT_PAR expr_list T_RIGHT_PAR
+    { $$( std::make_shared<FunctionCallExpr>($1, $3) ); }
 |
     T_LEFT_PAR expr_seq T_RIGHT_PAR
     { $$($2); }

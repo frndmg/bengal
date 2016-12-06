@@ -2,7 +2,9 @@
 
 using namespace ast;
 
-FunctionCallExpr::FunctionCallExpr()
+FunctionCallExpr::FunctionCallExpr(ptr<Id> id, ptr<ExprList> params) :
+    m_id(id),
+    m_params(params)
 {
 
 }

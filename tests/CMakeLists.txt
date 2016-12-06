@@ -36,3 +36,9 @@ add_tiger_test(expr_seq simple 02)
 # ASSIGN EXPRESSION
 ## SIMPLE
 add_tiger_test(assign_expr simple 01)
+
+# FUNCTION CALL EXPRESSION
+## SIMPLE
+add_tiger_test(function_call_expr simple 01)
+add_tiger_test(function_call_expr simple 02)
+add_tiger_test(function_call_expr simple 03)
