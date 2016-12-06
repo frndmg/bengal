@@ -79,6 +79,7 @@
 
 %%
 
+
 //////////
 // PROGRAM
 //////////
@@ -86,6 +87,7 @@
 program:
     expr EOF
 ;
+
 
 /////////////
 // EXPRESSION
@@ -279,22 +281,32 @@ declaration_list:
     }
 ;
 
+
+////////////////////
+// DECLARATION SCOPE
+////////////////////
+
 declaration_scope:
     type_declaration_scope
     {
-        $$($1);
+        $$( $1 );
     }
 |
     function_declaration_scope
     {
-        $$($1);
+        $$( $1 );
     }
 |
     variable_declaration
     {
-        $$($1);
+        $$( $1 );
     }
 ;
+
+
+/////////////////////////
+// TYPE DECLARATION SCOPE
+/////////////////////////
 
 type_declaration_scope:
     type_declaration
@@ -309,6 +321,43 @@ type_declaration_scope:
         $$->push_back($2);
     }
 ;
+
+
+/////////////////////////////
+// FUNCTION DECLARATION SCOPE
+/////////////////////////////
+
+function_declaration_scope:
+    function_declaration
+    {
+        $$( std::make_shared<FunctionDeclarationScope>() );
+        $$->push_back($1);
+    }
+|
+    function_declaration_scope function_declaration
+    {
+        $$( $1 );
+        $$->push_back($2);
+    }
+;
+
+
+///////////////////////
+// VARIABLE DECLARATION
+///////////////////////
+
+variable_declaration:
+    T_VAR id T_ASSIGN expr
+    {
+        $$(std::make_shared<VariableDeclaration>($2, $4));
+    }
+|
+    T_VAR id T_COLON id T_ASSIGN expr
+    {
+        $$(std::make_shared<VariableDeclaration>($2, $4, $6));
+    }
+;
+
 
 ///////////////////
 // TYPE DECLARATION
@@ -335,6 +384,23 @@ type_declaration:
     { $$( std::make_shared<TypeDeclaration>($2, $6, true) ); }
 ;
 
+
+///////////////////////
+// FUNCTION DECLARATION
+///////////////////////
+
+function_declaration:
+    T_FUNCTION id T_LEFT_PAR type_fields T_RIGHT_PAR T_EQUAL expr
+    { $$( std::make_shared<FunctionDeclaration>($2, $4, $7) ); }
+|
+    T_FUNCTION id T_LEFT_PAR type_fields T_RIGHT_PAR T_COLON id T_EQUAL expr
+    { $$( std::make_shared<FunctionDeclaration>($2, $4, $9, $7) ); }
+;
+
+//////////////
+// TYPE FIELDS
+//////////////
+
 type_fields:
     // Accept empty
     { $$(); }
@@ -357,45 +423,11 @@ _type_fields:
     }
 ;
 
+/////////////
+// TYPE FIELD
+/////////////
+
 type_field:
     id T_COLON id
     { $$( std::make_shared<TypeField>($1, $3) ); }
-;
-
-///////////////////////
-// VARIABLE DECLARATION
-///////////////////////
-
-variable_declaration:
-    T_VAR id T_ASSIGN expr
-    {
-        $$(std::make_shared<VariableDeclaration>($2, $4));
-    }
-|
-    T_VAR id T_COLON id T_ASSIGN expr
-    {
-        $$(std::make_shared<VariableDeclaration>($2, $4, $6));
-    }
-;
-
-function_declaration_scope:
-    function_declaration
-    {
-        $$( std::make_shared<FunctionDeclarationScope>() );
-        $$->push_back($1);
-    }
-|
-    function_declaration_scope function_declaration
-    {
-        $$( $1 );
-        $$->push_back($2);
-    }
-;
-
-function_declaration:
-    T_FUNCTION id T_LEFT_PAR type_fields T_RIGHT_PAR T_EQUAL expr
-    { $$( std::make_shared<FunctionDeclaration>($2, $4, $7) ); }
-|
-    T_FUNCTION id T_LEFT_PAR type_fields T_RIGHT_PAR T_COLON id T_EQUAL expr
-    { $$( std::make_shared<FunctionDeclaration>($2, $4, $9, $7) ); }
 ;
