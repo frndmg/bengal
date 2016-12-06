@@ -187,6 +187,7 @@ lvalue:
 
 id:
     T_ID
+    { $$(std::make_shared<Id>( d_scanner.matched() ) ); }
 ;
 
 field_list:

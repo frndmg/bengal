@@ -2,7 +2,8 @@
 
 using namespace ast;
 
-Id::Id()
+Id::Id(const std::string &id) :
+    m_id(id)
 {
 
 }
