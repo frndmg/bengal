@@ -32,6 +32,12 @@ add_tiger_test(let_expr simple 01)
 add_tiger_test(let_expr type_declaration 01)
 add_tiger_test(let_expr type_declaration 02)
 add_tiger_test(let_expr type_declaration 03)
+## FUNCTION DECLARATION
+add_tiger_test(let_expr function_declaration 01)
+add_tiger_test(let_expr function_declaration 02)
+add_tiger_test(let_expr function_declaration 03)
+add_tiger_test(let_expr function_declaration 04)
+add_tiger_test(let_expr function_declaration 05)
 
 # EXPRESSION SEQUENCE EXPRESSION
 ## SIMPLE

@@ -4,18 +4,18 @@
 #include "DeclarationScope.hpp"
 #include "FunctionDeclaration.hpp"
 
-#include <vector>
-
 namespace ast
 {
 
-class FunctionDeclarationScope : public DeclarationScope, private std::vector<ptr<FunctionDeclaration>>
+class FunctionDeclarationScope : public DeclarationScope, private ptr_list<FunctionDeclaration>
 {
 
 public:
-    FunctionDeclarationScope();
-
-    using std::vector<ptr<FunctionDeclaration>>::push_back;
+    using ptr_list<FunctionDeclaration>::push_back;
+    using ptr_list<FunctionDeclaration>::begin;
+    using ptr_list<FunctionDeclaration>::end;
+    using ptr_list<FunctionDeclaration>::size;
+    using ptr_list<FunctionDeclaration>::operator[];
 };
 
 } // ast namespace

@@ -62,6 +62,7 @@
 %type <EXPRLIST> expr_list _expr_list
 %type <FIELD> field
 %type <FIELDLIST> field_list _field_list
+%type <FUNCTIONDECLARATION> function_declaration
 
 %token T_ID T_NUM T_SEMI T_NIL T_STRING T_COMMA T_DOT T_COLON
        T_ARRAY T_BREAK T_DO T_END T_FOR T_FUNCTION T_IF T_IN T_LET T_OF
@@ -379,12 +380,22 @@ variable_declaration:
 
 function_declaration_scope:
     function_declaration
+    {
+        $$( std::make_shared<FunctionDeclarationScope>() );
+        $$->push_back($1);
+    }
 |
     function_declaration_scope function_declaration
+    {
+        $$( $1 );
+        $$->push_back($2);
+    }
 ;
 
 function_declaration:
     T_FUNCTION id T_LEFT_PAR type_fields T_RIGHT_PAR T_EQUAL expr
+    { $$( std::make_shared<FunctionDeclaration>($2, $4, $7) ); }
 |
     T_FUNCTION id T_LEFT_PAR type_fields T_RIGHT_PAR T_COLON id T_EQUAL expr
+    { $$( std::make_shared<FunctionDeclaration>($2, $4, $9, $7) ); }
 ;

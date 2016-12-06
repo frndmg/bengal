@@ -1,0 +1,5 @@
+let
+	function f1(n : int) : int = 0
+	function f2(n : string) : int = 0
+in
+end
