@@ -2,7 +2,9 @@
 
 using namespace ast;
 
-AssignExpr::AssignExpr()
+AssignExpr::AssignExpr(ptr<LValue> lvalue, ptr<Expr> expr) :
+    m_lvalue(lvalue),
+    m_expr(expr)
 {
 
 }

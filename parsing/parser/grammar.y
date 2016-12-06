@@ -100,6 +100,7 @@ expr:
     bin_exp { $$($1); }
 |
     lvalue T_ASSIGN expr
+    { $$( std::make_shared<AssignExpr>($1, $3) ); }
 |
     id T_LEFT_PAR expr_list T_RIGHT_PAR
 |

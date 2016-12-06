@@ -25,3 +25,7 @@ add_tiger_test(let_expr type_declaration 03)
 ## SIMPLE
 add_tiger_test(expr_seq simple 01)
 add_tiger_test(expr_seq simple 02)
+
+# ASSIGN EXPRESSION
+## SIMPLE
+add_tiger_test(assign_expr simple 01)

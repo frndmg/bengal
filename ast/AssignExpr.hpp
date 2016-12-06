@@ -2,6 +2,7 @@
 #define ASSIGNEXPR_HPP
 
 #include "Expr.hpp"
+#include "LValue.hpp"
 
 namespace ast
 {
@@ -9,7 +10,11 @@ namespace ast
 class AssignExpr : public Expr
 {
 public:
-    AssignExpr();
+    AssignExpr(ptr<LValue> lvalue, ptr<Expr> expr);
+
+private:
+    ptr<LValue> m_lvalue;
+    ptr<Expr> m_expr;
 };
 
 } // ast namespace
