@@ -2,7 +2,9 @@
 
 using namespace ast;
 
-Field::Field()
+Field::Field(ptr<Id> id, ptr<Expr> expr) :
+    m_id(id),
+    m_expr(expr)
 {
 
 }

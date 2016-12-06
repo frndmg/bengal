@@ -60,6 +60,8 @@
 %type <TYPEFIELD> type_field
 %type <TYPEFIELDS> type_fields _type_fields
 %type <EXPRLIST> expr_list _expr_list
+%type <FIELD> field
+%type <FIELDLIST> field_list _field_list
 
 %token T_ID T_NUM T_SEMI T_NIL T_STRING T_COMMA T_DOT T_COLON
        T_ARRAY T_BREAK T_DO T_END T_FOR T_FUNCTION T_IF T_IN T_LET T_OF
@@ -112,6 +114,7 @@ expr:
     T_LEFT_PAR expr_seq T_RIGHT_PAR
     { $$($2); }
 |
+    // Record creation
     id T_LEFT_BRACE field_list T_RIGHT_BRACE
 |
     id T_LEFT_BRACKET expr T_RIGHT_BRACKET T_OF expr
@@ -233,10 +236,29 @@ id:
 ;
 
 field_list:
+    { $$( std::make_shared<FieldList>() );  }
 |
+    _field_list
+    { $$( $1 ); }
+;
+
+_field_list:
+    field
+    {
+        $$( std::make_shared<FieldList>() );
+        $$->push_back($1);
+    }
+|
+    field_list T_COLON field
+    {
+        $$( $1 );
+        $$->push_back($3);
+    }
+;
+
+field:
     id T_EQUAL expr
-|
-    field_list T_COLON id T_EQUAL expr
+    { $$( std::make_shared<Field>($1, $3) ); }
 ;
 
 break:
