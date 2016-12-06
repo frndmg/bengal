@@ -74,9 +74,17 @@
 
 %%
 
+//////////
+// PROGRAM
+//////////
+
 program:
     expr EOF
 ;
+
+/////////////
+// EXPRESSION
+/////////////
 
 expr:
     T_STRING
