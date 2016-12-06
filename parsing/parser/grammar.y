@@ -41,6 +41,8 @@
     DECLARATIONSCOPE: std::shared_ptr<DeclarationScope>;
     FUNCTIONDECLARATIONSCOPE: std::shared_ptr<FunctionDeclarationScope>;
     TYPEDECLARATIONSCOPE: std::shared_ptr<TypeDeclarationScope>;
+    TYPEFIELD: std::shared_ptr<TypeField>;
+    TYPEFIELDS: std::shared_ptr<TypeFields>;
 
 %type <EXPR> expr
 %type <NUMEXPR> num
@@ -53,6 +55,9 @@
 %type <VARIABLEDECLARATION> variable_declaration
 %type <EXPRSEQEXPR> expr_seq _expr_seq
 %type <ID> id
+%type <TYPEDECLARATION> type_declaration
+%type <TYPEFIELD> type_field
+%type <TYPEFIELDS> type_fields _type_fields
 
 %token T_ID T_NUM T_SEMI T_NIL T_STRING T_COMMA T_DOT T_COLON
        T_ARRAY T_BREAK T_DO T_END T_FOR T_FUNCTION T_IF T_IN T_LET T_OF
@@ -228,28 +233,61 @@ type_declaration_scope:
     type_declaration_scope type_declaration
 ;
 
-type_declaration:
-    T_TYPE id T_EQUAL type
-;
+///////////////////
+// TYPE DECLARATION
+///////////////////
 
-type:
-    id
+// Type declaration
+// Alias type declaration
+//  type A = B
+// New Type declaration
+//  type A = { a : int, b : string }
+// New Array Type declaration
+//  type A = array of int
+type_declaration:
+    T_TYPE id T_EQUAL id
+    // alias
+    { $$( std::make_shared<TypeDeclaration>($2, $4) ); }
 |
-    T_LEFT_BRACE type_fields T_RIGHT_BRACE
+    T_TYPE id T_EQUAL T_LEFT_BRACE type_fields T_RIGHT_BRACE
+    // new type
+    { $$( std::make_shared<TypeDeclaration>($2, $5) ); }
 |
-    T_ARRAY T_OF id
+    T_TYPE id T_EQUAL T_ARRAY T_OF id
+    // new array type
+    { $$( std::make_shared<TypeDeclaration>($2, $6, true) ); }
 ;
 
 type_fields:
+    // Accept empty
+    { $$(); }
 |
+    _type_fields
+    { $$($1); }
+;
+
+_type_fields:
     type_field
+    {
+        $$();
+        $$->push_back($1);
+    }
 |
     type_fields T_COMMA type_field
+    {
+        $$($1);
+        $$->push_back($3);
+    }
 ;
 
 type_field:
     id T_COLON id
+    { $$( std::make_shared<TypeField>($1, $3) ); }
 ;
+
+///////////////////////
+// VARIABLE DECLARATION
+///////////////////////
 
 variable_declaration:
     T_VAR id T_ASSIGN expr

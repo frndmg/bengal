@@ -30,6 +30,8 @@
 #include <DeclarationScope.hpp>
 #include <FunctionDeclarationScope.hpp>
 #include <TypeDeclarationScope.hpp>
+#include <TypeField.hpp>
+#include <TypeFields.hpp>
 
 using namespace ast;
 

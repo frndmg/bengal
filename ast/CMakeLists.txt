@@ -30,6 +30,8 @@ set(SOURCE
     DeclarationScope.cpp
     FunctionDeclarationScope.cpp
     TypeDeclarationScope.cpp
+    TypeField.cpp
+    TypeFields.cpp
 )
 
 add_library(${BENGAL_AST_LIBRARY} SHARED ${SOURCE})

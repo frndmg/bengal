@@ -1,0 +1,23 @@
+#ifndef TYPEFIELDS_HPP
+#define TYPEFIELDS_HPP
+
+#include "Node.hpp"
+#include "TypeField.hpp"
+
+namespace ast
+{
+
+class TypeFields : public Node, private ptr_list<TypeField>
+{
+public:
+    TypeFields();
+
+    using ptr_list<TypeField>::push_back;
+    using ptr_list<TypeField>::begin;
+    using ptr_list<TypeField>::end;
+    using ptr_list<TypeField>::size;
+};
+
+} // ast namespace
+
+#endif // TYPEFIELDS_HPP
