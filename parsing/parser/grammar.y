@@ -185,12 +185,13 @@ _expr_seq:
 
 lvalue:
     id
+    { $$( std::make_shared<LValue>($1) ); }
 |
-//    lvalue T_DOT id
     id T_DOT lvalue
+    { $$( std::make_shared<LValue>($1, $3) ); }
 |
-//    lvalue T_LEFT_BRACKET expr T_RIGHT_BRACKET
     id T_LEFT_BRACKET expr T_RIGHT_BRACKET
+    { $$( std::make_shared<LValue>($1, $3) ); }
 ;
 
 id:
