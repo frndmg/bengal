@@ -202,7 +202,7 @@ break:
 ;
 
 declaration_list:
-    { $$(); }
+    { $$( std::make_shared<DeclarationList>() ); }
 |
     declaration_list declaration_scope
     {
@@ -230,8 +230,16 @@ declaration_scope:
 
 type_declaration_scope:
     type_declaration
+    {
+        $$( std::make_shared<TypeDeclarationScope>() );
+        $$->push_back($1);
+    }
 |
     type_declaration_scope type_declaration
+    {
+        $$($1);
+        $$->push_back($2);
+    }
 ;
 
 ///////////////////
@@ -270,7 +278,7 @@ type_fields:
 _type_fields:
     type_field
     {
-        $$();
+        $$( std::make_shared<TypeFields>() );
         $$->push_back($1);
     }
 |

@@ -9,12 +9,13 @@
 namespace ast
 {
 
-class TypeDeclarationScope : public DeclarationScope, private std::vector<ptr<TypeDeclaration>>
+class TypeDeclarationScope : public DeclarationScope, private ptr_list<TypeDeclaration>
 {
 public:
-    TypeDeclarationScope();
-
-    using std::vector<ptr<TypeDeclaration>>::push_back;
+    using ptr_list<TypeDeclaration>::push_back;
+    using ptr_list<TypeDeclaration>::begin;
+    using ptr_list<TypeDeclaration>::end;
+    using ptr_list<TypeDeclaration>::size;
 };
 
 } // ast namespace
