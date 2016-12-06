@@ -1,6 +1,6 @@
 
-function(add_tiger_test TEST_NAME TEST_TYPE TEST_NO)
-    set(NAME ${TEST_NAME}-${TEST_TYPE}_${TEST_NO})
+function(add_tiger_test TEST_NAME TEST_TYPE TEST_LABEL)
+    set(NAME ${TEST_NAME}-${TEST_TYPE}_${TEST_LABEL})
     add_test(NAME ${NAME}
              COMMAND tiger tigs/${TEST_NAME}/${NAME}.tig
              WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests
@@ -20,3 +20,8 @@ add_tiger_test(let_expr simple 01)
 add_tiger_test(let_expr type_declaration 01)
 add_tiger_test(let_expr type_declaration 02)
 add_tiger_test(let_expr type_declaration 03)
+
+# EXPRESSION SEQUENCE EXPRESSION
+## SIMPLE
+add_tiger_test(expr_seq simple 01)
+add_tiger_test(expr_seq simple 02)

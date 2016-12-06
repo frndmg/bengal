@@ -104,6 +104,7 @@ expr:
     id T_LEFT_PAR expr_list T_RIGHT_PAR
 |
     T_LEFT_PAR expr_seq T_RIGHT_PAR
+    { $$($2); }
 |
     id T_LEFT_BRACE field_list T_RIGHT_BRACE
 |
@@ -163,7 +164,7 @@ expr_list:
 ;
 
 expr_seq:
-    { $$(); }
+    { $$( std::make_shared<ExprSeqExpr>() ); }
 |
     _expr_seq
     { $$($1); }
@@ -172,7 +173,7 @@ expr_seq:
 _expr_seq:
     expr
     {
-        $$();
+        $$( std::make_shared<ExprSeqExpr>() );
         $$->push_back($1);
     }
 |
