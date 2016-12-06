@@ -6,7 +6,7 @@
 namespace ast
 {
 
-class FunctionDeclaration : public Declaration
+class FunctionDeclaration
 {
 public:
     FunctionDeclaration();

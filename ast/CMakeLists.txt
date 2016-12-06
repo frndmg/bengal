@@ -22,7 +22,6 @@ set(SOURCE
     BreakableExpr.cpp
     Id.cpp
     DeclarationList.cpp
-    Declaration.cpp
     TypeDeclaration.cpp
     FunctionDeclaration.cpp
     VariableDeclaration.cpp

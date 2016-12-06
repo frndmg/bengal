@@ -6,7 +6,7 @@
 namespace ast
 {
 
-class TypeDeclaration : public Declaration
+class TypeDeclaration
 {
 public:
     TypeDeclaration();
