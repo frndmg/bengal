@@ -42,3 +42,9 @@ add_tiger_test(assign_expr simple 01)
 add_tiger_test(function_call_expr simple 01)
 add_tiger_test(function_call_expr simple 02)
 add_tiger_test(function_call_expr simple 03)
+
+# RECORD EXPRESSION
+## SIMPLE
+add_tiger_test(record_expr simple 01)
+add_tiger_test(record_expr simple 02)
+add_tiger_test(record_expr simple 03)

@@ -116,6 +116,7 @@ expr:
 |
     // Record creation
     id T_LEFT_BRACE field_list T_RIGHT_BRACE
+    { $$( std::make_shared<RecordExpr>($1, $3) ); }
 |
     id T_LEFT_BRACKET expr T_RIGHT_BRACKET T_OF expr
 |
@@ -249,7 +250,7 @@ _field_list:
         $$->push_back($1);
     }
 |
-    field_list T_COLON field
+    field_list T_COMMA field
     {
         $$( $1 );
         $$->push_back($3);
