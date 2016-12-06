@@ -118,7 +118,9 @@ expr:
     id T_LEFT_BRACE field_list T_RIGHT_BRACE
     { $$( std::make_shared<RecordExpr>($1, $3) ); }
 |
+    // Array creation
     id T_LEFT_BRACKET expr T_RIGHT_BRACKET T_OF expr
+    { $$( std::make_shared<ArrayExpr>($1, $3, $6) ); }
 |
     T_IF expr T_THEN expr
 |

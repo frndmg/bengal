@@ -48,3 +48,7 @@ add_tiger_test(function_call_expr simple 03)
 add_tiger_test(record_expr simple 01)
 add_tiger_test(record_expr simple 02)
 add_tiger_test(record_expr simple 03)
+
+# ARRAY EXPRESSION
+## SIMPLE
+add_tiger_test(array_expr simple 01)
