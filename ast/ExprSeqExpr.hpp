@@ -6,10 +6,17 @@
 namespace ast
 {
 
-class ExprSeqExpr : public RValue
+class ExprSeqExpr : public RValue, private ptr_list<Expr>
 {
+
 public:
     ExprSeqExpr();
+
+    using ptr_list<Expr>::push_back;
+    using ptr_list<Expr>::begin;
+    using ptr_list<Expr>::end;
+    using ptr_list<Expr>::size;
+    using ptr_list<Expr>::operator[];
 };
 
 } // ast namespace

@@ -51,6 +51,7 @@
 %type <FUNCTIONDECLARATIONSCOPE> function_declaration_scope
 %type <TYPEDECLARATIONSCOPE> type_declaration_scope
 %type <VARIABLEDECLARATION> variable_declaration
+%type <EXPRSEQEXPR> expr_seq _expr_seq
 
 %token T_ID T_NUM T_SEMI T_NIL T_STRING T_COMMA T_DOT T_COLON
        T_ARRAY T_BREAK T_DO T_END T_FOR T_FUNCTION T_IF T_IN T_LET T_OF
@@ -105,6 +106,9 @@ expr:
     break
 |
     T_LET declaration_list T_IN expr_seq T_END
+    {
+        $$(std::make_shared<LetExpr>($2, $4));
+    }
 ;
 
 num:
@@ -145,10 +149,24 @@ expr_list:
 ;
 
 expr_seq:
+    { $$(); }
 |
+    _expr_seq
+    { $$($1); }
+;
+
+_expr_seq:
     expr
+    {
+        $$();
+        $$->push_back($1);
+    }
 |
-    expr_seq T_SEMI expr
+    _expr_seq T_SEMI expr
+    {
+        $$($1);
+        $$->push_back($3);
+    }
 ;
 
 lvalue:
