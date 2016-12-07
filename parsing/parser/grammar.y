@@ -403,10 +403,10 @@ function_declaration:
 
 type_fields:
     // Accept empty
-    { $$(); }
+    { $$( std::make_shared<TypeFields>() ); }
 |
     _type_fields
-    { $$($1); }
+    { $$( $1 ); }
 ;
 
 _type_fields:
