@@ -3,13 +3,18 @@
 
 #include "RValue.hpp"
 
+#include <string>
+
 namespace ast
 {
 
 class StringExpr : public RValue
 {
 public:
-    StringExpr();
+    StringExpr(const std::string& str);
+
+private:
+    std::string m_str;
 };
 
 } // ast namespace

@@ -46,8 +46,9 @@
     EXPRLIST: std::shared_ptr<ExprList>;
 
 %type <EXPR> expr
+%type <STRINGEXPR> string_expr
 %type <NUMEXPR> num
-%type <BINEXPR> bin_exp
+%type <BINEXPR> bin_expr
 %type <LVALUE> lvalue
 %type <DECLARATIONLIST> declaration_list
 %type <DECLARATIONSCOPE> declaration_scope
@@ -95,9 +96,11 @@ program:
 /////////////
 
 expr:
-    T_STRING
+    string_expr
+    { $$( $1 ); }
 |
-    num { $$($1); }
+    num
+    { $$( $1 ); }
 |
     T_NIL
 |
@@ -105,7 +108,7 @@ expr:
 |
     T_MINUS expr %prec UNARY
 |
-    bin_exp
+    bin_expr
     { $$( $1 ); }
 |
     lvalue T_ASSIGN expr
@@ -141,11 +144,27 @@ expr:
     }
 ;
 
-num:
-    T_NUM { $$(std::make_shared<NumExpr>(std::stoll(d_scanner.matched()))); }
+
+////////////////////
+// STRING EXPRESSION
+////////////////////
+
+string_expr:
+    T_STRING
+    { $$( std::make_shared<StringExpr>( d_scanner.matched() ) ); }
 ;
 
-bin_exp:
+
+////////////////////
+// NUMBER EXPRESSION
+////////////////////
+
+num:
+    T_NUM
+    { $$( std::make_shared<NumExpr>(std::stoll( d_scanner.matched() )) ); }
+;
+
+bin_expr:
     expr T_EQUAL expr
     { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::EQUAL) ); }
 |
@@ -183,6 +202,11 @@ bin_exp:
     { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::SUB) ); }
 ;
 
+
+//////////////////
+// EXPRESSION LIST
+//////////////////
+
 expr_list:
     { $$( std::make_shared<ExprList>() ); }
 |
@@ -203,6 +227,11 @@ _expr_list:
         $$->push_back($3);
     }
 ;
+
+
+/////////////////////////////////
+// EXPRESSION SEQUENCE EXPRESSION
+/////////////////////////////////
 
 expr_seq:
     { $$( std::make_shared<ExprSeqExpr>() ); }
@@ -225,6 +254,11 @@ _expr_seq:
     }
 ;
 
+
+/////////
+// LVALUE
+/////////
+
 lvalue:
     id
     { $$( std::make_shared<LValue>($1) ); }
@@ -236,10 +270,20 @@ lvalue:
     { $$( std::make_shared<LValue>($1, $3) ); }
 ;
 
+
+/////
+// Id
+/////
+
 id:
     T_ID
     { $$(std::make_shared<Id>( d_scanner.matched() ) ); }
 ;
+
+
+/////////////
+// FIELD LIST
+/////////////
 
 field_list:
     { $$( std::make_shared<FieldList>() );  }
@@ -262,6 +306,11 @@ _field_list:
     }
 ;
 
+
+////////
+// FIELD
+////////
+
 field:
     id T_EQUAL expr
     { $$( std::make_shared<Field>($1, $3) ); }
@@ -281,9 +330,18 @@ if_expr:
 ;
 
 
+///////////////////
+// BREAK EXPRESSION
+///////////////////
+
 break:
     T_BREAK
 ;
+
+
+///////////////////
+// DECLARATION LIST
+///////////////////
 
 declaration_list:
     { $$( std::make_shared<DeclarationList>() ); }
