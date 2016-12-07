@@ -9,7 +9,12 @@ namespace ast
 class IfExpr : public RValue
 {
 public:
-    IfExpr();
+    IfExpr(ptr<Expr> cond, ptr<Expr> then, ptr<Expr> els = nullptr);
+
+private:
+    ptr<Expr> m_cond;
+    ptr<Expr> m_then;
+    ptr<Expr> m_else;
 };
 
 } // ast namespace

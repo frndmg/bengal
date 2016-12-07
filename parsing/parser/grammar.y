@@ -63,6 +63,7 @@
 %type <FIELD> field
 %type <FIELDLIST> field_list _field_list
 %type <FUNCTIONDECLARATION> function_declaration
+%type <IFEXPR> if_expr
 
 %token T_ID T_NUM T_SEMI T_NIL T_STRING T_COMMA T_DOT T_COLON
        T_ARRAY T_BREAK T_DO T_END T_FOR T_FUNCTION T_IF T_IN T_LET T_OF
@@ -125,9 +126,8 @@ expr:
     id T_LEFT_BRACKET expr T_RIGHT_BRACKET T_OF expr
     { $$( std::make_shared<ArrayExpr>($1, $3, $6) ); }
 |
-    T_IF expr T_THEN expr
-|
-    T_IF expr T_THEN expr T_ELSE expr
+    if_expr
+    { $$( $1 ); }
 |
     T_WHILE expr T_DO expr
 |
@@ -266,6 +266,20 @@ field:
     id T_EQUAL expr
     { $$( std::make_shared<Field>($1, $3) ); }
 ;
+
+
+////////////////
+// IF EXPRESSION
+////////////////
+
+if_expr:
+    T_IF expr T_THEN expr
+    { $$( std::make_shared<IfExpr>($2, $4) ); }
+|
+    T_IF expr T_THEN expr T_ELSE expr
+    { $$( std::make_shared<IfExpr>($2, $4, $6) ); }
+;
+
 
 break:
     T_BREAK

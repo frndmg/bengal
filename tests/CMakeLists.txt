@@ -63,3 +63,10 @@ add_tiger_test(record_expr simple 03)
 # ARRAY EXPRESSION
 ## SIMPLE
 add_tiger_test(array_expr simple 01)
+
+
+# IF EXPRESSION
+add_tiger_test(if_expr simple 01)
+add_tiger_test(if_expr simple 02)
+add_tiger_test(if_expr simple 03)
+
