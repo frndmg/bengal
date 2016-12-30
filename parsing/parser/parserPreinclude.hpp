@@ -33,6 +33,7 @@
 #include <TypeField.hpp>
 #include <TypeFields.hpp>
 #include <ExprList.hpp>
+#include <UnaryExpr.hpp>
 
 using namespace ast;
 

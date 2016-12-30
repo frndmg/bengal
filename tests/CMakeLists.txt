@@ -22,6 +22,13 @@ add_tiger_test(nil_expr simple 01)
 add_tiger_test(lvalue_expr simple 01)
 add_tiger_test(lvalue_expr simple 02)
 
+
+# UNARY EXPRESSION
+## SIMPLE
+add_tiger_test(unary_expr simple 01)
+add_tiger_test(unary_expr simple 02)
+
+
 # BINARY EXPRESSION
 ## SIMPLE
 add_tiger_test(bin_expr simple 01)

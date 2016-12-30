@@ -33,6 +33,7 @@ set(SOURCE
     TypeField.cpp
     TypeFields.cpp
     ExprList.cpp
+    UnaryExpr.cpp
 )
 
 add_library(${BENGAL_AST_LIBRARY} SHARED ${SOURCE})

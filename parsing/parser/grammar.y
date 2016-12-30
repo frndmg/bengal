@@ -44,6 +44,7 @@
     TYPEFIELD: std::shared_ptr<TypeField>;
     TYPEFIELDS: std::shared_ptr<TypeFields>;
     EXPRLIST: std::shared_ptr<ExprList>;
+    UNARYEXPR: std::shared_ptr<UnaryExpr>;
 
 %type <EXPR> expr
 %type <STRINGEXPR> string_expr
@@ -51,6 +52,7 @@
 %type <NILEXPR> nil_expr
 %type <BINEXPR> bin_expr
 %type <LVALUE> lvalue
+%type <UNARYEXPR> unary_expr
 %type <DECLARATIONLIST> declaration_list
 %type <DECLARATIONSCOPE> declaration_scope
 %type <FUNCTIONDECLARATIONSCOPE> function_declaration_scope
@@ -108,7 +110,8 @@ expr:
 |
     lvalue { $$($1); }
 |
-    T_MINUS expr %prec UNARY
+    unary_expr
+    { $$( $1 ); }
 |
     bin_expr
     { $$( $1 ); }
@@ -174,6 +177,16 @@ num:
 nil_expr:
     T_NIL
     { $$( single_town<NilExpr>() ); }
+;
+
+
+///////////////////
+// UNARY EXPRESSION
+///////////////////
+
+unary_expr:
+    T_MINUS expr %prec UNARY
+    { $$( std::make_shared<UnaryExpr>( $2, UnaryExpr::NEG ) ); }
 ;
 
 bin_expr:
