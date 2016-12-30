@@ -8,8 +8,6 @@ namespace ast
 
 class NilExpr : public RValue
 {
-public:
-    NilExpr();
 };
 
 } // ast namespace

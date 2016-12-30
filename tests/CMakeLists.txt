@@ -13,6 +13,10 @@ add_tiger_test(int_expr positive 01)
 ## NEGATIVE
 add_tiger_test(int_expr negative 01)
 
+# NIL EXPRESSION
+# SIMPLE
+add_tiger_test(nil_expr simple 01)
+
 # LVALUE EXPRESSION
 ## SIMPLE
 add_tiger_test(lvalue_expr simple 01)

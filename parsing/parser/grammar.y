@@ -48,6 +48,7 @@
 %type <EXPR> expr
 %type <STRINGEXPR> string_expr
 %type <NUMEXPR> num
+%type <NILEXPR> nil_expr
 %type <BINEXPR> bin_expr
 %type <LVALUE> lvalue
 %type <DECLARATIONLIST> declaration_list
@@ -102,7 +103,8 @@ expr:
     num
     { $$( $1 ); }
 |
-    T_NIL
+    nil_expr
+    { $$( $1 ); }
 |
     lvalue { $$($1); }
 |
@@ -162,6 +164,16 @@ string_expr:
 num:
     T_NUM
     { $$( std::make_shared<NumExpr>(std::stoll( d_scanner.matched() )) ); }
+;
+
+
+/////////////////
+// NIL EXPRESSION
+/////////////////
+
+nil_expr:
+    T_NIL
+    { $$( single_town<NilExpr>() ); }
 ;
 
 bin_expr:
