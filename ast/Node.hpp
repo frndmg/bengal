@@ -13,7 +13,7 @@ public:
 //    virtual ~Node();
 
 //    virtual void generateCode() = 0;
-//    virtual bool validSemantic() = 0;
+    virtual bool validSemantic() = 0;
 };
 
 } // ast namespace
