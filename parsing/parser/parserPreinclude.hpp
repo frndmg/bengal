@@ -34,6 +34,7 @@
 #include <TypeFields.hpp>
 #include <ExprList.hpp>
 #include <UnaryExpr.hpp>
+#include <BreakExpr.hpp>
 
 using namespace ast;
 

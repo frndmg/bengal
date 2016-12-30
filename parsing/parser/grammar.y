@@ -45,6 +45,7 @@
     TYPEFIELDS: std::shared_ptr<TypeFields>;
     EXPRLIST: std::shared_ptr<ExprList>;
     UNARYEXPR: std::shared_ptr<UnaryExpr>;
+    BREAKEXPR: std::shared_ptr<BreakExpr>;
 
 %type <EXPR> expr
 %type <STRINGEXPR> string_expr
@@ -68,6 +69,7 @@
 %type <FIELDLIST> field_list _field_list
 %type <FUNCTIONDECLARATION> function_declaration
 %type <IFEXPR> if_expr
+%type <BREAKEXPR> break
 
 %token T_ID T_NUM T_SEMI T_NIL T_STRING T_COMMA T_DOT T_COLON
        T_ARRAY T_BREAK T_DO T_END T_FOR T_FUNCTION T_IF T_IN T_LET T_OF
@@ -144,6 +146,7 @@ expr:
     { $$( std::make_shared<ForExpr>( $2, $4, $6, $8 ) ); }
 |
     break
+    { $$( $1 ); }
 |
     T_LET declaration_list T_IN expr_seq T_END
     {
@@ -363,6 +366,7 @@ if_expr:
 
 break:
     T_BREAK
+    { $$( std::make_shared<BreakExpr>() ); }
 ;
 
 
