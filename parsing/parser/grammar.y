@@ -138,6 +138,7 @@ expr:
     { $$( $1 ); }
 |
     T_WHILE expr T_DO expr
+    { $$( std::make_shared<WhileExpr>( $2, $4 ) ); }
 |
     T_FOR id T_ASSIGN expr T_TO expr T_DO expr
 |
