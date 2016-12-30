@@ -2,6 +2,7 @@
 #define FOREXPR_HPP
 
 #include "BreakableExpr.hpp"
+#include "Id.hpp"
 
 namespace ast
 {
@@ -9,7 +10,13 @@ namespace ast
 class ForExpr : public BreakableExpr
 {
 public:
-    ForExpr();
+    ForExpr(ptr<Id>& id, ptr<Expr>& begin, ptr<Expr>& end, ptr<Expr>& body);
+
+private:
+    ptr<Id> m_id;
+    ptr<Expr> m_begin;
+    ptr<Expr> m_end;
+    ptr<Expr> m_body;
 };
 
 } // ast namespace
