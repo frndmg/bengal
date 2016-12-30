@@ -4,11 +4,12 @@
 #include <boost/program_options.hpp>
 
 #include <parser.h>
+#include <libltdl/lt_system.h>
 
 using namespace std;
 namespace po = boost::program_options;
 
-int main(int argc, char *argv[])
+int main(int argc, const char *argv[])
 {
     string input;
 
@@ -36,7 +37,7 @@ int main(int argc, char *argv[])
     catch (exception& e)
     {
         cout << e.what() << endl;
-        return -1;
+        return EXIT_FAILURE;
     }
 
     auto fs = fstream(input);
@@ -44,9 +45,14 @@ int main(int argc, char *argv[])
 
 //    parser.setDebug(true);
 
-    int parse_out = parser.parse();
+    if (parser.parse())
+    {
+        cerr << "Syntax error" << endl;
+        // TODO: Show the syntax errors
+        return EXIT_FAILURE;
+    }
 
     auto ast = parser.ast();
 
-    return parse_out;
+    return EXIT_SUCCESS;
 }
