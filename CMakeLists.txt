@@ -14,6 +14,7 @@ include_directories(ast parsing/parser)
 
 add_subdirectory(ast)
 add_subdirectory(parsing)
+add_subdirectory(semantic)
 
 enable_testing()
 add_subdirectory(tests)

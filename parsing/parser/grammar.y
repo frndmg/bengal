@@ -93,7 +93,7 @@
 
 program:
     expr EOF
-    { m_ast = ( $1 ); }
+    { m_ast->setRoot( $1 ); }
 ;
 
 

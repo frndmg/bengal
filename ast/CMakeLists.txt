@@ -1,5 +1,7 @@
 find_package(LLVM 3.6 REQUIRED)
 
+include_directories(../semantic)
+
 set(BENGAL_AST_LIBRARY ast)
 set(SOURCE
         Expr.cpp
@@ -34,7 +36,9 @@ set(SOURCE
         TypeFields.cpp
         ExprList.cpp
         UnaryExpr.cpp
-        BreakExpr.cpp BreakExpr.hpp)
+        BreakExpr.cpp
+        CodeGenerator.cpp
+        Ast.cpp)
 
 add_library(${BENGAL_AST_LIBRARY} SHARED ${SOURCE})
 target_link_libraries(ast)
