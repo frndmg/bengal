@@ -93,6 +93,7 @@
 
 program:
     expr EOF
+    { m_ast = ( $1 ); }
 ;
 
 

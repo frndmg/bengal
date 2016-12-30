@@ -15,7 +15,7 @@ class Parser: public ParserBase
     Scanner d_scanner;
 
     // Abstract syntax tree
-    ast::Expr m_ast;
+    std::shared_ptr<ast::Expr> m_ast;
 
     public:
         int parse();
@@ -26,7 +26,7 @@ class Parser: public ParserBase
         {
         }
 
-        auto ast() const { return m_ast; }
+        const auto& ast() const { return m_ast; }
 
     private:
         void error(char const *msg);    // called on (syntax) errors
