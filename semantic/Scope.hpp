@@ -7,39 +7,54 @@
 
 #include <llvm/IR/Type.h>
 #include <map>
+#include <exception>
 
 namespace semantic
 {
-template <typename T>
-using ptr = std::shared_ptr<T>;
 
+///
+/// \brief The Scope class
+///
 class Scope : public std::map< std::string, std::shared_ptr<llvm::Type> >, private std::vector< std::shared_ptr<Scope> >
 {
-
-    using map = std::map< std::string, std::shared_ptr<llvm::Type> >;
-    using vector = std::vector< ptr<Scope> >;
+public:
+    using Type = llvm::Type;
 
 public:
-    Scope(ptr<Scope> parent = nullptr) :
-          map(),
-          vector(),
-          m_parent(parent)
-    {
-    }
+    ///
+    /// \brief Scope
+    /// \param parent
+    ///
+    Scope(Scope* parent);
 
-    std::shared_ptr<Scope> beginScope()
-    {
-        return std::make_shared<Scope>( (ptr<Scope>)this );
-    }
+    ///
+    /// \brief Scope
+    ///
+    Scope();
 
-    void endScope()
-    {
-        if (not vector::empty())
-            pop_back();
-    }
+    ///
+    /// \brief Create a new scope
+    /// \return Pointer to a new empty Scope
+    ///
+    std::shared_ptr<Scope> beginScope();
+
+    ///
+    /// \brief Remove (if any) the last Scope created
+    ///
+    void endScope();
+
+    ///
+    /// \brief Get the the type (if any) that has `typeName` name
+    /// \param typeName
+    /// \return Pointer to llvm::Type or nullptr
+    ///
+    const mapped_type getType( const key_type typeName ) const;
 
 private:
-    ptr<Scope> m_parent;
+    ///
+    /// \brief Pointer to the parent Scope
+    ///
+    Scope* m_parent;
 };
 
 } // semantic namespace
