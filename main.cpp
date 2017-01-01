@@ -53,15 +53,15 @@ int main(int argc, const char *argv[])
     }
 
     auto ast = parser.ast();
-    if (not ast->validSemantic())
+    if (not ast.checkSemantic())
     {
-        cerr << "Semantics error" << endl;
+        cerr << "Semantic error" << endl;
         // TODO: Show semantic errors
         return EXIT_FAILURE;
     }
 
     // GENERATE CODE
-    ast->generateCode();
+    ast.generateCode();
 
     return EXIT_SUCCESS;
 }

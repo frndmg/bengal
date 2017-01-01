@@ -15,7 +15,7 @@ class Parser: public ParserBase
     Scanner d_scanner;
 
     // Abstract syntax tree
-    std::shared_ptr<ast::Ast> m_ast;
+    ast::Ast m_ast;
 
     public:
         int parse();

@@ -14,7 +14,7 @@ namespace ast
 class Ast
 {
 public:
-    bool checkSemantics();
+    bool checkSemantic();
     void generateCode();
 
     void setRoot(const ptr<Expr>& root) { m_root = root; }

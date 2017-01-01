@@ -6,7 +6,7 @@
 
 using namespace ast;
 
-bool Ast::checkSemantics()
+bool Ast::checkSemantic()
 {
     return false;
 }

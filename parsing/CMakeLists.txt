@@ -26,6 +26,7 @@ set(SOURCES scanner/lex.cpp
             parser/parse.cpp)
 
 include_directories(../ast)
+include_directories(../semantic)
 
 add_library(parsing SHARED ${SOURCES})
 set_property(TARGET parsing PROPERTY CXX_STANDARD 14)

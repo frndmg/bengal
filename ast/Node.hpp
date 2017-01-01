@@ -2,18 +2,26 @@
 #define NODE_HPP
 
 #include "utils.hpp"
+//#include "CodeGenerator.hpp"
+
+// Semantic
+#include <Scope.hpp>
+#include <Report.hpp>
 
 namespace ast
 {
 
 class Node
 {
-public:
-    Node() = default;
-//    virtual ~Node();
+protected:
+    using Scope = semantic::Scope;
+    using Report = semantic::Report;
 
-//    virtual void generateCode() = 0;
-    virtual bool validSemantic() = 0;
+public:
+    virtual ~Node();
+
+//    virtual void generateCode(ptr<CodeGenerator>& cg) = 0;
+    virtual bool checkSemantic(Scope& scope, Report& report) = 0;
 };
 
 } // ast namespace

@@ -4,9 +4,6 @@
 #include <vector>
 #include <memory>
 
-namespace ast
-{
-
 template<typename T>
 using ptr = std::shared_ptr<T>;
 
@@ -20,7 +17,5 @@ ptr<T> single_town()
     static ptr<T> interal_ptr = std::make_shared<T>();
     return interal_ptr;
 }
-
-} // ast namespace
 
 #endif // UTILS_HPP

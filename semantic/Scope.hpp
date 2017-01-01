@@ -10,28 +10,36 @@
 
 namespace semantic
 {
+template <typename T>
+using ptr = std::shared_ptr<T>;
 
-class Scope : public std::map< std::string, std::shared_ptr<llvm::Type> >, private std::vector< Scope >
+class Scope : public std::map< std::string, std::shared_ptr<llvm::Type> >, private std::vector< std::shared_ptr<Scope> >
 {
+
+    using map = std::map< std::string, std::shared_ptr<llvm::Type> >;
+    using vector = std::vector< ptr<Scope> >;
+
 public:
-    Scope(const std::shared_ptr<Scope>& parent = nullptr)
+    Scope(ptr<Scope> parent = nullptr) :
+          map(),
+          vector(),
+          m_parent(parent)
     {
-        m_parent = parent;
     }
 
     std::shared_ptr<Scope> beginScope()
     {
-        return std::make_shared<Scope>(& (*this) );
+        return std::make_shared<Scope>( (ptr<Scope>)this );
     }
 
     void endScope()
     {
-        if (not empty())
+        if (not vector::empty())
             pop_back();
     }
 
 private:
-    std::shared_ptr<Scope> m_parent;
+    ptr<Scope> m_parent;
 };
 
 } // semantic namespace

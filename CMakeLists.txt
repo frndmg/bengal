@@ -10,7 +10,7 @@ set(BOOST_COMPONENTS program_options)
 find_package(Boost 1.54 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
-include_directories(ast parsing/parser)
+include_directories(ast parsing/parser semantic)
 
 add_subdirectory(ast)
 add_subdirectory(parsing)
