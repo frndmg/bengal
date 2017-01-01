@@ -37,7 +37,6 @@ set(SOURCE
         ExprList.cpp
         UnaryExpr.cpp
         BreakExpr.cpp
-        CodeGenerator.cpp
         Ast.cpp)
 
 add_library(${BENGAL_AST_LIBRARY} SHARED ${SOURCE})
