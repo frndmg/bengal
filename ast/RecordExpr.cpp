@@ -8,3 +8,8 @@ RecordExpr::RecordExpr(ptr<Id> id, ptr<FieldList> fields) :
 {
 
 }
+
+
+bool ast::RecordExpr::checkSemantic(Scope &scope, Report &report)
+{
+}

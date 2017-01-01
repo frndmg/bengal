@@ -16,6 +16,10 @@ public:
     using ptr_list<TypeField>::begin;
     using ptr_list<TypeField>::end;
     using ptr_list<TypeField>::size;
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

@@ -8,3 +8,8 @@ LetExpr::LetExpr(ptr<DeclarationList> scope, ptr<ExprSeqExpr> expr_seq) :
 {
 
 }
+
+bool LetExpr::checkSemantic(Node::Scope &scope, Node::Report &report)
+{
+
+}

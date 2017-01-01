@@ -9,3 +9,8 @@ IfExpr::IfExpr(ptr<Expr> cond, ptr<Expr> then, ptr<Expr> els) :
 {
 
 }
+
+bool IfExpr::checkSemantic(Node::Scope &scope, Node::Report &report)
+{
+
+}

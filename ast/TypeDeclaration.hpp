@@ -19,6 +19,10 @@ private:
     ptr<Id> m_type;
     ptr<TypeFields> m_fields;
     bool m_isArray;
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

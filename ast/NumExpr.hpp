@@ -23,6 +23,10 @@ public:
     }
 
 //    virtual void generateCode();
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope&, Report&) override { return true; }
 };
 
 } // ast namespace

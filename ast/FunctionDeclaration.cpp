@@ -10,3 +10,8 @@ FunctionDeclaration::FunctionDeclaration(ptr<Id> id, ptr<TypeFields> arguments, 
 {
 
 }
+
+
+bool ast::FunctionDeclaration::checkSemantic(Scope &scope, Report &report)
+{
+}

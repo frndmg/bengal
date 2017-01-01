@@ -12,3 +12,8 @@ UnaryExpr::UnaryExpr(ptr<Expr> &expr, UnaryExpr::Operator op) :
     m_op(op)
 {
 }
+
+
+bool ast::UnaryExpr::checkSemantic(Scope &scope, Report &report)
+{
+}

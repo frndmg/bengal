@@ -5,3 +5,8 @@
 #include "BreakExpr.hpp"
 
 using namespace ast;
+
+bool BreakExpr::checkSemantic(Node::Scope &scope, Node::Report &report)
+{
+
+}

@@ -14,6 +14,10 @@ public:
 private:
     ptr<Expr> m_cond;
     ptr<Expr> m_body;
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

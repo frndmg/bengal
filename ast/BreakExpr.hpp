@@ -12,6 +12,10 @@ namespace ast
 
 class BreakExpr : public Expr
 {
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

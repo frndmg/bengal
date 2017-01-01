@@ -17,6 +17,10 @@ public:
     using ptr_list<Expr>::end;
     using ptr_list<Expr>::size;
     using ptr_list<Expr>::operator[];
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

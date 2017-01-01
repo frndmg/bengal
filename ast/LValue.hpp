@@ -18,6 +18,10 @@ private:
     ptr<Id> m_id;
     ptr<LValue> m_field;
     ptr<Expr> m_index;
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

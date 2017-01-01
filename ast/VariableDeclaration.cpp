@@ -11,3 +11,8 @@ VariableDeclaration::VariableDeclaration(ptr<Id> id, ptr<Id> type, ptr<Expr> exp
 {
 
 }
+
+
+bool ast::VariableDeclaration::checkSemantic(Scope &scope, Report &report)
+{
+}

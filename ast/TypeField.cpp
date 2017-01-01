@@ -8,3 +8,8 @@ TypeField::TypeField(ptr<Id> id, ptr<Id> type) :
 {
 
 }
+
+
+bool ast::TypeField::checkSemantic(Scope &scope, Report &report)
+{
+}

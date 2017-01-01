@@ -8,3 +8,8 @@ Field::Field(ptr<Id> id, ptr<Expr> expr) :
 {
 
 }
+
+
+bool ast::Field::checkSemantic(Scope &scope, Report &report)
+{
+}

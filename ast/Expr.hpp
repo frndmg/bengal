@@ -16,8 +16,6 @@ namespace ast
 
 class Expr : public Node
 {
-public:
-//    virtual bool checkSemantic(Scope& scope, Report& report) override = 0;
 };
 
 } // namespace ast

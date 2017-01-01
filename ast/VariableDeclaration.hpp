@@ -13,6 +13,10 @@ class VariableDeclaration : public DeclarationScope
 public:
     VariableDeclaration(ptr<Id> id, ptr<Expr> expr);
     VariableDeclaration(ptr<Id> id, ptr<Id> type, ptr<Expr> expr);
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

@@ -6,3 +6,8 @@ TypeFields::TypeFields()
 {
 
 }
+
+
+bool ast::TypeFields::checkSemantic(Node::Scope &scope, Node::Report &report)
+{
+}

@@ -15,6 +15,10 @@ public:
     using ptr_list<Field>::end;
     using ptr_list<Field>::size;
     using ptr_list<Field>::operator[];
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

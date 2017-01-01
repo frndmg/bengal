@@ -18,6 +18,10 @@ private:
     ptr<TypeFields> m_arguments;
     ptr<Expr> m_body;
     ptr<Id> m_retType;
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

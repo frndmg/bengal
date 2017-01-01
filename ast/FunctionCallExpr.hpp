@@ -16,6 +16,10 @@ public:
 private:
     ptr<Id> m_id;
     ptr<ExprList> m_params;
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

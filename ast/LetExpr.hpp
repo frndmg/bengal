@@ -16,6 +16,10 @@ public:
 private:
     ptr<DeclarationList> m_scope;
     ptr<ExprSeqExpr> m_expr_seq;
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

@@ -16,6 +16,10 @@ public:
     using ptr_list<FunctionDeclaration>::end;
     using ptr_list<FunctionDeclaration>::size;
     using ptr_list<FunctionDeclaration>::operator[];
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

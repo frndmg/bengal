@@ -10,3 +10,8 @@ ForExpr::ForExpr(ptr<Id>& id, ptr<Expr>& begin, ptr<Expr>& end, ptr<Expr>& body)
     m_body(body)
 {
 }
+
+bool ForExpr::checkSemantic(Node::Scope &scope, Node::Report &report)
+{
+
+}

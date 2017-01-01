@@ -15,6 +15,10 @@ public:
 private:
     ptr<Id> m_id;
     ptr<FieldList> m_fields;
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

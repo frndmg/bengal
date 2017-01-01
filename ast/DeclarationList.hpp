@@ -15,6 +15,10 @@ public:
     DeclarationList();
 
     using std::vector<ptr<DeclarationScope>>::push_back;
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

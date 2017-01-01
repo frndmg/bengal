@@ -7,3 +7,9 @@ StringExpr::StringExpr(const std::string &str) :
 {
 
 }
+
+
+bool ast::StringExpr::checkSemantic(Scope&, Report&)
+{
+    return true;
+}

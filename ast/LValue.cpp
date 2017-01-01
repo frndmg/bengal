@@ -21,3 +21,8 @@ LValue::LValue(ptr<Id> id, ptr<Expr> index) :
 {
 
 }
+
+bool LValue::checkSemantic(Node::Scope &scope, Node::Report &report)
+{
+
+}

@@ -23,6 +23,10 @@ public:
 private:
     ptr<Expr> m_expr;
     Operator  m_op;
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // namespace ast

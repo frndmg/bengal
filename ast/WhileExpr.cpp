@@ -8,3 +8,8 @@ WhileExpr::WhileExpr(ptr<Expr>& cond, ptr<Expr>& body) :
     m_body(body)
 {
 }
+
+bool WhileExpr::checkSemantic(Node::Scope &scope, Node::Report &report)
+{
+
+}

@@ -8,3 +8,8 @@ FunctionCallExpr::FunctionCallExpr(ptr<Id> id, ptr<ExprList> params) :
 {
 
 }
+
+bool FunctionCallExpr::checkSemantic(Node::Scope &scope, Node::Report &report)
+{
+
+}

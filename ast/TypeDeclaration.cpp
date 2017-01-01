@@ -16,3 +16,8 @@ TypeDeclaration::TypeDeclaration(ptr<Id> id, ptr<TypeFields> fields) :
 {
 
 }
+
+
+bool ast::TypeDeclaration::checkSemantic(Scope &scope, Report &report)
+{
+}
