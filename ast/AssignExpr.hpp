@@ -12,7 +12,7 @@ class AssignExpr : public Expr
 public:
     virtual ~AssignExpr();
 
-    AssignExpr(ptr<LValue> lvalue, ptr<Expr> expr);
+    AssignExpr(ptr<LValue>& lvalue, ptr<Expr>& expr);
 
     virtual bool checkSemantic(Scope& scope, Report& report) override;
 

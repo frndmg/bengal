@@ -16,6 +16,14 @@ class Node
 protected:
     using Scope = semantic::Scope;
     using Report = semantic::Report;
+    using Type = Scope::Type;
+
+private:
+    std::shared_ptr< Scope::Type > m_type;
+
+protected:
+    std::shared_ptr<Type> type() const;
+    void setType(const std::shared_ptr<Type>& type);
 
 public:
     virtual ~Node();
