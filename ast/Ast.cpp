@@ -6,12 +6,16 @@
 
 using namespace ast;
 
+namespace sem = semantic;
+
 bool Ast::checkSemantic()
 {
-    return false;
+    sem::Scope scope;
+    sem::Report report;
+
+    return m_root->checkSemantic(scope, report);
 }
 
 void Ast::generateCode()
 {
-
 }
