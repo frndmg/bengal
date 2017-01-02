@@ -15,7 +15,7 @@ namespace semantic
 ///
 /// \brief The Scope class
 ///
-class Scope : public std::map< std::string, std::shared_ptr<llvm::Type> >, private std::vector< std::shared_ptr<Scope> >
+class Scope : public std::map< std::string, llvm::Type* >, private std::vector< std::shared_ptr<Scope> >
 {
 public:
     using Type = llvm::Type;
@@ -48,7 +48,7 @@ public:
     /// \param name std::string
     /// \return Pointer to llvm::Type or nullptr
     ///
-    const mapped_type getType( const key_type name ) const;
+    mapped_type getType( const key_type name ) const;
 
 private:
     ///
