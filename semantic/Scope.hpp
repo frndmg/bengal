@@ -44,11 +44,11 @@ public:
     void endScope();
 
     ///
-    /// \brief Get the the type (if any) that has `typeName` name
-    /// \param typeName
+    /// \brief Get the the type (if any) that has `name` name
+    /// \param name std::string
     /// \return Pointer to llvm::Type or nullptr
     ///
-    const mapped_type getType( const key_type typeName ) const;
+    const mapped_type getType( const key_type name ) const;
 
 private:
     ///

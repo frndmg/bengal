@@ -32,12 +32,12 @@ void Scope::endScope()
         pop_back();
 }
 
-const Scope::mapped_type Scope::getType(const Scope::key_type typeName) const
+const Scope::mapped_type Scope::getType(const Scope::key_type name) const
 {
-    auto x = map::find( typeName );
+    auto x = map::find( name );
     if (x != map::end())                         // Search in the current scope
         return x->second;
     else if ( m_parent )    // Search in the parent
-        return m_parent->getType( typeName );
+        return m_parent->getType( name );
     return nullptr;                              // There is not such a type
 }
