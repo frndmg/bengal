@@ -11,6 +11,8 @@ class Id
 public:
     Id( const std::string& id );
 
+    std::string id() const;
+
 private:
     std::string m_id;
 };

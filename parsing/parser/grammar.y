@@ -52,7 +52,7 @@
 %type <NUMEXPR> num
 %type <NILEXPR> nil_expr
 %type <BINEXPR> bin_expr
-%type <LVALUE> lvalue
+%type <LVALUE> lvalue _lvalue
 %type <UNARYEXPR> unary_expr
 %type <DECLARATIONLIST> declaration_list
 %type <DECLARATIONSCOPE> declaration_scope
@@ -291,14 +291,29 @@ _expr_seq:
 /////////
 
 lvalue:
-    id
-    { $$( std::make_shared<LValue>($1) ); }
+    id _lvalue
+    {
+        $$( std::make_shared<LValue>( $1 ) );
+        $2->setParent( $$ );
+    }
+;
+
+_lvalue:
+    { $$( std::make_shared<LValue>() ); }
 |
-    id T_DOT lvalue
-    { $$( std::make_shared<LValue>($1, $3) ); }
+    T_DOT id _lvalue
+    {
+        $$( std::make_shared<LValue>( $2 ) );
+        if ( not $3->isSimple() )
+            $3->setParent( $$ );
+    }
 |
-    id T_LEFT_BRACKET expr T_RIGHT_BRACKET
-    { $$( std::make_shared<LValue>($1, $3) ); }
+    T_LEFT_BRACKET expr T_RIGHT_BRACKET _lvalue
+    {
+        $$( std::make_shared<LValue>( $2 ) );
+        if ( not $4->isSimple() )
+            $4->setParent( $$ );
+    }
 ;
 
 
