@@ -32,7 +32,7 @@ void Scope::endScope()
         pop_back();
 }
 
-Scope::mapped_type Scope::getType(const Scope::key_type name) const
+Scope::mapped_type Scope::getType(const key_type& name) const
 {
     auto x = map::find( name );
     if (x != map::end())                         // Search in the current scope

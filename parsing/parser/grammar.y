@@ -172,7 +172,7 @@ string_expr:
 
 num:
     T_NUM
-    { $$( std::make_shared<NumExpr>(std::stoll( d_scanner.matched() )) ); }
+    { $$( std::make_shared<NumExpr>(std::stoi( d_scanner.matched() )) ); }
 ;
 
 

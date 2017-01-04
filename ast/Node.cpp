@@ -4,7 +4,7 @@
 
 using namespace ast;
 
-std::shared_ptr<Node::Type> Node::type() const
+const std::shared_ptr<Type>& Node::type() const
 {
     return m_type;
 }
