@@ -41,3 +41,4 @@ Scope::mapped_type Scope::getType(const key_type& name) const
         return m_parent->getType( name );
     return nullptr;                              // There is not such a type
 }
+

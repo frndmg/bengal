@@ -5,6 +5,8 @@
 #ifndef BENGAL_SCOPE_HPP
 #define BENGAL_SCOPE_HPP
 
+#include "Types.hpp"
+
 #include <llvm/IR/Type.h>
 #include <llvm/IR/TypeBuilder.h>
 #include <llvm/IR/DerivedTypes.h>
