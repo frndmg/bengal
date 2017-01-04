@@ -26,7 +26,7 @@ class Parser: public ParserBase
         {
         }
 
-        const auto& ast() const { return m_ast; }
+        const ast::Ast& ast() const { return m_ast; }
 
     private:
         void error(char const *msg);    // called on (syntax) errors
