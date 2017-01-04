@@ -16,6 +16,18 @@ namespace ast
 
 class Expr : public Node
 {
+protected:
+    using Type = Scope::Type;
+    using IntType = Scope::IntType;
+    using ArrayType = Scope::ArrayType;
+    using StructType = Scope::StructType;
+    using FunctionType = Scope::FuntionType;
+
+    Type* type() const;
+    void setType(Type* type);
+
+private:
+    Type* m_type;
 };
 
 } // namespace ast

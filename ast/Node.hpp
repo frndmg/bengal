@@ -17,22 +17,8 @@ protected:
     using Scope = semantic::Scope;
     using Report = semantic::Report;
 
-    using Type = Scope::Type;
-    using IntType = Scope::IntType;
-    using ArrayType = Scope::ArrayType;
-    using StructType = Scope::StructType;
-    using FunctionType = Scope::FuntionType;
-
-private:
-    std::shared_ptr<Scope::Type> m_type;
-
-protected:
-    const std::shared_ptr<Type>& type() const;
-
-    void                  setType(const std::shared_ptr<Type>& type);
-
 public:
-    virtual ~Node();
+    virtual ~Node() { }
 
 //    virtual void generateCode(const std::shared_ptr<CodeGenerator>& cg) = 0;
     virtual bool checkSemantic(Scope& scope, Report& report) = 0;

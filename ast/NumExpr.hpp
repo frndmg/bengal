@@ -1,9 +1,6 @@
 #ifndef NUMEXPR_HPP
 #define NUMEXPR_HPP
 
-#include <llvm/IR/Value.h>
-#include <llvm/IR/IRBuilder.h>
-
 #include "RValue.hpp"
 
 namespace ast
