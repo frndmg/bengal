@@ -11,12 +11,10 @@ namespace ast
 
 class NumExpr : public RValue
 {
-    long long m_val;
+    int m_val;
 
 public:
-    NumExpr() = default;
-
-    NumExpr(long long val) :
+    NumExpr(int val) :
         RValue()
       , m_val(val)
     {
