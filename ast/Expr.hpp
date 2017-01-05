@@ -22,6 +22,7 @@ protected:
     using Type = sem::Type;
     using IntType = sem::IntType;
     using StringType = sem::StringType;
+    using NilType = sem::NilType;
     using ArrayType = sem::ArrayType;
     using StructType = sem::StructType;
     using FunctionType = sem::FunctionType;

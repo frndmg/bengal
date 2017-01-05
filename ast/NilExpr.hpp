@@ -10,7 +10,9 @@ class NilExpr : public RValue
 {
     // Node interface
 public:
-    virtual bool checkSemantic(Scope&, Report&) override { return true; }
+    virtual bool checkSemantic(Scope&, Report&) override {
+        setType( single_town<NilType>() );
+        return true; }
 };
 
 } // ast namespace

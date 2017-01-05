@@ -6,7 +6,7 @@
 #define BENGAL_TYPES_HPP
 
 #include <string>
-#include <map>
+#include <vector>
 
 namespace semantic
 {
@@ -52,11 +52,11 @@ private:
     Type* m_type;
 };
 
-struct StructType : Type, std::map<std::string, std::string>
+struct StructType : Type, std::vector<std::pair<std::string, std::string> >
 {
     StructType(const std::string& typeName,
                std::initializer_list<value_type> init) :
-            Type( typeName ), map( init ) {}
+            Type( typeName ), vector( init ) {}
 };
 
 struct AliasType : Type
