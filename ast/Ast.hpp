@@ -5,7 +5,7 @@
 #ifndef BENGAL_AST_HPP
 #define BENGAL_AST_HPP
 
-#include "utils.hpp"
+#include "../utils.hpp"
 #include "Expr.hpp"
 
 namespace ast

@@ -1,7 +1,7 @@
 #ifndef NODE_HPP
 #define NODE_HPP
 
-#include "utils.hpp"
+#include "../utils.hpp"
 //#include "CodeGenerator.hpp"
 
 // Semantic

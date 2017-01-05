@@ -7,6 +7,8 @@
 
 #include "Node.hpp"
 
+namespace sem = semantic;
+
 namespace ast
 {
 
@@ -17,17 +19,17 @@ namespace ast
 class Expr : public Node
 {
 protected:
-    using Type = Scope::Type;
-    using IntType = Scope::IntType;
-    using ArrayType = Scope::ArrayType;
-    using StructType = Scope::StructType;
-    using FunctionType = Scope::FuntionType;
+    using Type = sem::Type;
+    using IntType = sem::IntType;
+    using ArrayType = sem::ArrayType;
+    using StructType = sem::StructType;
+    using FunctionType = sem::FunctionType;
 
-    Type* type() const;
-    void setType(Type* type);
+    const std::shared_ptr<Type>& type() const;
+    void setType(const std::shared_ptr<Type>& type);
 
 private:
-    Type* m_type;
+    std::shared_ptr<Type> m_type;
 };
 
 } // namespace ast

@@ -6,12 +6,19 @@
 #define BENGAL_TYPES_HPP
 
 #include <string>
+#include <map>
+
+namespace semantic
+{
+
+struct IntType;
+struct StringType;
+struct NilType;
 
 struct Type
 {
-    Type() { }
-
-    Type(const std::string& typeName) : m_typeName( typeName ) { }
+protected:
+    Type(const std::string& typeName) : m_typeName( typeName ) {}
 
 private:
     std::string m_typeName;
@@ -19,43 +26,56 @@ private:
 
 struct IntType : Type
 {
-    IntType() : Type( "Int32" ) { }
+    IntType() : Type( "Int32" ) {}
 };
 
 struct StringType : Type
 {
-    StringType() : Type( "String" ) { }
+    StringType() : Type( "String" ) {}
 };
 
 struct NilType : Type
 {
-    NilType() : Type( "Nil" ) { }
+    NilType() : Type( "Nil" ) {}
+};
+
+struct NoneType : Type
+{
+    NoneType() : Type( "None" ) {}
 };
 
 struct ArrayType : Type
 {
-    ArrayType(const std::string& typeName, Type* type) : Type( typeName ), m_type( type ) { }
+    ArrayType(const std::string& typeName, Type* type) : Type( typeName ), m_type( type ) {}
 
 private:
     Type* m_type;
 };
 
-struct StructType : Type
+struct StructType : Type, std::map<std::string, std::string>
 {
-    StructType(const std::string& typeName, std::pair< std::string, Type*> members, ...) : Type( typeName ) {  }
+    StructType(const std::string& typeName,
+               std::initializer_list<value_type> init) :
+            Type( typeName ), map( init ) {}
 };
 
 struct AliasType : Type
 {
-    AliasType(const std::string& typeName, Type* type) : Type( typeName ), m_type( type ) { }
+    AliasType(const std::string& typeName, const std::string& typeNameAlias) :
+            Type( typeName ),
+            m_typeNameAlias( typeNameAlias ) {}
 
 private:
-    Type* m_type;
+    std::string m_typeNameAlias;
 };
 
-struct FunctionType : Type { };
+struct FunctionType : Type
+{
+};
 
-struct ProcedureType : FunctionType { };
+struct ProcedureType : FunctionType
+{
+};
 
 //template <typename Type>
 //Type* type(const std::string& typeName);
@@ -74,9 +94,6 @@ struct ProcedureType : FunctionType { };
 ////    return arrayType;
 //}
 
-void f()
-{
-//    type<ArrayType>("foo", nullptr);
 }
 
 #endif //BENGAL_TYPES_HPP

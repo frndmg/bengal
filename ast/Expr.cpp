@@ -2,12 +2,12 @@
 
 using namespace ast;
 
-Expr::Type* Expr::type() const
+const std::shared_ptr<Expr::Type>& Expr::type() const
 {
     return m_type;
 }
 
-void Expr::setType(Type* type)
+void Expr::setType(const std::shared_ptr<Expr::Type>& type)
 {
     m_type = type;
 }

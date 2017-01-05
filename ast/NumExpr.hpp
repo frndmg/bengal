@@ -21,7 +21,11 @@ public:
 
     // Node interface
 public:
-    virtual bool checkSemantic(Scope&, Report&) override { return true; }
+    virtual bool checkSemantic(Scope&, Report&) override
+    {
+        setType( single_town<IntType>() );
+        return true;
+    }
 };
 
 } // ast namespace
