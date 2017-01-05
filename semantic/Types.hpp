@@ -71,10 +71,12 @@ private:
 
 struct FunctionType : Type
 {
+    FunctionType(const std::string& typeName) : Type( typeName ) {}
 };
 
 struct ProcedureType : FunctionType
 {
+    ProcedureType(const std::string& typeName) : FunctionType( typeName ) {}
 };
 
 //template <typename Type>

@@ -11,5 +11,6 @@ StringExpr::StringExpr(const std::string &str) :
 
 bool ast::StringExpr::checkSemantic(Scope&, Report&)
 {
+    setType( single_town<StringType>() );
     return true;
 }

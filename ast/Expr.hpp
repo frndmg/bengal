@@ -21,9 +21,13 @@ class Expr : public Node
 protected:
     using Type = sem::Type;
     using IntType = sem::IntType;
+    using StringType = sem::StringType;
     using ArrayType = sem::ArrayType;
     using StructType = sem::StructType;
     using FunctionType = sem::FunctionType;
+    using AliasType = sem::AliasType;
+    using Procedure = sem::ProcedureType;
+    using NoneType = sem::NoneType;
 
     const std::shared_ptr<Type>& type() const;
     void setType(const std::shared_ptr<Type>& type);
