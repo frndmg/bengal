@@ -4,6 +4,7 @@
 #include "Id.hpp"
 #include "RValue.hpp"
 
+
 namespace ast
 {
 
@@ -30,9 +31,11 @@ public:
 
     void setParent(const std::shared_ptr<LValue>& parent);
 
-    bool isMemberAccesor() { return bool(m_id); }
-    bool isIndexAccesor() { return bool(m_index); }
-    bool isSimple() { return not bool(m_next); }
+    bool isMemberAccesor() { return bool( m_id ); }
+
+    bool isIndexAccesor() { return bool( m_index ); }
+
+    bool isSimple() { return not bool( m_next ); }
 
 private:
     std::shared_ptr<Id>     m_id;
@@ -42,9 +45,8 @@ private:
 
     // Node interface
 public:
-    virtual bool checkSemantic(Scope &scope, Report &report) override;
+    virtual bool checkSemantic(Scope& scope, Report& report) override;
 };
-
 } // ast namespace
 
 #endif // LVALUE_HPP

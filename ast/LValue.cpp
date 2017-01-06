@@ -1,6 +1,7 @@
 #include "LValue.hpp"
 #include <llvm/IR/DerivedTypes.h>
 
+
 using namespace ast;
 
 LValue::LValue()
@@ -8,12 +9,12 @@ LValue::LValue()
 }
 
 LValue::LValue(std::shared_ptr<Id>& id) :
-    m_id(id)
+        m_id( id )
 {
 }
 
 LValue::LValue(std::shared_ptr<Expr>& index) :
-    m_index(index)
+        m_index( index )
 {
 }
 
@@ -22,9 +23,9 @@ void LValue::setParent(const std::shared_ptr<LValue>& parent)
     parent->m_next = std::shared_ptr<LValue>( this );
 }
 
-bool LValue::checkSemantic(Node::Scope &scope, Node::Report &report)
+bool LValue::checkSemantic(Node::Scope& scope, Node::Report& report)
 {
-    throw std::logic_error("LValue::checkSemantic: Not implemented");
+    throw std::logic_error( "LValue::checkSemantic: Not implemented" );
 
     bool check = true;
 
