@@ -295,7 +295,7 @@ lvalue_expr:
     id _lvalue
     {
         $$( std::make_shared<LValue>( $1 ) );
-        $2->setParent( $$ );
+        $$->setNext( $2 );
     }
 ;
 
@@ -305,15 +305,13 @@ _lvalue:
     T_DOT id _lvalue
     {
         $$( std::make_shared<LValue>( $2 ) );
-        if ( not $3->isSimple() )
-            $3->setParent( $$ );
+        $$->setNext( $3 );
     }
 |
     T_LEFT_BRACKET expr T_RIGHT_BRACKET _lvalue
     {
         $$( std::make_shared<LValue>( $2 ) );
-        if ( not $4->isSimple() )
-            $4->setParent( $$ );
+        $$->setNext( $4 );
     }
 ;
 

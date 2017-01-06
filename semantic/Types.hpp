@@ -7,6 +7,8 @@
 
 #include <string>
 #include <vector>
+#include <memory>
+
 
 namespace semantic
 {
@@ -17,6 +19,8 @@ struct NilType;
 
 struct Type
 {
+    virtual ~Type() {}
+
 protected:
     Type(const std::string& typeName) : m_typeName( typeName ) {}
 
@@ -46,13 +50,15 @@ struct NoneType : Type
 
 struct ArrayType : Type
 {
-    ArrayType(const std::string& typeName, Type* type) : Type( typeName ), m_type( type ) {}
+    ArrayType(const std::string& typeName, const std::shared_ptr<Type>& type) : Type( typeName ), m_type( type ) {}
+
+    const std::shared_ptr<Type>& type() const { return m_type; }
 
 private:
-    Type* m_type;
+    std::shared_ptr<Type> m_type;
 };
 
-struct StructType : Type, std::vector<std::pair<std::string, std::string> >
+struct StructType : Type, std::vector<std::pair<std::string, std::shared_ptr<Type> > >
 {
     StructType(const std::string& typeName,
                std::initializer_list<value_type> init) :
@@ -61,12 +67,12 @@ struct StructType : Type, std::vector<std::pair<std::string, std::string> >
 
 struct AliasType : Type
 {
-    AliasType(const std::string& typeName, const std::string& typeNameAlias) :
+    AliasType(const std::string& typeName, const std::shared_ptr<Type>& typeAlias) :
             Type( typeName ),
-            m_typeNameAlias( typeNameAlias ) {}
+            m_typeAlias( typeAlias ) {}
 
 private:
-    std::string m_typeNameAlias;
+    std::shared_ptr<Type> m_typeAlias;
 };
 
 struct FunctionType : Type

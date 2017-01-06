@@ -1,5 +1,5 @@
 #include "LValue.hpp"
-#include <llvm/IR/DerivedTypes.h>
+#include <algorithm>
 
 
 using namespace ast;
@@ -18,54 +18,64 @@ LValue::LValue(std::shared_ptr<Expr>& index) :
 {
 }
 
-void LValue::setParent(const std::shared_ptr<LValue>& parent)
-{
-    parent->m_next = std::shared_ptr<LValue>( this );
-}
-
 bool LValue::checkSemantic(Node::Scope& scope, Node::Report& report)
 {
-    throw std::logic_error( "LValue::checkSemantic: Not implemented" );
+    if ( isSimple() )
+        return true;
 
-    bool check = true;
+    auto type    = scope.getType( m_id->id() );
+    auto current = std::shared_ptr<LValue>( this );
+    while ( not current->isSimple() )
+    {
+        // TODO: Resolve the alias type
+        if ( current->m_next->isMemberAccesor() )
+        {
+            if ( Expr::StructType* s_type = dynamic_cast<StructType*>(type.get()) )
+            {
+                auto val = std::find_if( s_type->begin(), s_type->end(),
+                                         [=](auto& x)
+                                         {
+                                             return x.first == current->m_next->m_id->id();
+                                         } );
+                if ( val == s_type->end() )
+                {
+                    // TODO: Report error
+                    // There is no member named `current->m_next->m_id->id()`
+                    return false;
+                }
+                type = val->second;
+            }
+            else
+            {
+                // TODO: Report error
+                // The member `type()` of `current` is not StructType
+            }
+        }
+        else if ( current->m_next->isIndexAccesor() )
+        {
+            if ( Expr::ArrayType* a_type = dynamic_cast<ArrayType*>(type.get()) )
+            {
+                if ( not current->m_next->checkSemantic( scope, report ) )
+                    return false;
 
-//    auto lvalue_type = scope.getType(m_id->id());
-//
-//    // If there is no type like `m_id->id()` and it is accessing some member
-//    // then check = false.
-//    if (not lvalue_type and not isSimple())
-//    {
-//        check = false;
-//        // TODO: Play with the report
-//    }
-//
-//    for (auto lvalue = std::shared_ptr<LValue>( this ); not lvalue->isSimple(); lvalue = lvalue->m_next)
-//    {
-//        auto next = lvalue->m_next;
-//        auto next_type = next->type();
-//
-//        if (next->isMemberAccesor())
-//        {
-//            // when next is member accesor
-//            if (not lvalue_type->isStructTy())
-//            {
-//                check = false;
-//                // TODO: Play with the report
-//                // lvalue is not a struct type
-//                break;
-//            }
-//
-//            auto struct_type = static_cast<llvm::StructType*>(lvalue_type);
-//            auto id = next->m_id->id();
-//
-//            std::find(struct_type->element_begin(), struct_type->element_end(), nullptr);
-//        }
-//        else if (next->isIndexAccesor())
-//        {
-//            // when next is index accesor
-//            next->m_index->checkSemantic(scope, report);
-//        }
-//    }
+                type = a_type->type();
+            }
+            else
+            {
+                // TODO: Report Error
+                // The member `type()` of `current` is not ArrayType
+            }
+        }
+        current = current->m_next;
+    }
 
-    return check;
+    setType( type );
+
+    return true;
+}
+
+void LValue::setNext(const std::shared_ptr<LValue>& next)
+{
+    if ( not next->isSimple() )
+        m_next = next;
 }

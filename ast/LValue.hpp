@@ -29,7 +29,7 @@ public:
     ///
     LValue(std::shared_ptr<Expr>& index);
 
-    void setParent(const std::shared_ptr<LValue>& parent);
+    void setNext(const std::shared_ptr<LValue>& next);
 
     bool isMemberAccesor() { return bool( m_id ); }
 
