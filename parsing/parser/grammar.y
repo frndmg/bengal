@@ -52,7 +52,7 @@
 %type <NUMEXPR> num
 %type <NILEXPR> nil_expr
 %type <BINEXPR> bin_expr
-%type <LVALUE> lvalue _lvalue
+%type <LVALUE> lvalue_expr _lvalue
 %type <UNARYEXPR> unary_expr
 %type <DECLARATIONLIST> declaration_list
 %type <DECLARATIONSCOPE> declaration_scope
@@ -111,7 +111,8 @@ expr:
     nil_expr
     { $$( $1 ); }
 |
-    lvalue { $$($1); }
+    lvalue_expr
+    { $$($1); }
 |
     unary_expr
     { $$( $1 ); }
@@ -119,7 +120,7 @@ expr:
     bin_expr
     { $$( $1 ); }
 |
-    lvalue T_ASSIGN expr
+    lvalue_expr T_ASSIGN expr
     { $$( std::make_shared<AssignExpr>($1, $3) ); }
 |
     // Function call
@@ -290,7 +291,7 @@ _expr_seq:
 // LVALUE
 /////////
 
-lvalue:
+lvalue_expr:
     id _lvalue
     {
         $$( std::make_shared<LValue>( $1 ) );
