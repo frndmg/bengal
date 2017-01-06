@@ -394,8 +394,8 @@ declaration_list:
 |
     declaration_list declaration_scope
     {
-        $$($1);
-        $$->push_back($2);
+        $$( $1 );
+        $$->push_back( $2 );
     }
 ;
 
@@ -430,13 +430,13 @@ type_declaration_scope:
     type_declaration
     {
         $$( std::make_shared<TypeDeclarationScope>() );
-        $$->push_back($1);
+        $$->push_back( $1 );
     }
 |
     type_declaration_scope type_declaration
     {
-        $$($1);
-        $$->push_back($2);
+        $$( $1 );
+        $$->push_back( $2 );
     }
 ;
 
@@ -449,13 +449,13 @@ function_declaration_scope:
     function_declaration
     {
         $$( std::make_shared<FunctionDeclarationScope>() );
-        $$->push_back($1);
+        $$->push_back( $1 );
     }
 |
     function_declaration_scope function_declaration
     {
         $$( $1 );
-        $$->push_back($2);
+        $$->push_back( $2 );
     }
 ;
 
