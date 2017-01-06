@@ -7,6 +7,7 @@
 
 #include "RValue.hpp"
 
+
 namespace ast
 {
 
@@ -18,7 +19,8 @@ public:
     {
         NEG
     };
-    UnaryExpr(ptr<Expr>& expr, Operator op);
+
+    UnaryExpr(const std::shared_ptr<Expr>& expr, Operator op);
 
 private:
     ptr<Expr> m_expr;
@@ -26,7 +28,7 @@ private:
 
     // Node interface
 public:
-    virtual bool checkSemantic(Scope &scope, Report &report) override;
+    virtual bool checkSemantic(Scope& scope, Report& report) override;
 };
 
 } // namespace ast
