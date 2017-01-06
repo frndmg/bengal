@@ -8,8 +8,6 @@ namespace ast
 
 class RValue : public Expr
 {
-public:
-    RValue() = default;
 };
 
 } // ast namespace

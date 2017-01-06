@@ -33,6 +33,31 @@ protected:
     const std::shared_ptr<Type>& type() const;
     void setType(const std::shared_ptr<Type>& type);
 
+    static bool sameType(const std::shared_ptr<Type>& type, std::initializer_list<std::shared_ptr<Expr> > expr_list)
+    {
+        bool same = true;
+        for (auto& x : expr_list)
+        {
+            same = same and x->type() == type;
+            if ( not same )
+                break;
+        }
+        return same;
+    }
+
+    static bool sameType( std::initializer_list<std::shared_ptr<Expr> > expr_list )
+    {
+        auto i = expr_list.begin();
+        if (i == expr_list.end()) return true;
+        auto j = i + 1;
+        while (j != expr_list.end())
+        {
+            if ( ( *i++ )->type() != ( *j++ )->type() )
+                return false;
+        }
+        return true;
+    }
+
 private:
     std::shared_ptr<Type> m_type;
 };
