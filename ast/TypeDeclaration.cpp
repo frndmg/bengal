@@ -19,9 +19,9 @@ TypeDeclaration::TypeDeclaration(const std::shared_ptr<Id>& id,
 {
 }
 
-const std::string& TypeDeclaration::typeName() const
+const std::shared_ptr<Id>& TypeDeclaration::typeId() const
 {
-    return m_id->id();
+    return m_id;
 }
 
 bool TypeDeclaration::checkSemantic(Scope& scope, Report& report)
@@ -33,9 +33,9 @@ std::shared_ptr<std::vector<std::string> > TypeDeclaration::typeDepends() const
     static auto vector = std::make_shared<std::vector<std::string> >();
     if ( vector->empty() )
         if ( isArrayDeclaration() or isAliasDeclaration() )
-            vector->push_back( m_type->id() );
+            vector->push_back( *m_type );
         else
             for ( auto& x : *m_fields )
-                vector->push_back( x->type()->id() );
+                vector->push_back( *x->type() );
     return vector;
 }

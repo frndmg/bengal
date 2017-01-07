@@ -15,15 +15,25 @@ public:
 
     TypeDeclaration(const std::shared_ptr<Id>& id, const std::shared_ptr<TypeFields>& fields);
 
-    bool isTypeDeclaration()const { return bool( m_fields ); }
+    bool isTypeDeclaration() const { return bool( m_fields ); }
 
-    bool isArrayDeclaration() const { return m_isArray; }
+    bool isArrayDeclaration() const { return bool( m_id ) and bool( m_type ) and m_isArray; }
 
     bool isAliasDeclaration() const { return bool( m_id ) and bool( m_type ) and not m_isArray; }
 
-    const std::string& typeName() const;
+    const std::shared_ptr<Id>& typeId() const;
 
-    std::shared_ptr<std::vector<std::string>> typeDepends() const;
+    std::shared_ptr<std::vector<std::string> > typeDepends() const;
+
+    const std::shared_ptr<Id>& type() const
+    {
+        return m_type;
+    }
+
+    const std::shared_ptr<TypeFields>& fields() const
+    {
+        return m_fields;
+    }
 
 private:
     std::shared_ptr<Id>         m_id;

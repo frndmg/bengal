@@ -6,15 +6,10 @@
 namespace ast
 {
 
-class Id
+class Id : public std::string
 {
 public:
-    Id( const std::string& id );
-
-    const std::string& id() const;
-
-private:
-    std::string m_id;
+    Id(const std::string& s) : std::string( s ) {}
 };
 
 } // ast namespace

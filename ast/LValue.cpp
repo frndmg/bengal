@@ -23,7 +23,7 @@ bool LValue::checkSemantic(Node::Scope& scope, Node::Report& report)
     if ( isSimple() )
         return true;
 
-    auto type    = scope.getType( m_id->id() );
+    auto type    = scope.getType( *m_id );
     auto current = std::shared_ptr<LValue>( this );
     while ( not current->isSimple() )
     {
@@ -35,7 +35,7 @@ bool LValue::checkSemantic(Node::Scope& scope, Node::Report& report)
                 auto val = std::find_if( s_type->begin(), s_type->end(),
                                          [=](auto& x)
                                          {
-                                             return x.first == current->m_next->m_id->id();
+                                             return x.first == *current->m_next->m_id;
                                          } );
                 if ( val == s_type->end() )
                 {
