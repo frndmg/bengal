@@ -7,15 +7,11 @@
 namespace ast
 {
 
-class TypeFields : public Node, private ptr_list<TypeField>
+class TypeFields :
+        public Node, public std::vector<std::shared_ptr<TypeField> >
 {
 public:
     TypeFields();
-
-    using ptr_list<TypeField>::push_back;
-    using ptr_list<TypeField>::begin;
-    using ptr_list<TypeField>::end;
-    using ptr_list<TypeField>::size;
 
     // Node interface
 public:

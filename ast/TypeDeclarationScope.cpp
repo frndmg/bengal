@@ -3,6 +3,6 @@
 using namespace ast;
 
 
-bool ast::TypeDeclarationScope::checkSemantic(Node::Scope &scope, Node::Report &report)
+bool TypeDeclarationScope::checkSemantic(Node::Scope& scope, Node::Report& report)
 {
 }

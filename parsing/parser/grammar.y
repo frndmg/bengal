@@ -430,13 +430,13 @@ type_declaration_scope:
     type_declaration
     {
         $$( std::make_shared<TypeDeclarationScope>() );
-        $$->push_back( $1 );
+        $$->insert( { $1->typeName(), $1 } );
     }
 |
     type_declaration_scope type_declaration
     {
         $$( $1 );
-        $$->push_back( $2 );
+        $$->insert( { $2->typeName(), $2 } );
     }
 ;
 

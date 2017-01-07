@@ -4,23 +4,28 @@
 #include "Node.hpp"
 #include "Id.hpp"
 
+
 namespace ast
 {
 
 class TypeField : public Node
 {
 public:
-    TypeField(ptr<Id> id, ptr<Id> type);
+    TypeField(const std::shared_ptr<Id>& id, const std::shared_ptr<Id>& type);
+
+    const std::shared_ptr<Id>& id() const;
+
+    const ptr<ast::Id>& type() const;
 
 private:
-    ptr<Id> m_id;
-    ptr<Id> m_type;
+
+    std::shared_ptr<Id> m_id;
+    std::shared_ptr<Id> m_type;
 
     // Node interface
 public:
-    virtual bool checkSemantic(Scope &scope, Report &report) override;
+    virtual bool checkSemantic(Scope& scope, Report& report) override;
 };
-
 } // ast namespace
 
 #endif // TYPEFILELD_HPP

@@ -5,18 +5,15 @@
 #include "TypeDeclaration.hpp"
 
 #include <vector>
+#include <unordered_map>
+
 
 namespace ast
 {
 
-class TypeDeclarationScope : public DeclarationScope, private ptr_list<TypeDeclaration>
+class TypeDeclarationScope :
+        public DeclarationScope, public std::unordered_map<std::string, std::shared_ptr<TypeDeclaration> >
 {
-public:
-    using ptr_list<TypeDeclaration>::push_back;
-    using ptr_list<TypeDeclaration>::begin;
-    using ptr_list<TypeDeclaration>::end;
-    using ptr_list<TypeDeclaration>::size;
-
     // Node interface
 public:
     virtual bool checkSemantic(Scope &scope, Report &report) override;

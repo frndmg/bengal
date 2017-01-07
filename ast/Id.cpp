@@ -7,7 +7,7 @@ Id::Id(const std::string &id) :
 {
 }
 
-std::string Id::id() const
+const std::string& Id::id() const
 {
     return m_id;
 }

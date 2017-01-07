@@ -2,14 +2,23 @@
 
 using namespace ast;
 
-TypeField::TypeField(ptr<Id> id, ptr<Id> type) :
+TypeField::TypeField(const std::shared_ptr<Id>& id, const std::shared_ptr<Id>& type) :
     m_id(id),
     m_type(type)
 {
-
 }
 
 
-bool ast::TypeField::checkSemantic(Scope &scope, Report &report)
+bool TypeField::checkSemantic(Scope& scope, Report& report)
 {
+}
+
+const std::shared_ptr<Id>& TypeField::type() const
+{
+    return m_type;
+}
+
+const std::shared_ptr<Id>& TypeField::id() const
+{
+    return m_id;
 }
