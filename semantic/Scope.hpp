@@ -7,11 +7,9 @@
 
 #include "Types.hpp"
 
-#include <llvm/IR/Type.h>
-#include <llvm/IR/TypeBuilder.h>
-#include <llvm/IR/DerivedTypes.h>
 #include <map>
 #include <exception>
+
 
 namespace semantic
 {
@@ -23,6 +21,8 @@ class Scope : public std::map<std::string, std::shared_ptr<Type> >, private std:
 {
 
 public:
+    using map::operator[];
+
     ///
     /// \brief Scope
     /// \param parent
@@ -52,13 +52,18 @@ public:
     ///
     mapped_type getType(const key_type& name) const;
 
+    Scope::map& typeDef();
+
+    mapped_type getTypeDef(const key_type& name) const;
+
 private:
     ///
     /// \brief Pointer to the parent Scope
     ///
     Scope* m_parent;
-};
 
+    map m_typeDef;
+};
 } // semantic namespace
 
 #endif //BENGAL_SCOPE_HPP

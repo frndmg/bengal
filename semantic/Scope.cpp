@@ -4,18 +4,19 @@
 
 #include "Scope.hpp"
 
+
 using namespace semantic;
 
-Scope::Scope(Scope *parent) :
-    map(),
-    vector(),
-    m_parent(parent)
+Scope::Scope(Scope* parent) :
+        map(),
+        vector(),
+        m_parent( parent )
 {
 }
 
 Scope::Scope() :
-    map(),
-    vector()
+        map(),
+        vector()
 {
 }
 
@@ -28,17 +29,32 @@ std::shared_ptr<Scope> Scope::beginScope()
 
 void Scope::endScope()
 {
-    if (not vector::empty())
+    if ( not vector::empty() )
         pop_back();
 }
 
 Scope::mapped_type Scope::getType(const key_type& name) const
 {
     auto x = map::find( name );
-    if (x != map::end())                         // Search in the current scope
+    if ( x != map::end() )                         // Search in the current scope
         return x->second;
     else if ( m_parent )    // Search in the parent
         return m_parent->getType( name );
     return nullptr;                              // There is not such a type
+}
+
+Scope::mapped_type Scope::getTypeDef(const key_type& name) const
+{
+    auto x = m_typeDef.find( name );
+    if ( x != m_typeDef.end() )
+        return x->second;
+    else if ( m_parent )
+        return m_parent->getTypeDef( name );
+    return nullptr;
+}
+
+Scope::map& Scope::typeDef()
+{
+    return m_typeDef;
 }
 
