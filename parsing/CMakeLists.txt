@@ -1,4 +1,5 @@
 option(BENGAL_DEBUG_PARSING "Debug the parsing process" OFF)
+option(BENGAL_PARSING_PRINT_TOKENS "Print the tokens during the parsing process" OFF)
 
 add_custom_command(
     OUTPUT ${PROJECT_SOURCE_DIR}/parsing/scanner/lex.cpp
@@ -9,8 +10,14 @@ add_custom_command(
     COMMENT "Generating lexer"
 )
 
+set(BISON_FLAGS)
+
 if (${BENGAL_DEBUG_PARSING})
-    set(BISON_FLAGS --debug --construction)
+    set(BISON_FLAGS "--debug --construction")
+endif ()
+
+if (${BENGAL_PARSING_PRINT_TOKENS})
+    set(BISON_FLAGS ${BISON_FLAGS} "--print")
 endif()
 
 add_custom_command(
