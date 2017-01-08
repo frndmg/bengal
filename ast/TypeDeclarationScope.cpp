@@ -2,15 +2,46 @@
 
 
 using namespace ast;
+namespace sem = semantic;
 
+template <typename Type>
+std::shared_ptr<Type> createType(const std::shared_ptr<TypeDeclaration>& type)
+{
+    return std::make_shared<Type>( *type->typeId(), nullptr );
+}
+
+template <>
+std::shared_ptr<sem::StructType> createType(const std::shared_ptr<TypeDeclaration>& type)
+{
+    auto type_def = std::make_shared<sem::StructType>( *type->typeId() );
+    return type_def;
+}
+
+template <typename Type>
+std::shared_ptr<Type> createType(const std::shared_ptr<TypeDeclaration>& type, sem::Scope& scope)
+{
+    std::shared_ptr<Type> type_def;
+    if ( not bool(
+           type_def =
+           std::dynamic_pointer_cast<Type>(
+              scope.getTypeDef( *type->typeId() )
+           ) ) )
+    {
+        type_def = createType<Type>(type);
+        scope.typeDef()[*type->typeId()] = type_def;
+    }
+    return type_def;
+}
 
 bool TypeDeclarationScope::checkSemantic(Node::Scope& scope, Node::Report& report)
 {
+    std::set<std::string> well_defined_types;
+
     for ( auto& type : *this ) // For every types in this scope
     {
         auto& type_name = type.first;
         // If this type is already defined in the global scope
-        if ( scope.getType( type_name ) != nullptr )
+        if ( scope.getTypeDef( type_name ) != nullptr )
         {
             // TODO: Report error
             // Type `type_name` already defined
@@ -22,13 +53,15 @@ bool TypeDeclarationScope::checkSemantic(Node::Scope& scope, Node::Report& repor
         {
             // If `type_depend` isn't in the current scope and the global scope
             if ( find( type_depend ) == end() and
-                 scope.getType( type_depend ) == nullptr )
+                 scope.getTypeDef( type_depend ) == nullptr )
             {
                 well_defined_type = false;
                 // TODO: Report error
                 // Type `type_depend` doesn't exist
             }
         }
+        if ( well_defined_type )
+            well_defined_types.insert( type_name );
     }
 
     // Check cyclic definitions
@@ -37,24 +70,79 @@ bool TypeDeclarationScope::checkSemantic(Node::Scope& scope, Node::Report& repor
     for ( auto& type : *this )
     {
         auto& type_name = type.first;
-        std::unordered_set<std::string> marked;
+        std::set<std::string> marked;
 
         if ( hasCycle( marked, type_name ) )
         {
+            well_defined_types.erase( type_name );
             // TODO: Report error
             // Cyclic definition
         }
     }
 
-    // Create every types in the scope
+    // Create all well defined types in the `scope.typeDef`
+    for ( auto& x : well_defined_types )
+    {
+        auto& type = ( *this )[x];
+        if ( type->isAliasDeclaration() )
+        {
+            auto x = createType<sem::AliasType>(type, scope);
+            auto find_alias_type = unordered_map::find( *type->type() );
+            if ( find_alias_type != unordered_map::end() )
+            {
+                auto& alias_type = find_alias_type->second;
+                if ( alias_type->isAliasDeclaration() )
+                    x->setTypeAlias( createType<sem::AliasType>( alias_type, scope ) );
+                else if ( alias_type->isArrayDeclaration() )
+                    x->setTypeAlias( createType<sem::ArrayType>( alias_type, scope ) );
+                else if ( alias_type->isTypeDeclaration() )
+                    x->setTypeAlias( createType<sem::StructType>( alias_type, scope ) );
+            }
+        }
+        else if ( type->isArrayDeclaration() )
+        {
+            auto x = createType<sem::ArrayType>( type, scope );
+            auto find_array_type = unordered_map::find( *type->type() );
+            if ( find_array_type != unordered_map::end() )
+            {
+                auto& array_type = find_array_type->second;
+                if ( array_type->isAliasDeclaration() )
+                    x->setType( createType<sem::AliasType>( array_type, scope ) );
+                else if ( array_type->isArrayDeclaration() )
+                    x->setType( createType<sem::ArrayType>( array_type, scope ) );
+                else if ( array_type->isTypeDeclaration() )
+                    x->setType( createType<sem::StructType>( array_type, scope ) );
+            }
+        }
+        else if ( type->isTypeDeclaration() )
+        {
+            auto x = createType<sem::StructType>( type, scope );
+            for ( auto& x_member : *type->fields() )
+            {
+                auto find_member_type = unordered_map::find( *x_member->type() );
+                if ( find_member_type != unordered_map::end() )
+                {
+                    auto& member_type = find_member_type->second;
+                    if ( member_type->isAliasDeclaration() )
+                        x->push_back( { *member_type->typeId(), createType<sem::AliasType>( member_type, scope ) } );
+                    else if ( member_type->isArrayDeclaration() )
+                        x->push_back( { *member_type->typeId(), createType<sem::ArrayType>( member_type, scope ) } );
+                    else if ( member_type->isTypeDeclaration() )
+                        x->push_back( { *member_type->typeId(), createType<sem::StructType>( member_type, scope ) } );
+                }
+            }
+        }
+    }
+
+    return well_defined_types.size() == size();
 }
 
-bool TypeDeclarationScope::hasCycle(std::unordered_set<std::string>& touched, const std::string& x)
+bool TypeDeclarationScope::hasCycle(std::set<std::string>& touched, const std::string& x)
 {
-    if ( touched.find( x ) != touched.end() )
+    if ( not std::get<1>( touched.insert( x ) ) )
         return true;
     auto& type = ( *this )[x];
     if ( type->isArrayDeclaration() or type->isAliasDeclaration() )
-        return touched.insert( x ), hasCycle( touched, type->typeName() );
+        return hasCycle( touched, *type->typeId() );
     return false;
 }

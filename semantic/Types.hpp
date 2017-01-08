@@ -21,6 +21,11 @@ struct Type
 {
     virtual ~Type() {}
 
+    const std::string& typeName() const
+    {
+        return m_typeName;
+    }
+
 protected:
     Type(const std::string& typeName) : m_typeName( typeName ) {}
 
@@ -54,12 +59,16 @@ struct ArrayType : Type
 
     const std::shared_ptr<Type>& type() const { return m_type; }
 
+    void setType(const std::shared_ptr<Type>& type) { m_type = type; }
+
 private:
     std::shared_ptr<Type> m_type;
 };
 
 struct StructType : Type, std::vector<std::pair<std::string, std::shared_ptr<Type> > >
 {
+    StructType(const std::string& typeName) :
+        Type( typeName ), vector() { }
     StructType(const std::string& typeName,
                std::initializer_list<value_type> init) :
             Type( typeName ), vector( init ) {}
@@ -70,6 +79,16 @@ struct AliasType : Type
     AliasType(const std::string& typeName, const std::shared_ptr<Type>& typeAlias) :
             Type( typeName ),
             m_typeAlias( typeAlias ) {}
+
+    const std::shared_ptr<Type>& typeAlias() const
+    {
+        return m_typeAlias;
+    }
+
+    void setTypeAlias(const std::shared_ptr<Type>& typeAlias)
+    {
+        m_typeAlias = typeAlias;
+    }
 
 private:
     std::shared_ptr<Type> m_typeAlias;

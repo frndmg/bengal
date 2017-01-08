@@ -7,6 +7,8 @@
 #include <vector>
 #include <unordered_map>
 #include <unordered_set>
+#include <set>
+
 
 namespace ast
 {
@@ -19,7 +21,7 @@ public:
     virtual bool checkSemantic(Scope &scope, Report &report) override;
 
 private:
-    bool hasCycle(std::unordered_set<std::string>& touched, const std::string& x);
+    bool hasCycle(std::set<std::string>& touched, const std::string& x);
 };
 
 } // ast namespace
