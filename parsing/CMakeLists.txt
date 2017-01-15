@@ -10,10 +10,8 @@ add_custom_command(
     COMMENT "Generating lexer"
 )
 
-set(BISON_FLAGS)
-
 if (${BENGAL_DEBUG_PARSING})
-    set(BISON_FLAGS "--debug --construction")
+    set(BISON_FLAGS ${BISON_FLAGS} "--debug --construction")
 endif ()
 
 if (${BENGAL_PARSING_PRINT_TOKENS})
@@ -29,11 +27,12 @@ add_custom_command(
     COMMENT "Generating parser"
 )
 
+set(BENGAL_PARSING_LIBRARY parsing)
 set(SOURCES scanner/lex.cpp
             parser/parse.cpp)
 
 include_directories(../ast)
 include_directories(../semantic)
 
-add_library(parsing SHARED ${SOURCES})
-set_property(TARGET parsing PROPERTY CXX_STANDARD 14)
+add_library(${BENGAL_PARSING_LIBRARY} SHARED ${SOURCES})
+set_property(TARGET ${BENGAL_PARSING_LIBRARY} PROPERTY CXX_STANDARD 14)

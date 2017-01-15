@@ -15,7 +15,7 @@ class Scanner: public ScannerBase
                                 std::ostream &out = std::cout);
 
         Scanner(std::string const &infile, std::string const &outfile);
-        
+
         // $insert lexFunctionDecl
         int lex();
 
