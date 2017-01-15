@@ -1,23 +1,29 @@
 #include <iostream>
 #include <fstream>
+#include <libltdl/lt_system.h>
 
 #include <boost/program_options.hpp>
 
 #include <parser.h>
-#include <libltdl/lt_system.h>
+
+#define TIGER_COMPILER_VERSION "0.1"
+#define COPYRIGHT "Danilo Gómez Gómez & Fernando Martínez González"
 
 using namespace std;
 namespace po = boost::program_options;
 
 int main(int argc, const char *argv[])
 {
+    cout << "Tiger Compiler Version " << TIGER_COMPILER_VERSION << endl;
+    cout << "Copyright (C) 2016-2017 " << COPYRIGHT << endl << endl;
+
     string input;
 
     try
     {
         po::options_description desc("Allowed options");
         desc.add_options()
-                ("help", "produce help message")
+                ("help", "Produce help message")
                 ("input-file,", po::value<string>(&input)->default_value(""), "Input file");
 
         po::positional_options_description p;
@@ -28,10 +34,10 @@ int main(int argc, const char *argv[])
                   options(desc).positional(p).run(), vm);
         po::notify(vm);
 
-        if (vm.count("help"))
+        if (vm.count("help") or input == "")
         {
             cout << desc << endl;
-            return 0;
+            return EXIT_SUCCESS;
         }
     }
     catch (exception& e)
@@ -41,16 +47,19 @@ int main(int argc, const char *argv[])
     }
 
     auto fs = fstream(input);
-    Parser parser(fs ? fs : cin);
+
+    if (not fs)
+    {
+        cerr << "(0,0): File `" << input << "` can not be found" << endl;
+        return EXIT_FAILURE;
+    }
+
+    Parser parser(fs);
 
 //    parser.setDebug(true);
 
     if (parser.parse())
-    {
-        cerr << "Syntax error" << endl;
-        // TODO: Show the syntax errors
         return EXIT_FAILURE;
-    }
 
     auto ast = parser.ast();
     if (not ast.checkSemantic())

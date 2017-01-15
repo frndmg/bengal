@@ -8,7 +8,9 @@
 
 inline void Parser::error(char const *msg)
 {
-    std::cerr << msg << '\n';
+    // TODO: Get more information about the error
+    std::cerr << "(" << d_scanner.lineNr() << "," << d_scanner.columnNr() << "): "
+              << msg << std::endl;
 }
 
 // $insert lex
