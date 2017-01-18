@@ -11,7 +11,7 @@ Scope::Scope(Scope* parent, ScopeType scopeType) :
         map(),
         vector(),
         m_parent( parent ),
-        m_scopeType( scopeType )
+        m_scopeType( parent->getScopeType() | scopeType )
 {
 }
 
@@ -55,7 +55,7 @@ Scope::mapped_type Scope::getTypeDef(const key_type& name) const
     return nullptr;
 }
 
-Scope::ScopeType Scope::getScopeType() const
+int Scope::getScopeType() const
 {
     return m_scopeType;
 }

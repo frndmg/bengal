@@ -25,8 +25,8 @@ public:
 
     enum ScopeType
     {
-        SimpleScope,
-        BreakableScope
+        SimpleScope = 1,
+        BreakableScope = 2
     };
 
     ///
@@ -62,7 +62,7 @@ public:
 
     mapped_type getTypeDef(const key_type& name) const;
 
-    ScopeType getScopeType() const;
+    int getScopeType() const;
 
 private:
     ///
@@ -72,7 +72,7 @@ private:
 
     map m_typeDef;
 
-    ScopeType m_scopeType;
+    int m_scopeType;
 };
 } // semantic namespace
 

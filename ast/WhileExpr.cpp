@@ -12,7 +12,7 @@ bool WhileExpr::checkSemantic(Node::Scope &scope, Node::Report &report)
 {
     Scope p( &scope );
     bool valid_semantic = m_cond->checkSemantic( p, report );
-    if ( not sameType( scope.getTypeDef("Int"), { m_cond } ) )
+    if ( not sameType( scope.getTypeDef("Int32"), { m_cond } ) )
     {
         // TODO: Report invalid type
     }
