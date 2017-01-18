@@ -8,5 +8,11 @@ using namespace ast;
 
 bool BreakExpr::checkSemantic(Node::Scope &scope, Node::Report &report)
 {
-
+    switch ( scope.getScopeType() )
+    {
+    case sem::Scope::BreakableScope:
+        return true;
+    default:
+        return false;
+    }
 }

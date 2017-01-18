@@ -16,7 +16,6 @@ private:
     ptr<Id> m_id;
     ptr<Expr> m_begin;
     ptr<Expr> m_end;
-    ptr<Expr> m_body;
 
     // Node interface
 public:

@@ -19,7 +19,7 @@ public:
     void generateCode();
 
     void setRoot(const std::shared_ptr<Expr>& root) { m_root = root; }
-    void setRoot(const std::shared_ptr<Expr>&& root) { m_root = root; }
+    void setRoot(const std::shared_ptr<Expr>&& root) { m_root = std::move(root); }
 
 private:
     ptr<Expr> m_root;

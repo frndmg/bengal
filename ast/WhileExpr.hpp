@@ -9,11 +9,10 @@ namespace ast
 class WhileExpr : public BreakableExpr
 {
 public:
-    WhileExpr(ptr<Expr>& cond, ptr<Expr>& body);
+    WhileExpr(const ptr<Expr>& cond, const ptr<Expr>& body);
 
 private:
     ptr<Expr> m_cond;
-    ptr<Expr> m_body;
 
     // Node interface
 public:

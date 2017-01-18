@@ -7,16 +7,18 @@
 
 using namespace semantic;
 
-Scope::Scope(Scope* parent) :
+Scope::Scope(Scope* parent, ScopeType scopeType) :
         map(),
         vector(),
-        m_parent( parent )
+        m_parent( parent ),
+        m_scopeType( scopeType )
 {
 }
 
-Scope::Scope() :
+Scope::Scope(ScopeType scopeType) :
         map(),
-        vector()
+        vector(),
+        m_scopeType( scopeType )
 {
 }
 
@@ -51,6 +53,11 @@ Scope::mapped_type Scope::getTypeDef(const key_type& name) const
     else if ( m_parent )
         return m_parent->getTypeDef( name );
     return nullptr;
+}
+
+Scope::ScopeType Scope::getScopeType() const
+{
+    return m_scopeType;
 }
 
 Scope::map& Scope::typeDef()

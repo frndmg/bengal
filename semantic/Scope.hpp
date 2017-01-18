@@ -23,16 +23,22 @@ class Scope : public std::map<std::string, std::shared_ptr<Type> >, private std:
 public:
     using map::operator[];
 
+    enum ScopeType
+    {
+        SimpleScope,
+        BreakableScope
+    };
+
     ///
     /// \brief Scope
     /// \param parent
     ///
-    Scope(Scope* parent);
+    Scope(Scope* parent, ScopeType scopeType = ScopeType::SimpleScope);
 
     ///
     /// \brief Scope
     ///
-    Scope();
+    Scope(ScopeType scopeType = ScopeType::SimpleScope);
 
     ///
     /// \brief Create a new scope
@@ -56,6 +62,8 @@ public:
 
     mapped_type getTypeDef(const key_type& name) const;
 
+    ScopeType getScopeType() const;
+
 private:
     ///
     /// \brief Pointer to the parent Scope
@@ -63,6 +71,8 @@ private:
     Scope* m_parent;
 
     map m_typeDef;
+
+    ScopeType m_scopeType;
 };
 } // semantic namespace
 
