@@ -121,7 +121,9 @@ expr:
     { $$( $1 ); }
 |
     lvalue_expr T_ASSIGN expr
-    { $$( std::make_shared<AssignExpr>($1, $3) ); }
+    {
+        $$( std::make_shared<AssignExpr>($1, $3) );
+    }
 |
     // Function call
     id T_LEFT_PAR expr_list T_RIGHT_PAR
