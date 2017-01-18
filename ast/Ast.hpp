@@ -5,8 +5,9 @@
 #ifndef BENGAL_AST_HPP
 #define BENGAL_AST_HPP
 
-#include "../utils.hpp"
 #include "Expr.hpp"
+
+#include <memory>
 
 namespace ast
 {
@@ -17,8 +18,8 @@ public:
     bool checkSemantic();
     void generateCode();
 
-    void setRoot(const ptr<Expr>& root) { m_root = root; }
-    void setRoot(const ptr<Expr>&& root) { m_root = root; }
+    void setRoot(const std::shared_ptr<Expr>& root) { m_root = root; }
+    void setRoot(const std::shared_ptr<Expr>&& root) { m_root = root; }
 
 private:
     ptr<Expr> m_root;
