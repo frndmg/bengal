@@ -2,7 +2,7 @@
 
 using namespace ast;
 
-WhileExpr::WhileExpr(const ptr<Expr>& cond, const ptr<Expr>& body) :
+WhileExpr::WhileExpr(const std::shared_ptr<Expr>& cond, const std::shared_ptr<Expr>& body) :
     BreakableExpr( body ),
     m_cond(cond)
 {

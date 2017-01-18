@@ -11,13 +11,13 @@ namespace ast
 class FunctionDeclaration : public Node
 {
 public:
-    FunctionDeclaration(ptr<Id> id, ptr<TypeFields> arguments, ptr<Expr> body, ptr<Id> retType = nullptr);
+    FunctionDeclaration(std::shared_ptr<Id> id, std::shared_ptr<TypeFields> arguments, std::shared_ptr<Expr> body, std::shared_ptr<Id> retType = nullptr);
 
 private:
-    ptr<Id> m_id;
-    ptr<TypeFields> m_arguments;
-    ptr<Expr> m_body;
-    ptr<Id> m_retType;
+    std::shared_ptr<Id> m_id;
+    std::shared_ptr<TypeFields> m_arguments;
+    std::shared_ptr<Expr> m_body;
+    std::shared_ptr<Id> m_retType;
 
     // Node interface
 public:

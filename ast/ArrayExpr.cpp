@@ -2,7 +2,7 @@
 
 using namespace ast;
 
-ArrayExpr::ArrayExpr(ptr<Id> &id, ptr<Expr> &size, ptr<Expr> &val) :
+ArrayExpr::ArrayExpr(std::shared_ptr<Id> &id, std::shared_ptr<Expr> &size, std::shared_ptr<Expr> &val) :
     m_id(id),
     m_size(size),
     m_val(val)

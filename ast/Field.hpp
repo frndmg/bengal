@@ -11,11 +11,11 @@ namespace ast
 class Field : public Node
 {
 public:
-    Field(ptr<Id> id, ptr<Expr> expr);
+    Field(std::shared_ptr<Id> id, std::shared_ptr<Expr> expr);
 
 private:
-    ptr<Id> m_id;
-    ptr<Expr> m_expr;
+    std::shared_ptr<Id> m_id;
+    std::shared_ptr<Expr> m_expr;
 
     // Node interface
 public:

@@ -2,7 +2,7 @@
 
 using namespace ast;
 
-FunctionCallExpr::FunctionCallExpr(ptr<Id> id, ptr<ExprList> params) :
+FunctionCallExpr::FunctionCallExpr(std::shared_ptr<Id> id, std::shared_ptr<ExprList> params) :
     m_id(id),
     m_params(params)
 {

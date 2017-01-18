@@ -10,11 +10,11 @@ namespace ast
 class RecordExpr : public RValue
 {
 public:
-    RecordExpr(ptr<Id> id, ptr<FieldList> fields);
+    RecordExpr(std::shared_ptr<Id> id, std::shared_ptr<FieldList> fields);
 
 private:
-    ptr<Id> m_id;
-    ptr<FieldList> m_fields;
+    std::shared_ptr<Id> m_id;
+    std::shared_ptr<FieldList> m_fields;
 
     // Node interface
 public:

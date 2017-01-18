@@ -2,7 +2,7 @@
 
 using namespace ast;
 
-ForExpr::ForExpr(ptr<Id>& id, ptr<Expr>& begin, ptr<Expr>& end, ptr<Expr>& body) :
+ForExpr::ForExpr(std::shared_ptr<Id>& id, std::shared_ptr<Expr>& begin, std::shared_ptr<Expr>& end, std::shared_ptr<Expr>& body) :
     BreakableExpr( m_body ),
     m_id(id),
     m_begin(begin),

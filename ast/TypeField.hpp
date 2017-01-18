@@ -15,7 +15,7 @@ public:
 
     const std::shared_ptr<Id>& id() const;
 
-    const ptr<ast::Id>& type() const;
+    const std::shared_ptr<ast::Id>& type() const;
 
 private:
 

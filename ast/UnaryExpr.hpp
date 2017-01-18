@@ -23,7 +23,7 @@ public:
     UnaryExpr(const std::shared_ptr<Expr>& expr, Operator op);
 
 private:
-    ptr<Expr> m_expr;
+    std::shared_ptr<Expr> m_expr;
     Operator  m_op;
 
     // Node interface

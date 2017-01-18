@@ -2,7 +2,7 @@
 
 using namespace ast;
 
-FunctionDeclaration::FunctionDeclaration(ptr<Id> id, ptr<TypeFields> arguments, ptr<Expr> body, ptr<Id> retType) :
+FunctionDeclaration::FunctionDeclaration(std::shared_ptr<Id> id, std::shared_ptr<TypeFields> arguments, std::shared_ptr<Expr> body, std::shared_ptr<Id> retType) :
     m_id(id),
     m_arguments(arguments),
     m_body(body),

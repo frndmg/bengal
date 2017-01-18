@@ -2,7 +2,7 @@
 
 using namespace ast;
 
-LetExpr::LetExpr(ptr<DeclarationList> scope, ptr<ExprSeqExpr> expr_seq) :
+LetExpr::LetExpr(std::shared_ptr<DeclarationList> scope, std::shared_ptr<ExprSeqExpr> expr_seq) :
     m_scope(scope),
     m_expr_seq(expr_seq)
 {

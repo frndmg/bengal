@@ -9,12 +9,12 @@ namespace ast
 class IfExpr : public RValue
 {
 public:
-    IfExpr(ptr<Expr> cond, ptr<Expr> then, ptr<Expr> els = nullptr);
+    IfExpr(std::shared_ptr<Expr> cond, std::shared_ptr<Expr> then, std::shared_ptr<Expr> els = nullptr);
 
 private:
-    ptr<Expr> m_cond;
-    ptr<Expr> m_then;
-    ptr<Expr> m_else;
+    std::shared_ptr<Expr> m_cond;
+    std::shared_ptr<Expr> m_then;
+    std::shared_ptr<Expr> m_else;
 
     // Node interface
 public:

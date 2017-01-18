@@ -12,13 +12,13 @@ class AssignExpr : public Expr
 public:
     virtual ~AssignExpr();
 
-    AssignExpr(ptr<LValue>& lvalue, ptr<Expr>& expr);
+    AssignExpr(std::shared_ptr<LValue>& lvalue, std::shared_ptr<Expr>& expr);
 
     virtual bool checkSemantic(Scope& scope, Report& report) override;
 
 private:
-    ptr<LValue> m_lvalue;
-    ptr<Expr> m_expr;
+    std::shared_ptr<LValue> m_lvalue;
+    std::shared_ptr<Expr> m_expr;
 };
 
 } // ast namespace

@@ -11,11 +11,11 @@ namespace ast
 class LetExpr : public RValue
 {
 public:
-    LetExpr(ptr<DeclarationList> scope, ptr<ExprSeqExpr> expr_seq);
+    LetExpr(std::shared_ptr<DeclarationList> scope, std::shared_ptr<ExprSeqExpr> expr_seq);
 
 private:
-    ptr<DeclarationList> m_scope;
-    ptr<ExprSeqExpr> m_expr_seq;
+    std::shared_ptr<DeclarationList> m_scope;
+    std::shared_ptr<ExprSeqExpr> m_expr_seq;
 
     // Node interface
 public:
