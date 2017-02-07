@@ -35,14 +35,10 @@ protected:
 
     static bool sameType(const std::shared_ptr<Type>& type, std::initializer_list<std::shared_ptr<Expr> > expr_list)
     {
-        bool same = true;
         for (auto& x : expr_list)
-        {
-            same = same and x->type() == type;
-            if ( not same )
-                break;
-        }
-        return same;
+            if ( not ( x->type() == type ) )
+                return false;
+        return true;
     }
 
     static bool sameType( std::initializer_list<std::shared_ptr<Expr> > expr_list )
