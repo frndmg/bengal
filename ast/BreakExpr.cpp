@@ -6,11 +6,11 @@
 
 using namespace ast;
 
-bool BreakExpr::checkSemantic(Node::Scope &scope, Node::Report &report)
+bool BreakExpr::checkSemantic(Scope &scope, Report &report)
 {
     switch ( scope.getScopeType() )
     {
-    case sem::Scope::BreakableScope:
+    case Scope::BreakableScope:
         return true;
     default:
         return false;

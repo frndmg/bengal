@@ -10,7 +10,9 @@ namespace ast
 class ArrayExpr : public RValue
 {
 public:
-    ArrayExpr(std::shared_ptr<Id>& id, std::shared_ptr<Expr>& size, std::shared_ptr<Expr>& val);
+    ArrayExpr(const std::shared_ptr<Id>& id,
+              const std::shared_ptr<Expr>& size,
+              const std::shared_ptr<Expr>& val);
 
     // Node interface
 public:
