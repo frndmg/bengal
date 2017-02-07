@@ -10,7 +10,7 @@ ForExpr::ForExpr(std::shared_ptr<Id>& id, std::shared_ptr<Expr>& begin, std::sha
 {
 }
 
-bool ForExpr::checkSemantic(Node::Scope &scope, Node::Report &report)
+bool ForExpr::checkSemantic(Scope &scope, Report &report)
 {
     Scope p( &scope );
     bool valid_semantic = m_begin->checkSemantic( p, report );

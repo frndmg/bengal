@@ -41,4 +41,4 @@ set(SOURCE
 
 add_library(${BENGAL_AST_LIBRARY} SHARED ${SOURCE})
 set_property(TARGET ${BENGAL_AST_LIBRARY} PROPERTY CXX_STANDARD 14)
-target_link_libraries(ast)
+# target_link_libraries(ast)
