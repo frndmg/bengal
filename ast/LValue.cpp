@@ -92,6 +92,7 @@ bool LValue::checkSemantic(Node::Scope& scope, Node::Report& report)
             {
                 // TODO: Report Error
                 // The member `type()` of `current` is not ArrayType
+                return false;
             }
         }
 
