@@ -6,7 +6,8 @@ AssignExpr::~AssignExpr()
 {
 }
 
-AssignExpr::AssignExpr(std::shared_ptr<LValue> &lvalue, std::shared_ptr<Expr> &expr) :
+AssignExpr::AssignExpr(const std::shared_ptr<LValue> &lvalue,
+                       const std::shared_ptr<Expr> &expr) :
     m_lvalue(lvalue),
     m_expr(expr)
 {
