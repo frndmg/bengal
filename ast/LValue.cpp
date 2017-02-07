@@ -23,24 +23,48 @@ bool LValue::checkSemantic(Node::Scope& scope, Node::Report& report)
     if ( isSimple() )
         return true;
 
+    // Type of current member
     auto type    = scope.getType( *m_id );
+
+    // Current member
     auto current = std::shared_ptr<LValue>( this );
-    while ( not current->isSimple() )
+
+    if ( type == nullptr )
+    {
+        // TODO: Report error:
+        // Current is not simple and it has no type.
+        return false;
+    }
+
+    bool ok = true;
+
+    do
     {
         // TODO: Resolve the alias type
+
+        // If the next field is a member accesor
+        // eg. <id>.<id>
+
+        // For that reason the type of the current member must be
+        // StructType.
         if ( current->m_next->isMemberAccesor() )
         {
-            if ( Expr::StructType* s_type = dynamic_cast<StructType*>(type.get()) )
+            // dynamic_cast returns nullptr if there is no way to
+            // perform the cast.
+            if ( auto s_type = std::dynamic_pointer_cast<StructType>( type ) )
             {
                 auto val = std::find_if( s_type->begin(), s_type->end(),
-                                         [=](auto& x)
+                                         [=](const auto& x)
                                          {
                                              return x.first == *current->m_next->m_id;
                                          } );
                 if ( val == s_type->end() )
                 {
-                    // TODO: Report error
-                    // There is no member named `current->m_next->m_id->id()`
+                    // It has no sence to continue after founding a `current` that
+                    // no has the member.
+
+                    // TODO: Report error:
+                    // There is no member named `*current->m_next->m_id`
                     return false;
                 }
                 type = val->second;
@@ -49,14 +73,18 @@ bool LValue::checkSemantic(Node::Scope& scope, Node::Report& report)
             {
                 // TODO: Report error
                 // The member `type()` of `current` is not StructType
+                return false;
             }
         }
+
+        // If current is an index accesor
+        // eg. <id>[ <expr> ]
         else if ( current->m_next->isIndexAccesor() )
         {
-            if ( Expr::ArrayType* a_type = dynamic_cast<ArrayType*>(type.get()) )
+            if ( auto a_type = std::dynamic_pointer_cast<ArrayType>( type ) )
             {
                 if ( not current->m_next->checkSemantic( scope, report ) )
-                    return false;
+                    ok = false;
 
                 type = a_type->type();
             }
@@ -66,12 +94,16 @@ bool LValue::checkSemantic(Node::Scope& scope, Node::Report& report)
                 // The member `type()` of `current` is not ArrayType
             }
         }
+
+        // Set the next element to inspect
+        // The type was already setted
         current = current->m_next;
-    }
+
+    } while ( not current->isSimple() );
 
     setType( type );
 
-    return true;
+    return ok;
 }
 
 void LValue::setNext(const std::shared_ptr<LValue>& next)

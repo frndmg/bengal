@@ -37,16 +37,16 @@ public:
 
     bool isSimple() { return not bool( m_next ); }
 
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope& scope, Report& report) override;
+
 private:
     std::shared_ptr<Id>     m_id;
     std::shared_ptr<Expr>   m_index;
     std::shared_ptr<LValue> m_next;
-
-
-    // Node interface
-public:
-    virtual bool checkSemantic(Scope& scope, Report& report) override;
 };
+
 } // ast namespace
 
 #endif // LVALUE_HPP
