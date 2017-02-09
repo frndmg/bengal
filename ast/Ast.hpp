@@ -15,11 +15,20 @@ namespace ast
 class Ast
 {
 public:
+    Ast(const std::shared_ptr<Expr>& root) : m_root(root) { }
+    Ast(Expr* root) : m_root( root ) { }
+
     bool checkSemantic();
     void generateCode();
 
+    void setRoot(Expr* root) { m_root = std::shared_ptr<Expr>( root ); }
     void setRoot(const std::shared_ptr<Expr>& root) { m_root = root; }
     void setRoot(const std::shared_ptr<Expr>&& root) { m_root = std::move(root); }
+
+    friend std::ostream& operator<<(std::ostream& out, const Ast& ast)
+    {
+        return out << "Ast( " << *ast.m_root << " );";
+    }
 
 private:
     std::shared_ptr<Expr> m_root;
