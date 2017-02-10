@@ -3,6 +3,9 @@
 
 #include "RValue.hpp"
 
+#include <iostream>
+#include <string>
+
 namespace ast
 {
 
@@ -25,6 +28,11 @@ public:
     {
         setType( single_town<IntType>() );
         return true;
+    }
+
+    virtual operator std::string() const override
+    {
+        return "NumExpr( " + std::to_string(m_val) + " )";
     }
 };
 
