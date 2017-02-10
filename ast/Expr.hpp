@@ -12,10 +12,6 @@ namespace sem = semantic;
 namespace ast
 {
 
-//static std::unique_ptr<llvm::Module> *MainModule;
-//static llvm::IRBuilder<> Builder(llvm::getGlobalContext());
-//static std::map<std::string, llvm::Value *> NamedValues;
-
 class Expr : public Node
 {
 protected:
@@ -56,6 +52,13 @@ protected:
 
 private:
     std::shared_ptr<Type> m_type;
+
+    // Node interface
+public:
+    virtual operator std::string() const override
+    {
+        return "Expr()";
+    }
 };
 
 } // namespace ast

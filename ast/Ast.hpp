@@ -16,7 +16,7 @@ class Ast
 {
 public:
     Ast(const std::shared_ptr<Expr>& root) : m_root(root) { }
-    Ast(Expr* root) : m_root( root ) { }
+    Ast(Expr* root = nullptr) : m_root( root ) { }
 
     bool checkSemantic();
     void generateCode();
@@ -25,9 +25,14 @@ public:
     void setRoot(const std::shared_ptr<Expr>& root) { m_root = root; }
     void setRoot(const std::shared_ptr<Expr>&& root) { m_root = std::move(root); }
 
+    operator std::string() const
+    {
+        return "Ast( " + static_cast<std::string>( *m_root ) + " )";
+    }
+
     friend std::ostream& operator<<(std::ostream& out, const Ast& ast)
     {
-        return out << "Ast( " << *ast.m_root << " );";
+        return out << static_cast<std::string>( ast );
     }
 
 private:

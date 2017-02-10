@@ -8,6 +8,8 @@
 #include <Scope.hpp>
 #include <Report.hpp>
 
+#include <iostream>
+
 namespace ast
 {
 
@@ -32,6 +34,16 @@ public:
     void setColumn(const size_t& column);
 
     void setPos(const size_t& line, const size_t& column);
+
+    virtual operator std::string() const
+    {
+        return "Node()";
+    }
+
+    friend std::ostream& operator<<(std::ostream& out, const Node& n)
+    {
+        return out << static_cast<std::string>( n );
+    }
 };
 
 } // ast namespace
