@@ -52,7 +52,7 @@
 %type <NUMEXPR> num
 %type <NILEXPR> nil_expr
 %type <BINEXPR> bin_expr
-%type <LVALUE> lvalue
+%type <LVALUE> lvalue_expr _lvalue
 %type <UNARYEXPR> unary_expr
 %type <DECLARATIONLIST> declaration_list
 %type <DECLARATIONSCOPE> declaration_scope
@@ -93,6 +93,7 @@
 
 program:
     expr EOF
+    { m_ast.setRoot( $1 ); }
 ;
 
 
@@ -110,7 +111,8 @@ expr:
     nil_expr
     { $$( $1 ); }
 |
-    lvalue { $$($1); }
+    lvalue_expr
+    { $$($1); }
 |
     unary_expr
     { $$( $1 ); }
@@ -118,8 +120,10 @@ expr:
     bin_expr
     { $$( $1 ); }
 |
-    lvalue T_ASSIGN expr
-    { $$( std::make_shared<AssignExpr>($1, $3) ); }
+    lvalue_expr T_ASSIGN expr
+    {
+        $$( std::make_shared<AssignExpr>($1, $3) );
+    }
 |
     // Function call
     id T_LEFT_PAR expr_list T_RIGHT_PAR
@@ -171,7 +175,7 @@ string_expr:
 
 num:
     T_NUM
-    { $$( std::make_shared<NumExpr>(std::stoll( d_scanner.matched() )) ); }
+    { $$( std::make_shared<NumExpr>(std::stoi( d_scanner.matched() )) ); }
 ;
 
 
@@ -289,15 +293,28 @@ _expr_seq:
 // LVALUE
 /////////
 
-lvalue:
-    id
-    { $$( std::make_shared<LValue>($1) ); }
+lvalue_expr:
+    id _lvalue
+    {
+        $$( std::make_shared<LValue>( $1 ) );
+        $$->setNext( $2 );
+    }
+;
+
+_lvalue:
+    { $$( std::make_shared<LValue>() ); }
 |
-    id T_DOT lvalue
-    { $$( std::make_shared<LValue>($1, $3) ); }
+    T_DOT id _lvalue
+    {
+        $$( std::make_shared<LValue>( $2 ) );
+        $$->setNext( $3 );
+    }
 |
-    id T_LEFT_BRACKET expr T_RIGHT_BRACKET
-    { $$( std::make_shared<LValue>($1, $3) ); }
+    T_LEFT_BRACKET expr T_RIGHT_BRACKET _lvalue
+    {
+        $$( std::make_shared<LValue>( $2 ) );
+        $$->setNext( $4 );
+    }
 ;
 
 
@@ -379,8 +396,8 @@ declaration_list:
 |
     declaration_list declaration_scope
     {
-        $$($1);
-        $$->push_back($2);
+        $$( $1 );
+        $$->push_back( $2 );
     }
 ;
 
@@ -415,13 +432,13 @@ type_declaration_scope:
     type_declaration
     {
         $$( std::make_shared<TypeDeclarationScope>() );
-        $$->push_back($1);
+        $$->insert( { *$1->typeId(), $1 } );
     }
 |
     type_declaration_scope type_declaration
     {
-        $$($1);
-        $$->push_back($2);
+        $$( $1 );
+        $$->insert( { *$2->typeId(), $2 } );
     }
 ;
 
@@ -434,13 +451,13 @@ function_declaration_scope:
     function_declaration
     {
         $$( std::make_shared<FunctionDeclarationScope>() );
-        $$->push_back($1);
+        $$->push_back( $1 );
     }
 |
     function_declaration_scope function_declaration
     {
         $$( $1 );
-        $$->push_back($2);
+        $$->push_back( $2 );
     }
 ;
 

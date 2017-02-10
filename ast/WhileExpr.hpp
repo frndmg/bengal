@@ -9,11 +9,14 @@ namespace ast
 class WhileExpr : public BreakableExpr
 {
 public:
-    WhileExpr(ptr<Expr>& cond, ptr<Expr>& body);
+    WhileExpr(const std::shared_ptr<Expr>& cond, const std::shared_ptr<Expr>& body);
 
 private:
-    ptr<Expr> m_cond;
-    ptr<Expr> m_body;
+    std::shared_ptr<Expr> m_cond;
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

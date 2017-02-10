@@ -10,11 +10,18 @@ namespace ast
 class AssignExpr : public Expr
 {
 public:
-    AssignExpr(ptr<LValue> lvalue, ptr<Expr> expr);
+    virtual ~AssignExpr();
+
+    AssignExpr(const std::shared_ptr<LValue>& lvalue,
+               const std::shared_ptr<Expr>& expr);
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope& scope, Report& report) override;
 
 private:
-    ptr<LValue> m_lvalue;
-    ptr<Expr> m_expr;
+    std::shared_ptr<LValue> m_lvalue;
+    std::shared_ptr<Expr> m_expr;
 };
 
 } // ast namespace

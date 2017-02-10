@@ -5,17 +5,23 @@
 #include "TypeDeclaration.hpp"
 
 #include <vector>
+#include <unordered_map>
+#include <unordered_set>
+#include <set>
+
 
 namespace ast
 {
 
-class TypeDeclarationScope : public DeclarationScope, private ptr_list<TypeDeclaration>
+class TypeDeclarationScope :
+        public DeclarationScope, public std::unordered_map<std::string, std::shared_ptr<TypeDeclaration> >
 {
+    // Node interface
 public:
-    using ptr_list<TypeDeclaration>::push_back;
-    using ptr_list<TypeDeclaration>::begin;
-    using ptr_list<TypeDeclaration>::end;
-    using ptr_list<TypeDeclaration>::size;
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
+
+private:
+    bool hasCycle(std::set<std::string>& touched, const std::string& x);
 };
 
 } // ast namespace

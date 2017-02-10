@@ -10,12 +10,18 @@ namespace ast
 class ArrayExpr : public RValue
 {
 public:
-    ArrayExpr(ptr<Id> id, ptr<Expr> size, ptr<Expr> val);
+    ArrayExpr(const std::shared_ptr<Id>& id,
+              const std::shared_ptr<Expr>& size,
+              const std::shared_ptr<Expr>& val);
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 
 private:
-    ptr<Id> m_id;
-    ptr<Expr> m_size;
-    ptr<Expr> m_val;
+    std::shared_ptr<Id>   m_id;
+    std::shared_ptr<Expr> m_size;
+    std::shared_ptr<Expr> m_val;
 };
 
 } // ast namespace

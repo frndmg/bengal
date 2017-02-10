@@ -10,12 +10,16 @@
 // $insert classHead
 class Scanner: public ScannerBase
 {
+    size_t m_columnNr;
+
     public:
         explicit Scanner(std::istream &in = std::cin,
                                 std::ostream &out = std::cout);
 
         Scanner(std::string const &infile, std::string const &outfile);
-        
+
+        size_t columnNr() const { return m_columnNr; }
+
         // $insert lexFunctionDecl
         int lex();
 
@@ -35,28 +39,40 @@ class Scanner: public ScannerBase
 // $insert scannerConstructors
 inline Scanner::Scanner(std::istream &in, std::ostream &out)
 :
-    ScannerBase(in, out)
+    ScannerBase(in, out), m_columnNr(0)
 {}
 
 inline Scanner::Scanner(std::string const &infile, std::string const &outfile)
 :
-    ScannerBase(infile, outfile)
+    ScannerBase(infile, outfile), m_columnNr(0)
 {}
 
 // $insert inlineLexFunction
 inline int Scanner::lex()
 {
+//    std::cout << "Scanner::lex:" << std::endl;
+//    std::cout << "\tmatched(): `" << matched() << "`" << std::endl;
     return lex__();
 }
 
 inline void Scanner::preCode() 
 {
     // optionally replace by your own code
+//    std::cout << "Scanner::preCode:" << std::endl;
+//    std::cout << "\tmatched(): `" << matched() << "`" << std::endl;
 }
 
 inline void Scanner::postCode(PostEnum__ type) 
 {
     // optionally replace by your own code
+//    std::cout << "Scanner::postCode:" << std::endl;
+//    std::cout << "\ttype:" << type << std::endl;
+//    std::cout << "\tmatched(): `" << matched() << "`" << std::endl;
+    for (auto& x : matched())
+        switch (x) {
+            case '\n': m_columnNr = 0;
+            default: m_columnNr++;
+        }
 }
 
 inline void Scanner::print() 

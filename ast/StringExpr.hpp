@@ -15,6 +15,10 @@ public:
 
 private:
     std::string m_str;
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

@@ -2,9 +2,19 @@
 
 using namespace ast;
 
-AssignExpr::AssignExpr(ptr<LValue> lvalue, ptr<Expr> expr) :
+AssignExpr::~AssignExpr()
+{
+}
+
+AssignExpr::AssignExpr(const std::shared_ptr<LValue> &lvalue,
+                       const std::shared_ptr<Expr> &expr) :
     m_lvalue(lvalue),
     m_expr(expr)
 {
+}
 
+bool AssignExpr::checkSemantic(Scope& scope, Report& report)
+{
+    bool valid_semantic = m_lvalue->checkSemantic( scope, report );
+    valid_semantic = m_expr->checkSemantic( scope, report ) and valid_semantic;
 }

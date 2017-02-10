@@ -1,4 +1,5 @@
 option(BENGAL_DEBUG_PARSING "Debug the parsing process" OFF)
+option(BENGAL_PARSING_PRINT_TOKENS "Print the tokens during the parsing process" OFF)
 
 add_custom_command(
     OUTPUT ${PROJECT_SOURCE_DIR}/parsing/scanner/lex.cpp
@@ -10,7 +11,11 @@ add_custom_command(
 )
 
 if (${BENGAL_DEBUG_PARSING})
-    set(BISON_FLAGS --debug --construction)
+    set(BISON_FLAGS ${BISON_FLAGS} "--debug --construction")
+endif ()
+
+if (${BENGAL_PARSING_PRINT_TOKENS})
+    set(BISON_FLAGS ${BISON_FLAGS} "--print")
 endif()
 
 add_custom_command(
@@ -22,10 +27,12 @@ add_custom_command(
     COMMENT "Generating parser"
 )
 
+set(BENGAL_PARSING_LIBRARY parsing)
 set(SOURCES scanner/lex.cpp
             parser/parse.cpp)
 
 include_directories(../ast)
+include_directories(../semantic)
 
-add_library(parsing SHARED ${SOURCES})
-set_property(TARGET parsing PROPERTY CXX_STANDARD 14)
+add_library(${BENGAL_PARSING_LIBRARY} SHARED ${SOURCES})
+set_property(TARGET ${BENGAL_PARSING_LIBRARY} PROPERTY CXX_STANDARD 14)

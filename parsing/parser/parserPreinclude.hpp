@@ -35,6 +35,7 @@
 #include <ExprList.hpp>
 #include <UnaryExpr.hpp>
 #include <BreakExpr.hpp>
+#include <Ast.hpp>
 
 using namespace ast;
 

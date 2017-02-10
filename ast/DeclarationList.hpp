@@ -9,12 +9,16 @@
 namespace ast
 {
 
-class DeclarationList : public Node, private std::vector<ptr<DeclarationScope>>
+class DeclarationList : public Node, private std::vector<std::shared_ptr<DeclarationScope>>
 {
 public:
     DeclarationList();
 
-    using std::vector<ptr<DeclarationScope>>::push_back;
+    using std::vector<std::shared_ptr<DeclarationScope>>::push_back;
+
+    // Node interface
+public:
+    virtual bool checkSemantic(Scope &scope, Report &report) override;
 };
 
 } // ast namespace

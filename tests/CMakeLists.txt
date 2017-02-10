@@ -81,3 +81,7 @@ add_tiger_test(if_expr simple 01)
 add_tiger_test(if_expr simple 02)
 add_tiger_test(if_expr simple 03)
 
+
+# Add boost testing
+add_subdirectory(boost)
+
