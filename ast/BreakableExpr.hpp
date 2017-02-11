@@ -12,18 +12,14 @@ protected:
     std::shared_ptr<Expr> m_body;
 
 public:
-    BreakableExpr(const std::shared_ptr<Expr>& body) :
-        Expr(),
-        m_body( body )
-    {
-    }
+    BreakableExpr(const std::shared_ptr<Expr>& body,
+                  const Position& pos = { 0, 0, 0, 0 });
 
     // Node interface
-    virtual bool checkSemantic(Scope& scope, Report& report) override
-    {
-        Scope p( &scope, sem::Scope::BreakableScope );
-        return m_body->checkSemantic( p, report );
-    }
+public:
+    virtual bool checkSemantic(Scope& scope, Report& report) override;
+    virtual operator std::string() const override;
+
 };
 
 } // ast namespace
