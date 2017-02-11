@@ -11,6 +11,10 @@ ExprList::ExprList(const Position& pos) :
 
 bool ExprList::checkSemantic(Scope &scope, Report &report)
 {
+    bool ok = true;
+    for(auto& x : *this)
+        ok = x->checkSemantic( scope, report ) and ok;
+    return ok;
 }
 
 ExprList::operator std::string() const
