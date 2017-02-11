@@ -6,12 +6,11 @@ StringExpr::StringExpr(const std::string &str, const Position& pos) :
     RValue( pos ),
     m_str(str)
 {
-
 }
 
 
-bool ast::StringExpr::checkSemantic(Scope&, Report&)
+bool ast::StringExpr::checkSemantic(Scope& scope, Report&)
 {
-    setType( single_town<StringType>() );
+    setType( scope.getTypeDef( "string" ) );
     return true;
 }

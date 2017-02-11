@@ -10,7 +10,7 @@ Node::operator std::string() const
 
 Node::Node(const Position& pos) : m_pos( pos ) { }
 
-const Position& Node::pos() const
+const Position& Node::position() const
 {
     return m_pos;
 }

@@ -29,6 +29,11 @@ struct Position
     {
         return "(" + std::to_string(init_line) + ", " + std::to_string(init_column) + ")";
     }
+
+    friend std::ostream& operator<<(std::ostream& out, const Position& pos)
+    {
+        return out << static_cast<std::string>( pos );
+    }
 };
 
 #endif // UTILS_HPP

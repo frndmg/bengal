@@ -30,7 +30,9 @@ protected:
     using NoneType = sem::NoneType;
 
     // Type property
+public:
     const std::shared_ptr<Type>& type() const;
+protected:
     void setType(const std::shared_ptr<Type>& type);
 
     ///

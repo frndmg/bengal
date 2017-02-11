@@ -14,8 +14,10 @@ namespace po = boost::program_options;
 
 int main(int argc, const char *argv[])
 {
+#ifdef NDEBUG
     cout << "Tiger Compiler Version " << TIGER_COMPILER_VERSION << endl;
     cout << "Copyright (C) 2016-2017 " << COPYRIGHT << endl << endl;
+#endif
 
     string input;
 
@@ -62,6 +64,9 @@ int main(int argc, const char *argv[])
         return EXIT_FAILURE;
 
     auto ast = parser.ast();
+
+    std::cout << ast << std::endl;
+
     if (not ast.checkSemantic())
     {
         cerr << "Semantic error" << endl;

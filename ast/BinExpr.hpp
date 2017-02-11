@@ -28,14 +28,7 @@ private:
     // Node interface
 public:
     virtual bool checkSemantic(Scope &scope, Report &report) override;
-    virtual operator std::string() const override
-    {
-        static std::string ops[] { "=", "!=", ">", "<", ">=", "<=", "&", "|", "*", "/", "+", "-" };
-
-        return "BinExpr( " + static_cast<std::string>( *m_lexpr )
-                + ", " + static_cast<std::string>( *m_rexpr )
-                + ", '" + ops[m_op] + "' )";
-    }
+    virtual operator std::string() const override;
 };
 
 } // ast namespace

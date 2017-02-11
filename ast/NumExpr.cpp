@@ -8,9 +8,9 @@ NumExpr::NumExpr(int val, const Position& pos) :
 {
 }
 
-bool NumExpr::checkSemantic(Scope&, Report&)
+bool NumExpr::checkSemantic(Scope& scope, Report&)
 {
-    setType( single_town<IntType>() );
+    setType( scope.getTypeDef( "int" ) );
     return true;
 }
 

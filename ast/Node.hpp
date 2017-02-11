@@ -40,7 +40,7 @@ public:
         return out << static_cast<std::string>( n );
     }
 
-    const Position& pos() const;
+    const Position& position() const;
 
 private:
     Position m_pos;
