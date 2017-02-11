@@ -56,6 +56,7 @@
 %type <NILEXPR> nil_expr
 %type <BINEXPR> bin_expr
 %type <ASSIGNEXPR> assign_expr
+%type <FUNCTIONCALLEXPR> function_call_expr
 %type <LVALUE> lvalue_expr _lvalue
 %type <UNARYEXPR> unary_expr
 %type <DECLARATIONLIST> declaration_list
@@ -127,9 +128,8 @@ expr:
     assign_expr
     { $$( $1 ); }
 |
-    // Function call
-    id T_LEFT_PAR expr_list T_RIGHT_PAR
-    { $$( std::make_shared<FunctionCallExpr>($1, $3) ); }
+    function_call_expr
+    { $$( $1 ); }
 |
     T_LEFT_PAR expr_seq T_RIGHT_PAR
     { $$( $2 ); }
@@ -252,6 +252,16 @@ bin_expr:
 assign_expr:
     lvalue_expr T_ASSIGN expr
     { $$ = std::make_shared<AssignExpr>( $1, $3, @@ ); }
+;
+
+
+///////////////////////////
+// FUNCTION CALL EXPRESSION
+///////////////////////////
+
+function_call_expr:
+    id T_LEFT_PAR expr_list T_RIGHT_PAR
+    { $$( std::make_shared<FunctionCallExpr>( $1, $3, @@ ) ); }
 ;
 
 
