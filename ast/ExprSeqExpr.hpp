@@ -16,6 +16,7 @@ public:
     // Node interface
 public:
     virtual bool checkSemantic(Scope &scope, Report &report) override;
+    virtual operator std::string() const override;
 };
 
 } // ast namespace
