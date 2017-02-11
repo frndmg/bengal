@@ -35,22 +35,22 @@ private:
 
 struct IntType : Type
 {
-    IntType() : Type( "Int32" ) {}
+    IntType() : Type( "int" ) {}
 };
 
 struct StringType : Type
 {
-    StringType() : Type( "String" ) {}
+    StringType() : Type( "string" ) {}
 };
 
 struct NilType : Type
 {
-    NilType() : Type( "Nil" ) {}
+    NilType() : Type( "nil" ) {}
 };
 
 struct NoneType : Type
 {
-    NoneType() : Type( "None" ) {}
+    NoneType() : Type( "none" ) {}
 };
 
 struct ArrayType : Type
