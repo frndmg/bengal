@@ -19,3 +19,8 @@ bool Ast::checkSemantic()
 void Ast::generateCode()
 {
 }
+
+Ast::operator std::string() const
+{
+    return "Ast( " + static_cast<std::string>( *m_root ) + " )";
+}

@@ -25,10 +25,7 @@ public:
     void setRoot(const std::shared_ptr<Expr>& root) { m_root = root; }
     void setRoot(const std::shared_ptr<Expr>&& root) { m_root = std::move(root); }
 
-    operator std::string() const
-    {
-        return "Ast( " + static_cast<std::string>( *m_root ) + " )";
-    }
+    operator std::string() const;
 
     friend std::ostream& operator<<(std::ostream& out, const Ast& ast)
     {
