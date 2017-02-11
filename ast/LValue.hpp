@@ -15,19 +15,19 @@ public:
     /// \brief Creates a single LValue with no member references
     /// \param id  Pointer to a Id type
     ///
-    LValue();
+    LValue(const Position& pos = { 0, 0, 0, 0 });
 
     ///
     /// \brief Creates a member accesor LValue
     /// \param id     Pointer to a Id type
     ///
-    LValue(std::shared_ptr<Id>& id);
+    LValue(std::shared_ptr<Id>& id, const Position& pos = { 0, 0, 0, 0 });
 
     ///
     /// \brief Creates a index accesor LValue
     /// \param index  Pointer to a Expr type
     ///
-    LValue(std::shared_ptr<Expr>& index);
+    LValue(std::shared_ptr<Expr>& index, const Position& pos = { 0, 0, 0, 0 });
 
     void setNext(const std::shared_ptr<LValue>& next);
 

@@ -11,6 +11,9 @@
 
 %start program
 
+%lsp-needed
+%ltype Position
+
 %polymorphic
     ARRAYEXPR: std::shared_ptr<ArrayExpr>;
     FIELDLIST: std::shared_ptr<FieldList>;
@@ -106,13 +109,13 @@ expr:
     { $$( $1 ); }
 |
     num
-    { $$( $1 ); }
+    { $$ = $1; }
 |
     nil_expr
-    { $$( $1 ); }
+    { $$ = $1; }
 |
     lvalue_expr
-    { $$($1); }
+    { $$ = $1; }
 |
     unary_expr
     { $$( $1 ); }
@@ -175,7 +178,7 @@ string_expr:
 
 num:
     T_NUM
-    { $$( std::make_shared<NumExpr>(std::stoi( d_scanner.matched() )) ); }
+    { $$( std::make_shared<NumExpr>( std::stoi( d_scanner.matched() ), @@ ) ); }
 ;
 
 

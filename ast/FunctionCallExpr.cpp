@@ -2,7 +2,10 @@
 
 using namespace ast;
 
-FunctionCallExpr::FunctionCallExpr(std::shared_ptr<Id> id, std::shared_ptr<ExprList> params) :
+FunctionCallExpr::FunctionCallExpr(const std::shared_ptr<Id>& id,
+                                   const std::shared_ptr<ExprList>& params,
+                                   const Position& pos) :
+    RValue( pos ),
     m_id(id),
     m_params(params)
 {

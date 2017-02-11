@@ -2,7 +2,8 @@
 
 using namespace ast;
 
-RecordExpr::RecordExpr(std::shared_ptr<Id> id, std::shared_ptr<FieldList> fields) :
+RecordExpr::RecordExpr(const std::shared_ptr<Id>& id, const std::shared_ptr<FieldList>& fields, const Position& pos) :
+    RValue( pos ),
     m_id(id),
     m_fields(fields)
 {

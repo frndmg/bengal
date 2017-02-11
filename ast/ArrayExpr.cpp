@@ -4,7 +4,9 @@ using namespace ast;
 
 ArrayExpr::ArrayExpr(const std::shared_ptr<Id>& id,
                      const std::shared_ptr<Expr>& size,
-                     const std::shared_ptr<Expr>& val) :
+                     const std::shared_ptr<Expr>& val,
+                     const Position& pos) :
+    RValue( pos ),
     m_id(id),
     m_size(size),
     m_val(val)

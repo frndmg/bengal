@@ -11,7 +11,9 @@ namespace ast
 class FunctionCallExpr : public RValue
 {
 public:
-    FunctionCallExpr(std::shared_ptr<Id> id, std::shared_ptr<ExprList> params);
+    FunctionCallExpr(const std::shared_ptr<Id>& id,
+                     const std::shared_ptr<ExprList>& params,
+                     const Position& pos = { 0, 0, 0, 0 });
 
 private:
     std::shared_ptr<Id> m_id;

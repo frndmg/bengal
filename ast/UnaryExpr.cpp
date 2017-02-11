@@ -7,8 +7,8 @@
 
 using namespace ast;
 
-UnaryExpr::UnaryExpr(const std::shared_ptr<Expr>& expr, UnaryExpr::Operator op) :
-        RValue(),
+UnaryExpr::UnaryExpr(const std::shared_ptr<Expr>& expr, UnaryExpr::Operator op, const Position& pos) :
+        RValue( pos ),
         m_expr( expr ),
         m_op( op )
 {
@@ -27,4 +27,11 @@ bool ast::UnaryExpr::checkSemantic(Scope& scope, Report& report)
         default:
             return check;
     }
+}
+
+ast::UnaryExpr::operator std::string() const
+{
+    static char ops[] { '-' };
+    return "UnaryExpr( " + static_cast<std::string>( *m_expr )
+            + ", " + ops[m_op] + " )";
 }

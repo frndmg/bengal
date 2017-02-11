@@ -5,7 +5,9 @@ using namespace ast;
 
 BinExpr::BinExpr(const std::shared_ptr<Expr>& lexpr,
                  const std::shared_ptr<Expr>& rexpr,
-                 Operator op) :
+                 Operator op,
+                 const Position& pos) :
+        RValue( pos ),
         m_lexpr( lexpr ),
         m_rexpr( rexpr ),
         m_op( op )

@@ -8,6 +8,8 @@ namespace ast
 
 class RValue : public Expr
 {
+public:
+    RValue(const Position& pos);
 };
 
 } // ast namespace

@@ -20,15 +20,18 @@ public:
         NEG
     };
 
-    UnaryExpr(const std::shared_ptr<Expr>& expr, Operator op);
+    UnaryExpr(const std::shared_ptr<Expr>& expr,
+              Operator op,
+              const Position& pos = { 0, 0, 0, 0 });
 
 private:
     std::shared_ptr<Expr> m_expr;
-    Operator  m_op;
+    Operator              m_op;
 
     // Node interface
 public:
     virtual bool checkSemantic(Scope& scope, Report& report) override;
+    virtual operator std::string() const override;
 };
 
 } // namespace ast

@@ -2,7 +2,8 @@
 
 using namespace ast;
 
-StringExpr::StringExpr(const std::string &str) :
+StringExpr::StringExpr(const std::string &str, const Position& pos) :
+    RValue( pos ),
     m_str(str)
 {
 

@@ -10,7 +10,9 @@ namespace ast
 class RecordExpr : public RValue
 {
 public:
-    RecordExpr(std::shared_ptr<Id> id, std::shared_ptr<FieldList> fields);
+    RecordExpr(const std::shared_ptr<Id>& id,
+               const std::shared_ptr<FieldList>& fields,
+               const Position& pos = { 0, 0, 0, 0 });
 
 private:
     std::shared_ptr<Id> m_id;

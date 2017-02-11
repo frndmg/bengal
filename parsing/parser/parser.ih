@@ -16,7 +16,14 @@ inline void Parser::error(char const *msg)
 // $insert lex
 inline int Parser::lex()
 {
-    return d_scanner.lex();
+    // Set the initial position
+    d_loc__.init_line = d_scanner.lineNr();
+    d_loc__.init_column = d_scanner.columnNr();
+    auto r = d_scanner.lex();
+    // Set the final position
+    d_loc__.end_line = d_scanner.lineNr();
+    d_loc__.end_column = d_scanner.columnNr();
+    return r;
 }
 
 inline void Parser::print()

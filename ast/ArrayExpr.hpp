@@ -12,11 +12,19 @@ class ArrayExpr : public RValue
 public:
     ArrayExpr(const std::shared_ptr<Id>& id,
               const std::shared_ptr<Expr>& size,
-              const std::shared_ptr<Expr>& val);
+              const std::shared_ptr<Expr>& val,
+              const Position& pos = { 0, 0, 0, 0 });
 
     // Node interface
 public:
     virtual bool checkSemantic(Scope &scope, Report &report) override;
+    virtual operator std::string() const override
+    {
+        return "ArrayExpr( " + *m_id
+                + ", " + static_cast<std::string>( *m_size )
+                + ", " + static_cast<std::string>( *m_val )
+                + " )";
+    }
 
 private:
     std::shared_ptr<Id>   m_id;

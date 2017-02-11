@@ -18,7 +18,8 @@ public:
 
     BinExpr(const std::shared_ptr<Expr>& lexpr,
             const std::shared_ptr<Expr>& rexpr,
-            Operator op);
+            Operator op,
+            const Position& pos = { 0, 0, 0, 0 });
 
 private:
     std::shared_ptr<Expr> m_lexpr, m_rexpr;
@@ -27,11 +28,13 @@ private:
     // Node interface
 public:
     virtual bool checkSemantic(Scope &scope, Report &report) override;
-
     virtual operator std::string() const override
     {
+        static std::string ops[] { "=", "!=", ">", "<", ">=", "<=", "&", "|", "*", "/", "+", "-" };
+
         return "BinExpr( " + static_cast<std::string>( *m_lexpr )
-                + ", " + static_cast<std::string>( *m_rexpr ) + " )";
+                + ", " + static_cast<std::string>( *m_rexpr )
+                + ", '" + ops[m_op] + "' )";
     }
 };
 

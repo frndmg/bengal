@@ -11,7 +11,9 @@ namespace ast
 class LetExpr : public RValue
 {
 public:
-    LetExpr(std::shared_ptr<DeclarationList> scope, std::shared_ptr<ExprSeqExpr> expr_seq);
+    LetExpr(const std::shared_ptr<DeclarationList>& scope,
+            const std::shared_ptr<ExprSeqExpr>& expr_seq,
+            const Position& pos = { 0, 0, 0, 0 });
 
 private:
     std::shared_ptr<DeclarationList> m_scope;
@@ -20,6 +22,14 @@ private:
     // Node interface
 public:
     virtual bool checkSemantic(Scope &scope, Report &report) override;
+
+    // Node interface
+public:
+    virtual operator std::string() const override
+    {
+        return "LetExpr( " + static_cast<std::string>( *m_scope )
+                + ", " + static_cast<std::string>( *m_expr_seq ) + " )";
+    }
 };
 
 } // ast namespace

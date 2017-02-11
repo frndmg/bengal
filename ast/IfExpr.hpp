@@ -9,7 +9,10 @@ namespace ast
 class IfExpr : public RValue
 {
 public:
-    IfExpr(std::shared_ptr<Expr> cond, std::shared_ptr<Expr> then, std::shared_ptr<Expr> els = nullptr);
+    IfExpr(const std::shared_ptr<Expr>& cond,
+           const std::shared_ptr<Expr>& then,
+           const std::shared_ptr<Expr>& els = nullptr,
+           const Position& pos = { 0, 0, 0, 0 });
 
 private:
     std::shared_ptr<Expr> m_cond;
