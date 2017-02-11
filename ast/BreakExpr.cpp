@@ -6,6 +6,8 @@
 
 using namespace ast;
 
+BreakExpr::BreakExpr(const Position& pos) : Expr( pos ) { }
+
 bool BreakExpr::checkSemantic(Scope &scope, Report &report)
 {
     switch ( scope.getScopeType() )
@@ -15,4 +17,9 @@ bool BreakExpr::checkSemantic(Scope &scope, Report &report)
     default:
         return false;
     }
+}
+
+ast::BreakExpr::operator std::string() const
+{
+    return "BreakExpr()";
 }

@@ -12,10 +12,13 @@ namespace ast
 
 class BreakExpr : public Expr
 {
+public:
+    BreakExpr(const Position& pos = { 0, 0, 0, 0 });
 
     // Node interface
 public:
     virtual bool checkSemantic(Scope &scope, Report &report) override;
+    virtual operator std::string() const override;
 };
 
 } // ast namespace
