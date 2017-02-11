@@ -262,6 +262,12 @@ assign_expr:
 expr_list:
     { $$ = std::make_shared<ExprList>( @@ ); }
 |
+    expr
+    {
+        $$ = std::make_shared<ExprList>( @@ );
+        $$->push_back( $1 );
+    }
+|
     expr_list T_COMMA expr
     {
         $$( $1 );
