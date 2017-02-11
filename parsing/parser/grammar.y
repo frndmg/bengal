@@ -197,7 +197,7 @@ nil_expr:
 
 unary_expr:
     T_MINUS expr %prec UNARY
-    { $$( std::make_shared<UnaryExpr>( $2, UnaryExpr::NEG ) ); }
+    { $$ = std::make_shared<UnaryExpr>( $2, UnaryExpr::NEG, @@ ); }
 ;
 
 
