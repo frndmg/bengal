@@ -63,7 +63,7 @@
 %type <FUNCTIONDECLARATIONSCOPE> function_declaration_scope
 %type <TYPEDECLARATIONSCOPE> type_declaration_scope
 %type <VARIABLEDECLARATION> variable_declaration
-%type <EXPRSEQEXPR> expr_seq _expr_seq
+%type <EXPRSEQEXPR> expr_seq
 %type <ID> id
 %type <TYPEDECLARATION> type_declaration
 %type <TYPEFIELD> type_field
@@ -275,23 +275,18 @@ expr_list:
 /////////////////////////////////
 
 expr_seq:
-    { $$( std::make_shared<ExprSeqExpr>() ); }
+    { $$ = std::make_shared<ExprSeqExpr>( @@ ); }
 |
-    _expr_seq
-    { $$($1); }
-;
-
-_expr_seq:
     expr
     {
-        $$( std::make_shared<ExprSeqExpr>() );
-        $$->push_back($1);
+        $$ = std::make_shared<ExprSeqExpr>( @@ );
+        $$->push_back( $1 );
     }
 |
-    _expr_seq T_SEMI expr
+    expr_seq T_SEMI expr
     {
-        $$($1);
-        $$->push_back($3);
+        $$( $1 );
+        $$->push_back( $3 );
     }
 ;
 
