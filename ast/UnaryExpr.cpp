@@ -14,19 +14,29 @@ UnaryExpr::UnaryExpr(const std::shared_ptr<Expr>& expr, UnaryExpr::Operator op, 
 {
 }
 
-
-bool ast::UnaryExpr::checkSemantic(Scope& scope, Report& report)
+bool UnaryExpr::checkSemantic(Scope& scope, Report& report)
 {
-    bool check = m_expr->checkSemantic( scope, report );
+    bool ok = m_expr->checkSemantic( scope, report );
+
+    auto int_type = scope.getTypeDef( "int" );
 
     switch ( m_op )
     {
-        case NEG:
-            setType( single_town<IntType>() );
-            return check and sameType( single_town<IntType>(), { m_expr } );
-        default:
-            return check;
+    case NEG:
+        if ( not ( ok = sameType( int_type, { m_expr } ) ) )
+        {
+            report.error(*this,
+                         "The expression is not of type int. Note: [type = %s]",
+                         m_expr->type()->typeName().c_str());
+        }
+        break;
+    default:
+        ok = false;
     }
+    if ( ok )
+        setType( int_type );
+
+    return ok;
 }
 
 ast::UnaryExpr::operator std::string() const
