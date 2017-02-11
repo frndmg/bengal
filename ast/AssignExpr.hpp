@@ -13,11 +13,13 @@ public:
     virtual ~AssignExpr();
 
     AssignExpr(const std::shared_ptr<LValue>& lvalue,
-               const std::shared_ptr<Expr>& expr);
+               const std::shared_ptr<Expr>& expr,
+               const Position& pos = { 0, 0, 0, 0 });
 
     // Node interface
 public:
     virtual bool checkSemantic(Scope& scope, Report& report) override;
+    virtual operator std::string() const override;
 
 private:
     std::shared_ptr<LValue> m_lvalue;
