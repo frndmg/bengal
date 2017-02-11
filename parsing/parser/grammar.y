@@ -67,7 +67,7 @@
 %type <TYPEDECLARATION> type_declaration
 %type <TYPEFIELD> type_field
 %type <TYPEFIELDS> type_fields _type_fields
-%type <EXPRLIST> expr_list _expr_list
+%type <EXPRLIST> expr_list
 %type <FIELD> field
 %type <FIELDLIST> field_list _field_list
 %type <FUNCTIONDECLARATION> function_declaration
@@ -250,23 +250,12 @@ bin_expr:
 //////////////////
 
 expr_list:
-    { $$ = std::make_shared<ExprList>(); }
-|
-    _expr_list
-    { $$( $1 ); }
-;
-
-_expr_list:
-    expr
-    {
-        $$( std::make_shared<ExprList>() );
-        $$->push_back($1);
-    }
+    { $$ = std::make_shared<ExprList>( @@ ); }
 |
     expr_list T_COMMA expr
     {
         $$( $1 );
-        $$->push_back($3);
+        $$->push_back( $3 );
     }
 ;
 

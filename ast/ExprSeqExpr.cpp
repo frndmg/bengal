@@ -4,7 +4,7 @@ using namespace ast;
 
 ExprSeqExpr::ExprSeqExpr(const Position& pos) : RValue( pos ), vector() { }
 
-bool ExprSeqExpr::checkSemantic(Node::Scope &scope, Node::Report &report)
+bool ExprSeqExpr::checkSemantic(Scope &scope, Report &report)
 {
     bool ok = true;
     for (auto& x : *this)
@@ -15,17 +15,20 @@ bool ExprSeqExpr::checkSemantic(Node::Scope &scope, Node::Report &report)
     return ok;
 }
 
-ast::ExprSeqExpr::operator std::string() const
+ExprSeqExpr::operator std::string() const
 {
     std::string s = "ExprSeqExpr( ";
 
     // Get the first element
     auto i = this->begin();
-    if ( i != this->end() )
-        s += static_cast<std::string>( **i );
 
-    // The rest
-    for (; i != this->end(); i++)
-        s += ", " + static_cast<std::string>( **i );
+    if ( i != this->end() )
+    {
+        s += static_cast<std::string>( **(i++) );
+        // The rest
+        for (; i != this->end(); i++)
+            s += ", " + static_cast<std::string>( **i );
+    }
+
     return s + " )";
 }

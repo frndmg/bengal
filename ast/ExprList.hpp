@@ -7,18 +7,15 @@
 namespace ast
 {
 
-class ExprList : public Node, private ptr_list<Expr>
+class ExprList : public Node, public std::vector<std::shared_ptr<Expr> >
 {
 public:
-    using ptr_list<Expr>::push_back;
-    using ptr_list<Expr>::begin;
-    using ptr_list<Expr>::end;
-    using ptr_list<Expr>::size;
-    using ptr_list<Expr>::operator[];
+    ExprList(const Position& pos = { 0, 0, 0, 0 });
 
     // Node interface
 public:
     virtual bool checkSemantic(Scope &scope, Report &report) override;
+    virtual operator std::string() const override;
 };
 
 } // ast namespace

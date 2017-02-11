@@ -3,6 +3,30 @@
 using namespace ast;
 
 
-bool ast::ExprList::checkSemantic(Node::Scope &scope, Node::Report &report)
+ExprList::ExprList(const Position& pos) :
+    Node( pos ),
+    vector()
 {
+}
+
+bool ExprList::checkSemantic(Scope &scope, Report &report)
+{
+}
+
+ExprList::operator std::string() const
+{
+    std::string s("ExprList( ");
+
+    // The first element
+    auto i = this->begin();
+
+    if ( i != this->end() )
+    {
+        s += static_cast<std::string>( **(i++) );
+        // The rest
+        for (; i != this->end(); i++)
+            s += ", " + static_cast<std::string>( **i );
+    }
+
+    return s += " )";
 }
