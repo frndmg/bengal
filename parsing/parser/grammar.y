@@ -52,7 +52,7 @@
 
 %type <EXPR> expr
 %type <STRINGEXPR> string_expr
-%type <NUMEXPR> num
+%type <NUMEXPR> num_expr
 %type <NILEXPR> nil_expr
 %type <BINEXPR> bin_expr
 %type <LVALUE> lvalue_expr _lvalue
@@ -108,7 +108,7 @@ expr:
     string_expr
     { $$( $1 ); }
 |
-    num
+    num_expr
     { $$( $1 ); }
 |
     nil_expr
@@ -168,7 +168,7 @@ expr:
 
 string_expr:
     T_STRING
-    { $$( std::make_shared<StringExpr>( d_scanner.matched() ) ); }
+    { $$( std::make_shared<StringExpr>( d_scanner.matched(), @@ ) ); }
 ;
 
 
@@ -176,9 +176,9 @@ string_expr:
 // NUMBER EXPRESSION
 ////////////////////
 
-num:
+num_expr:
     T_NUM
-    { $$( std::make_shared<NumExpr>( std::stoi( d_scanner.matched() ), @@ ) ); }
+    { $$ = std::make_shared<NumExpr>( std::stoi( d_scanner.matched() ), @@ ); }
 ;
 
 
@@ -188,7 +188,7 @@ num:
 
 nil_expr:
     T_NIL
-    { $$( single_town<NilExpr>() ); }
+    { $$ = single_town<NilExpr>( @@ ); }
 ;
 
 
@@ -201,42 +201,47 @@ unary_expr:
     { $$( std::make_shared<UnaryExpr>( $2, UnaryExpr::NEG ) ); }
 ;
 
+
+/////////////////////
+// BINRARY EXPRESSION
+/////////////////////
+
 bin_expr:
     expr T_EQUAL expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::EQUAL) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::EQUAL, @@ ); }
 |
     expr T_NEQUAL expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::NEQUAL) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::NEQUAL, @@ ); }
 |
     expr T_GREATER expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::GREATER) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::GREATER, @@ ); }
 |
     expr T_LESS expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::LESS) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::LESS, @@ ); }
 |
     expr T_GEQ expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::GEQ) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::GEQ, @@ ); }
 |
     expr T_LEQ expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::LEQ) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::LEQ, @@ ); }
 |
     expr T_AND expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::AND) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::AND, @@ ); }
 |
     expr T_OR expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::OR) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::OR, @@ ); }
 |
     expr T_TIMES expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::MUL) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::MUL, @@ ); }
 |
     expr T_DIV expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::DIV) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::DIV, @@ ); }
 |
     expr T_PLUS expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::ADD) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::ADD, @@ ); }
 |
     expr T_MINUS expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::SUB) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::SUB, @@ ); }
 ;
 
 
@@ -245,7 +250,7 @@ bin_expr:
 //////////////////
 
 expr_list:
-    { $$( std::make_shared<ExprList>() ); }
+    { $$ = std::make_shared<ExprList>(); }
 |
     _expr_list
     { $$( $1 ); }
