@@ -94,9 +94,13 @@ private:
     std::shared_ptr<Type> m_typeAlias;
 };
 
-struct FunctionType : Type
+struct FunctionType :
+        Type,
+        std::vector<
+            std::pair<std::string, std::shared_ptr<Type> >
+        >
 {
-    FunctionType(const std::string& typeName) : Type( typeName ) {}
+    FunctionType(const std::string& typeName) : Type( typeName ) { }
 };
 
 struct ProcedureType : FunctionType

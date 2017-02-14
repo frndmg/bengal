@@ -16,12 +16,13 @@ public:
                      const Position& pos = { 0, 0, 0, 0 });
 
 private:
-    std::shared_ptr<Id> m_id;
+    std::shared_ptr<Id>       m_id;
     std::shared_ptr<ExprList> m_params;
 
     // Node interface
 public:
     virtual bool checkSemantic(Scope &scope, Report &report) override;
+    virtual operator std::string() const override;
 };
 
 } // ast namespace
