@@ -23,7 +23,8 @@ bool FunctionCallExpr::checkSemantic(Scope& scope, Report& report)
 {
     bool ok = true;
 
-    auto initial_type = scope.getType(*m_id);
+    auto initial_type = scope.getTypeDef(*m_id);
+
     // There is no function neither type with that name
     if (not(ok = initial_type != nullptr))
         report.error(*this, NO_NAME_FUNCTION_ERROR, m_id->c_str());

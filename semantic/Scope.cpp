@@ -18,7 +18,8 @@ Scope::Scope(Scope* parent, ScopeType scopeType) :
 Scope::Scope(ScopeType scopeType) :
         map(),
         vector(),
-        m_scopeType( scopeType )
+        m_scopeType( scopeType ),
+        m_parent( nullptr )
 {
 }
 
