@@ -49,6 +49,11 @@ CMakeLists.txt.user
 .idea/
 
 
+## VSCode
+
+.vscode/
+
+
 ### flexc++
 
 lex.cpp
