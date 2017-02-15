@@ -1,16 +1,12 @@
 #ifndef DECLARATIONSCOPE_HPP
 #define DECLARATIONSCOPE_HPP
 
-#include "Node.hpp"
 #include "Declaration.hpp"
+#include "Node.hpp"
 
-namespace ast
-{
+namespace ast {
 
-class DeclarationScope : public Node
-{
-public:
-    DeclarationScope();
+class DeclarationScope : public Node {
 };
 
 } // ast namespace
