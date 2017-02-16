@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.0)
 
 project(bengal CXX)
 
+include(CMakeToolsHelpers OPTIONAL)
+
 # TODO: Tell Danilo to fix this
 #include(cmake/FindFLEXCPP.cmake)
 #include(cmake/FindBISONCPP.cmake)
