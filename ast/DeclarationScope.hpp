@@ -4,9 +4,11 @@
 #include "Declaration.hpp"
 #include "Node.hpp"
 
-namespace ast {
+namespace ast
+{
 
-class DeclarationScope : public Node {
+class DeclarationScope : public Node
+{
 };
 
 } // ast namespace
