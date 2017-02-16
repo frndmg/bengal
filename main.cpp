@@ -1,5 +1,5 @@
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <libltdl/lt_system.h>
 
 #include <boost/program_options.hpp>
@@ -12,7 +12,7 @@
 using namespace std;
 namespace po = boost::program_options;
 
-int main(int argc, const char *argv[])
+int main( int argc, const char* argv[] )
 {
 #ifdef NDEBUG
     cout << "Tiger Compiler Version " << TIGER_COMPILER_VERSION << endl;
@@ -23,52 +23,51 @@ int main(int argc, const char *argv[])
 
     try
     {
-        po::options_description desc("Allowed options");
-        desc.add_options()
-                ("help", "Produce help message")
-                ("input-file,", po::value<string>(&input)->default_value(""), "Input file");
+        po::options_description desc( "Allowed options" );
+        desc.add_options()( "help", "Produce help message" )(
+            "input-file,", po::value<string>( &input )->default_value( "" ),
+            "Input file" );
 
         po::positional_options_description p;
-        p.add("input-file", 1);
+        p.add( "input-file", 1 );
 
         po::variables_map vm;
-        po::store(po::command_line_parser(argc, argv).
-                  options(desc).positional(p).run(), vm);
-        po::notify(vm);
+        po::store( po::command_line_parser( argc, argv )
+                       .options( desc )
+                       .positional( p )
+                       .run(),
+                   vm );
+        po::notify( vm );
 
-        if (vm.count("help") or input == "")
-        {
+        if ( vm.count( "help" ) or input == "" ) {
             cout << desc << endl;
             return EXIT_SUCCESS;
         }
     }
-    catch (exception& e)
+    catch ( exception& e )
     {
         cout << e.what() << endl;
         return EXIT_FAILURE;
     }
 
-    auto fs = fstream(input);
+    auto fs = fstream( input );
 
-    if (not fs)
-    {
+    if ( not fs ) {
         cerr << "(0,0): File `" << input << "` can not be found" << endl;
         return EXIT_FAILURE;
     }
 
-    Parser parser(fs);
+    Parser parser( fs );
 
-//    parser.setDebug(true);
+    //    parser.setDebug(true);
 
-    if (parser.parse())
-        return EXIT_FAILURE;
+    if ( parser.parse() ) return EXIT_FAILURE;
 
     auto ast = parser.ast();
 
     std::cout << ast << std::endl;
 
-    if (not ast.checkSemantic())
-    {
+    if ( not ast.checkSemantic() ) {
         cerr << "Semantic error" << endl;
         // TODO: Show semantic errors
         return EXIT_FAILURE;

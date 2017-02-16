@@ -450,13 +450,13 @@ type_declaration_scope:
     type_declaration
     {
         $$( std::make_shared<TypeDeclarationScope>() );
-        $$->insert( { *$1->typeId(), $1 } );
+        $$->insert( { *$1->id(), $1 } );
     }
 |
     type_declaration_scope type_declaration
     {
         $$( $1 );
-        $$->insert( { *$2->typeId(), $2 } );
+        $$->insert( { *$2->id(), $2 } );
     }
 ;
 
