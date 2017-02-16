@@ -10,19 +10,17 @@ namespace sem = semantic;
 
 bool Ast::checkSemantic()
 {
-    sem::Scope scope;
+    sem::Scope  scope;
     sem::Report report;
 
     // Basic types
-    scope.typeDef()["int"] = std::make_shared<sem::IntType>();
+    scope.typeDef()["int"]    = std::make_shared<sem::IntType>();
     scope.typeDef()["string"] = std::make_shared<sem::StringType>();
 
-    return m_root->checkSemantic(scope, report);
+    return m_root->checkSemantic( scope, report );
 }
 
-void Ast::generateCode()
-{
-}
+void Ast::generateCode() {}
 
 Ast::operator std::string() const
 {
