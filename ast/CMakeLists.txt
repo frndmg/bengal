@@ -1,5 +1,3 @@
-find_package(LLVM 3.6 REQUIRED)
-
 include_directories(../semantic)
 
 set(BENGAL_AST_LIBRARY ast)
