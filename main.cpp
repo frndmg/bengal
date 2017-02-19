@@ -39,7 +39,8 @@ int main( int argc, const char* argv[] )
                    vm );
         po::notify( vm );
 
-        if ( vm.count( "help" ) or input == "" ) {
+        if ( vm.count( "help" ) or input == "" )
+        {
             cout << desc << endl;
             return EXIT_SUCCESS;
         }
@@ -52,7 +53,8 @@ int main( int argc, const char* argv[] )
 
     auto fs = fstream( input );
 
-    if ( not fs ) {
+    if ( not fs )
+    {
         cerr << "(0,0): File `" << input << "` can not be found" << endl;
         return EXIT_FAILURE;
     }
@@ -61,13 +63,15 @@ int main( int argc, const char* argv[] )
 
     //    parser.setDebug(true);
 
-    if ( parser.parse() ) return EXIT_FAILURE;
+    if ( parser.parse() )
+        return EXIT_FAILURE;
 
     auto ast = parser.ast();
 
     std::cout << ast << std::endl;
 
-    if ( not ast.checkSemantic() ) {
+    if ( not ast.checkSemantic() )
+    {
         cerr << "Semantic error" << endl;
         // TODO: Show semantic errors
         return EXIT_FAILURE;
