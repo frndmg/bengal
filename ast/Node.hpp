@@ -19,6 +19,17 @@ protected:
     using Scope = semantic::Scope;
     using Report = semantic::Report;
 
+    using Type = semantic::Type;
+    using IntType = semantic::IntType;
+    using StringType = semantic::StringType;
+    using NilType = semantic::NilType;
+    using ArrayType = semantic::ArrayType;
+    using StructType = semantic::StructType;
+    using FunctionType = semantic::FunctionType;
+    using AliasType = semantic::AliasType;
+    using Procedure = semantic::ProcedureType;
+    using NoneType = semantic::NoneType;
+
 public:
     Node(const Position& pos = { 0, 0, 0, 0 });
     virtual ~Node() { }

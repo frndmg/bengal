@@ -3,8 +3,6 @@
 
 #include "Node.hpp"
 
-namespace sem = semantic;
-
 namespace ast
 {
 
@@ -16,18 +14,6 @@ public:
     // Node interface
 public:
     virtual operator std::string() const override;
-
-protected:
-    using Type = sem::Type;
-    using IntType = sem::IntType;
-    using StringType = sem::StringType;
-    using NilType = sem::NilType;
-    using ArrayType = sem::ArrayType;
-    using StructType = sem::StructType;
-    using FunctionType = sem::FunctionType;
-    using AliasType = sem::AliasType;
-    using Procedure = sem::ProcedureType;
-    using NoneType = sem::NoneType;
 
     // Type property
 public:

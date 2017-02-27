@@ -6,16 +6,14 @@
 
 using namespace ast;
 
-namespace sem = semantic;
-
 bool Ast::checkSemantic()
 {
-    sem::Scope  scope;
-    sem::Report report;
+    semantic::Scope scope;
+    semantic::Report report;
 
     // Basic types
-    scope.typeDef()["int"]    = std::make_shared<sem::IntType>();
-    scope.typeDef()["string"] = std::make_shared<sem::StringType>();
+    scope.typeDef()["int"] = std::make_shared<semantic::IntType>();
+    scope.typeDef()["string"] = std::make_shared<semantic::StringType>();
 
     return m_root->checkSemantic( scope, report );
 }
