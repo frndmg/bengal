@@ -10,8 +10,6 @@ namespace ast
 class AssignExpr : public Expr
 {
 public:
-    virtual ~AssignExpr();
-
     AssignExpr(const std::shared_ptr<LValue>& lvalue,
                const std::shared_ptr<Expr>& expr,
                const Position& pos = { 0, 0, 0, 0 });
