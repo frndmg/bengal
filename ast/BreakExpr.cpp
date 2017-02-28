@@ -10,7 +10,7 @@ BreakExpr::BreakExpr(const Position& pos) : Expr( pos ) { }
 
 bool BreakExpr::checkSemantic(Scope &scope, Report &report)
 {
-    switch ( scope.getScopeType() )
+    switch ( scope.scopeType() )
     {
     case Scope::BreakableScope:
         return true;

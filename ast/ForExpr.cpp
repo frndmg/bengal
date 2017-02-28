@@ -19,7 +19,7 @@ bool ForExpr::checkSemantic(Scope &scope, Report &report)
     Scope p( &scope );
     bool valid_semantic = m_begin->checkSemantic( p, report );
     valid_semantic      = m_end->checkSemantic( p, report ) and valid_semantic;
-    if ( not sameType( scope.getTypeDef("Int32"), { m_begin, m_end } ) )
+    if ( not sameType( scope.getTypeDefOf( "Int32" ), { m_begin, m_end } ) )
     {
         // TODO: Report error
         valid_semantic = false;

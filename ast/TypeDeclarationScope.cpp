@@ -25,7 +25,7 @@ std::shared_ptr<Type> createType(
     const auto id = *type->id();
     // The actual type from the scope.
     // Can be null if never created
-    auto from_scope = scope.getTypeDef( id );
+    auto from_scope = scope.getTypeDefOf( id );
     auto type_def = std::dynamic_pointer_cast<Type>( from_scope );
     if ( type_def == nullptr )
     {
@@ -45,7 +45,7 @@ bool TypeDeclarationScope::checkSemantic(
     {
         auto& type_name = type.first;
         // If this type is already defined in the global scope
-        if ( scope.getTypeDef( type_name ) != nullptr )
+        if ( scope.getTypeDefOf( type_name ) != nullptr )
         {
             // TODO: Report error
             // Type `type_name` already defined
@@ -59,7 +59,7 @@ bool TypeDeclarationScope::checkSemantic(
         {
             // If `type_depend` isn't in the current scope and the global scope
             if ( find( type_depend ) == end()
-                 and scope.getTypeDef( type_depend ) == nullptr )
+                 and scope.getTypeDefOf( type_depend ) == nullptr )
             {
                 well_defined_type = false;
                 // TODO: Report error

@@ -20,7 +20,7 @@ bool ArrayExpr::checkSemantic( Scope& scope, Report& report )
 
     // Check if the type exists and if it is of type `ArrayType`
     std::shared_ptr<Type> type;
-    if ( ( type = scope.getTypeDef( *m_id ) ) == nullptr )
+    if ( ( type = scope.getTypeDefOf( *m_id ) ) == nullptr )
     {
         // TODO: Report error. Type `*m_id` does not exist
         ok = false;
@@ -41,7 +41,7 @@ bool ArrayExpr::checkSemantic( Scope& scope, Report& report )
     }
 
     // Check the type of `m_size` and `m_val`
-    if ( not sameType( scope.getTypeDef( "Int32" ), { m_size } ) )
+    if ( not sameType( scope.getTypeDefOf( "Int32" ), { m_size } ) )
     {
         // TODO: Report error. Type of `m_size` is not Int32
         ok = false;

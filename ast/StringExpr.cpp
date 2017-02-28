@@ -11,6 +11,6 @@ StringExpr::StringExpr(const std::string &str, const Position& pos) :
 
 bool ast::StringExpr::checkSemantic(Scope& scope, Report&)
 {
-    setType( scope.getTypeDef( "string" ) );
+    setType( scope.getTypeDefOf( "string" ) );
     return true;
 }

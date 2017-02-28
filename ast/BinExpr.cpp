@@ -22,8 +22,8 @@ bool BinExpr::checkSemantic( Scope& scope, Report& report )
         return false;
 
     auto ok = true;
-    auto int_type = scope.getTypeDef( "int" );
-    auto string_type = scope.getTypeDef( "string" );
+    auto int_type = scope.getTypeDefOf( "int" );
+    auto string_type = scope.getTypeDefOf( "string" );
 
     switch ( m_op )
     {

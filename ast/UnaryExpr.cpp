@@ -18,7 +18,7 @@ bool UnaryExpr::checkSemantic(Scope& scope, Report& report)
 {
     bool ok = m_expr->checkSemantic( scope, report );
 
-    auto int_type = scope.getTypeDef( "int" );
+    auto int_type = scope.getTypeDefOf( "int" );
 
     switch ( m_op )
     {

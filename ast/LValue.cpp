@@ -28,7 +28,7 @@ bool LValue::checkSemantic(Node::Scope& scope, Node::Report& report)
         return true;
 
     // Type of current member
-    auto type    = scope.getType( *m_id );
+    auto type    = scope.getTypeOf( *m_id );
 
     // Current member
     auto current = std::shared_ptr<LValue>( this );

@@ -10,7 +10,7 @@ NumExpr::NumExpr(int val, const Position& pos) :
 
 bool NumExpr::checkSemantic(Scope& scope, Report&)
 {
-    setType( scope.getTypeDef( "int" ) );
+    setType( scope.getTypeDefOf( "int" ) );
     return true;
 }
 
