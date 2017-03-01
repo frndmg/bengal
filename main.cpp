@@ -1,6 +1,5 @@
 #include <fstream>
 #include <iostream>
-#include <libltdl/lt_system.h>
 
 #include <boost/program_options.hpp>
 
@@ -25,18 +24,16 @@ int main( int argc, const char* argv[] )
     {
         po::options_description desc( "Allowed options" );
         desc.add_options()( "help", "Produce help message" )(
-            "input-file,", po::value<string>( &input )->default_value( "" ),
-            "Input file" );
+                "input-file,", po::value<string>( &input )->default_value( "" ), "Input file" );
 
         po::positional_options_description p;
         p.add( "input-file", 1 );
 
         po::variables_map vm;
         po::store( po::command_line_parser( argc, argv )
-                       .options( desc )
-                       .positional( p )
-                       .run(),
-                   vm );
+                           .options( desc )
+                           .positional( p )
+                           .run(), vm );
         po::notify( vm );
 
         if ( vm.count( "help" ) or input == "" )
