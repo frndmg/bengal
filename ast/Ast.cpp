@@ -6,16 +6,21 @@
 
 using namespace ast;
 
-namespace sem = semantic;
-
 bool Ast::checkSemantic()
 {
-    sem::Scope scope;
-    sem::Report report;
+    semantic::Scope scope;
+    semantic::Report report;
 
-    return m_root->checkSemantic(scope, report);
+    // Basic types
+    scope.typeDef()["int"] = std::make_shared<semantic::IntType>();
+    scope.typeDef()["string"] = std::make_shared<semantic::StringType>();
+
+    return m_root->checkSemantic( scope, report );
 }
 
-void Ast::generateCode()
+void Ast::generateCode() {}
+
+Ast::operator std::string() const
 {
+    return "Ast( " + static_cast<std::string>( *m_root ) + " )";
 }

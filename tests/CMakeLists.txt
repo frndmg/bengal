@@ -35,6 +35,8 @@ add_tiger_test(bin_expr simple 01)
 add_tiger_test(bin_expr simple 02)
 ## WITH PARENTECES
 add_tiger_test(bin_expr with_par 01)
+## ERRORS
+add_tiger_test(bin_expr error-simple 01)
 
 # LET EXPRESSION
 ## SIMPLE

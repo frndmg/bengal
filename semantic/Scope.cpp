@@ -4,58 +4,42 @@
 
 #include "Scope.hpp"
 
-
 using namespace semantic;
 
-Scope::Scope(Scope* parent, ScopeType scopeType) :
-        map(),
-        vector(),
-        m_parent( parent ),
-        m_scopeType( parent->getScopeType() | scopeType )
+Scope::Scope( Scope* parent, ScopeType scope_type )
+        : m_parent( parent )
+        , m_scopeType( parent == nullptr ? 0 : parent->scopeType() | scope_type )
 {
 }
 
-Scope::Scope(ScopeType scopeType) :
-        map(),
-        vector(),
-        m_scopeType( scopeType )
+Scope::Scope( Scope::ScopeType scope_type )
+        : Scope( nullptr, scope_type )
 {
 }
 
-std::shared_ptr<Scope> Scope::beginScope()
+Scope::mapped_type Scope::getTypeOf( const Scope::map& map, const Scope::key_type& name ) const
 {
-    auto newScope = std::make_shared<Scope>( this );
-    vector::push_back( newScope );
-    return newScope;
-}
-
-void Scope::endScope()
-{
-    if ( not vector::empty() )
-        pop_back();
-}
-
-Scope::mapped_type Scope::getType(const key_type& name) const
-{
-    auto x = map::find( name );
-    if ( x != map::end() )                         // Search in the current scope
-        return x->second;
-    else if ( m_parent )    // Search in the parent
-        return m_parent->getType( name );
-    return nullptr;                              // There is not such a type
-}
-
-Scope::mapped_type Scope::getTypeDef(const key_type& name) const
-{
-    auto x = m_typeDef.find( name );
-    if ( x != m_typeDef.end() )
+    // Look in the current  scope
+    auto x = map.find( name );
+    if ( x != map.end() )
         return x->second;
     else if ( m_parent )
-        return m_parent->getTypeDef( name );
+        // Look in the parent
+        return m_parent->getTypeOf( map, name );
     return nullptr;
 }
 
-int Scope::getScopeType() const
+Scope::mapped_type Scope::getTypeOf( const key_type& name ) const
+{
+    return getTypeOf( m_type, name );
+}
+
+Scope::mapped_type Scope::getTypeDefOf( const key_type& name ) const
+{
+    return getTypeOf( m_typeDef, name );
+}
+
+int Scope::scopeType() const
 {
     return m_scopeType;
 }

@@ -6,21 +6,17 @@
 namespace ast
 {
 
-class ExprSeqExpr : public RValue, private ptr_list<Expr>
+class ExprSeqExpr : public RValue, public std::vector<std::shared_ptr<Expr> >
 {
+    typedef std::vector<std::shared_ptr<Expr> > vector;
 
 public:
-
-    // Vector public members
-    using ptr_list<Expr>::push_back;
-    using ptr_list<Expr>::begin;
-    using ptr_list<Expr>::end;
-    using ptr_list<Expr>::size;
-    using ptr_list<Expr>::operator[];
+    ExprSeqExpr(const Position& pos = { 0, 0, 0, 0 });
 
     // Node interface
 public:
     virtual bool checkSemantic(Scope &scope, Report &report) override;
+    virtual operator std::string() const override;
 };
 
 } // ast namespace

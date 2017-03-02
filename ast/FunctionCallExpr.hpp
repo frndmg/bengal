@@ -11,15 +11,18 @@ namespace ast
 class FunctionCallExpr : public RValue
 {
 public:
-    FunctionCallExpr(std::shared_ptr<Id> id, std::shared_ptr<ExprList> params);
+    FunctionCallExpr(const std::shared_ptr<Id>& id,
+                     const std::shared_ptr<ExprList>& params,
+                     const Position& pos = { 0, 0, 0, 0 });
 
 private:
-    std::shared_ptr<Id> m_id;
+    std::shared_ptr<Id>       m_id;
     std::shared_ptr<ExprList> m_params;
 
     // Node interface
 public:
     virtual bool checkSemantic(Scope &scope, Report &report) override;
+    virtual operator std::string() const override;
 };
 
 } // ast namespace

@@ -37,6 +37,7 @@ CMakeFiles
 Makefile
 cmake_install.cmake
 install_manifest.txt
+build/
 
 
 ### Qtcreator
@@ -47,6 +48,11 @@ CMakeLists.txt.user
 ### CLion
 
 .idea/
+
+
+## VSCode
+
+.vscode/
 
 
 ### flexc++

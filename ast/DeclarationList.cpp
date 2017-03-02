@@ -2,12 +2,11 @@
 
 using namespace ast;
 
-DeclarationList::DeclarationList()
+DeclarationList::DeclarationList( const Position& pos ) : Node( pos ), vector()
 {
-
 }
 
-
-bool ast::DeclarationList::checkSemantic(Node::Scope &scope, Node::Report &report)
+bool ast::DeclarationList::checkSemantic( Node::Scope&  scope,
+                                          Node::Report& report )
 {
 }

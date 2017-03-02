@@ -4,17 +4,21 @@
 
 using namespace ast;
 
-LValue::LValue()
+LValue::LValue(const Position& pos) :
+    RValue( pos )
 {
 }
 
-LValue::LValue(std::shared_ptr<Id>& id) :
-        m_id( id )
+LValue::LValue(std::shared_ptr<Id>& id,
+               const Position& pos) :
+    RValue( pos ),
+    m_id( id )
 {
 }
 
-LValue::LValue(std::shared_ptr<Expr>& index) :
-        m_index( index )
+LValue::LValue(std::shared_ptr<Expr>& index, const Position& pos) :
+    RValue( pos ),
+    m_index( index )
 {
 }
 
@@ -24,7 +28,7 @@ bool LValue::checkSemantic(Node::Scope& scope, Node::Report& report)
         return true;
 
     // Type of current member
-    auto type    = scope.getType( *m_id );
+    auto type    = scope.getTypeOf( *m_id );
 
     // Current member
     auto current = std::shared_ptr<LValue>( this );

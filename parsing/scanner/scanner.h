@@ -6,7 +6,6 @@
 // $insert baseclass_h
 #include "scannerbase.h"
 
-
 // $insert classHead
 class Scanner: public ScannerBase
 {
@@ -14,7 +13,7 @@ class Scanner: public ScannerBase
 
     public:
         explicit Scanner(std::istream &in = std::cin,
-                                std::ostream &out = std::cout);
+                         std::ostream &out = std::cout);
 
         Scanner(std::string const &infile, std::string const &outfile);
 

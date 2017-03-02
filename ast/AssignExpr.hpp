@@ -7,17 +7,22 @@
 namespace ast
 {
 
-class AssignExpr : public Expr
+/// \brief Assign Expression Class
+class AssignExpr
+        : public Expr
 {
 public:
-    virtual ~AssignExpr();
-
-    AssignExpr(const std::shared_ptr<LValue>& lvalue,
-               const std::shared_ptr<Expr>& expr);
+    // TODO: Use `RValue` as the `expr` type instead of `Expr`
+    AssignExpr(
+            const std::shared_ptr<LValue>& lvalue,
+            const std::shared_ptr<Expr>& expr,
+            const Position& pos = { 0, 0, 0, 0 } );
 
     // Node interface
 public:
-    virtual bool checkSemantic(Scope& scope, Report& report) override;
+    virtual bool checkSemantic( Scope& scope, Report& report ) override;
+
+    virtual operator std::string() const override;
 
 private:
     std::shared_ptr<LValue> m_lvalue;

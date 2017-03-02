@@ -10,11 +10,16 @@ namespace ast
 class ForExpr : public BreakableExpr
 {
 public:
-    ForExpr(std::shared_ptr<Id>& id, std::shared_ptr<Expr>& begin, std::shared_ptr<Expr>& end, std::shared_ptr<Expr>& body);
+    ForExpr(const std::shared_ptr<Id>& id,
+            const std::shared_ptr<Expr>& begin,
+            const std::shared_ptr<Expr>& end,
+            const std::shared_ptr<Expr>& body,
+            const Position& pos = { 0, 0, 0, 0 });
 
     // Node interface
 public:
     virtual bool checkSemantic(Scope &scope, Report &report) override;
+    virtual operator std::string() const override;
 
 private:
     std::shared_ptr<Id>   m_id;

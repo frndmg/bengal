@@ -11,7 +11,8 @@ namespace ast
 class StringExpr : public RValue
 {
 public:
-    StringExpr(const std::string& str);
+    StringExpr(const std::string& str,
+               const Position& pos = { 0, 0, 0, 0 });
 
 private:
     std::string m_str;
@@ -19,6 +20,10 @@ private:
     // Node interface
 public:
     virtual bool checkSemantic(Scope &scope, Report &report) override;
+    virtual operator std::string() const override
+    {
+        return "StringExpr( " + m_str + " )";
+    }
 };
 
 } // ast namespace

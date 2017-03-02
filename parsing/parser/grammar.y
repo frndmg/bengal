@@ -11,6 +11,9 @@
 
 %start program
 
+%lsp-needed
+%ltype Position
+
 %polymorphic
     ARRAYEXPR: std::shared_ptr<ArrayExpr>;
     FIELDLIST: std::shared_ptr<FieldList>;
@@ -49,9 +52,11 @@
 
 %type <EXPR> expr
 %type <STRINGEXPR> string_expr
-%type <NUMEXPR> num
+%type <NUMEXPR> num_expr
 %type <NILEXPR> nil_expr
 %type <BINEXPR> bin_expr
+%type <ASSIGNEXPR> assign_expr
+%type <FUNCTIONCALLEXPR> function_call_expr
 %type <LVALUE> lvalue_expr _lvalue
 %type <UNARYEXPR> unary_expr
 %type <DECLARATIONLIST> declaration_list
@@ -59,12 +64,12 @@
 %type <FUNCTIONDECLARATIONSCOPE> function_declaration_scope
 %type <TYPEDECLARATIONSCOPE> type_declaration_scope
 %type <VARIABLEDECLARATION> variable_declaration
-%type <EXPRSEQEXPR> expr_seq _expr_seq
+%type <EXPRSEQEXPR> expr_seq
 %type <ID> id
 %type <TYPEDECLARATION> type_declaration
 %type <TYPEFIELD> type_field
 %type <TYPEFIELDS> type_fields _type_fields
-%type <EXPRLIST> expr_list _expr_list
+%type <EXPRLIST> expr_list
 %type <FIELD> field
 %type <FIELDLIST> field_list _field_list
 %type <FUNCTIONDECLARATION> function_declaration
@@ -105,14 +110,14 @@ expr:
     string_expr
     { $$( $1 ); }
 |
-    num
+    num_expr
     { $$( $1 ); }
 |
     nil_expr
     { $$( $1 ); }
 |
     lvalue_expr
-    { $$($1); }
+    { $$( $1 ); }
 |
     unary_expr
     { $$( $1 ); }
@@ -120,17 +125,14 @@ expr:
     bin_expr
     { $$( $1 ); }
 |
-    lvalue_expr T_ASSIGN expr
-    {
-        $$( std::make_shared<AssignExpr>($1, $3) );
-    }
+    assign_expr
+    { $$( $1 ); }
 |
-    // Function call
-    id T_LEFT_PAR expr_list T_RIGHT_PAR
-    { $$( std::make_shared<FunctionCallExpr>($1, $3) ); }
+    function_call_expr
+    { $$( $1 ); }
 |
     T_LEFT_PAR expr_seq T_RIGHT_PAR
-    { $$($2); }
+    { $$( $2 ); }
 |
     // Record creation
     id T_LEFT_BRACE field_list T_RIGHT_BRACE
@@ -165,7 +167,7 @@ expr:
 
 string_expr:
     T_STRING
-    { $$( std::make_shared<StringExpr>( d_scanner.matched() ) ); }
+    { $$( std::make_shared<StringExpr>( d_scanner.matched(), @@ ) ); }
 ;
 
 
@@ -173,9 +175,9 @@ string_expr:
 // NUMBER EXPRESSION
 ////////////////////
 
-num:
+num_expr:
     T_NUM
-    { $$( std::make_shared<NumExpr>(std::stoi( d_scanner.matched() )) ); }
+    { $$ = std::make_shared<NumExpr>( std::stoi( d_scanner.matched() ), @@ ); }
 ;
 
 
@@ -185,7 +187,7 @@ num:
 
 nil_expr:
     T_NIL
-    { $$( single_town<NilExpr>() ); }
+    { $$ = single_town<NilExpr>( @@ ); }
 ;
 
 
@@ -195,45 +197,71 @@ nil_expr:
 
 unary_expr:
     T_MINUS expr %prec UNARY
-    { $$( std::make_shared<UnaryExpr>( $2, UnaryExpr::NEG ) ); }
+    { $$ = std::make_shared<UnaryExpr>( $2, UnaryExpr::NEG, @@ ); }
 ;
+
+
+/////////////////////
+// BINRARY EXPRESSION
+/////////////////////
 
 bin_expr:
     expr T_EQUAL expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::EQUAL) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::EQUAL, @@ ); }
 |
     expr T_NEQUAL expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::NEQUAL) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::NEQUAL, @@ ); }
 |
     expr T_GREATER expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::GREATER) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::GREATER, @@ ); }
 |
     expr T_LESS expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::LESS) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::LESS, @@ ); }
 |
     expr T_GEQ expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::GEQ) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::GEQ, @@ ); }
 |
     expr T_LEQ expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::LEQ) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::LEQ, @@ ); }
 |
     expr T_AND expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::AND) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::AND, @@ ); }
 |
     expr T_OR expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::OR) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::OR, @@ ); }
 |
     expr T_TIMES expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::MUL) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::MUL, @@ ); }
 |
     expr T_DIV expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::DIV) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::DIV, @@ ); }
 |
     expr T_PLUS expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::ADD) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::ADD, @@ ); }
 |
     expr T_MINUS expr
-    { $$( std::make_shared<BinExpr>($1, $3, BinExpr::Operator::SUB) ); }
+    { $$ = std::make_shared<BinExpr>( $1, $3, BinExpr::SUB, @@ ); }
+;
+
+
+
+////////////////////
+// ASSIGN EXPRESSION
+////////////////////
+
+assign_expr:
+    lvalue_expr T_ASSIGN expr
+    { $$ = std::make_shared<AssignExpr>( $1, $3, @@ ); }
+;
+
+
+///////////////////////////
+// FUNCTION CALL EXPRESSION
+///////////////////////////
+
+function_call_expr:
+    id T_LEFT_PAR expr_list T_RIGHT_PAR
+    { $$( std::make_shared<FunctionCallExpr>( $1, $3, @@ ) ); }
 ;
 
 
@@ -242,23 +270,18 @@ bin_expr:
 //////////////////
 
 expr_list:
-    { $$( std::make_shared<ExprList>() ); }
+    { $$ = std::make_shared<ExprList>( @@ ); }
 |
-    _expr_list
-    { $$( $1 ); }
-;
-
-_expr_list:
     expr
     {
-        $$( std::make_shared<ExprList>() );
-        $$->push_back($1);
+        $$ = std::make_shared<ExprList>( @@ );
+        $$->push_back( $1 );
     }
 |
     expr_list T_COMMA expr
     {
         $$( $1 );
-        $$->push_back($3);
+        $$->push_back( $3 );
     }
 ;
 
@@ -268,23 +291,18 @@ _expr_list:
 /////////////////////////////////
 
 expr_seq:
-    { $$( std::make_shared<ExprSeqExpr>() ); }
+    { $$ = std::make_shared<ExprSeqExpr>( @@ ); }
 |
-    _expr_seq
-    { $$($1); }
-;
-
-_expr_seq:
     expr
     {
-        $$( std::make_shared<ExprSeqExpr>() );
-        $$->push_back($1);
+        $$ = std::make_shared<ExprSeqExpr>( @@ );
+        $$->push_back( $1 );
     }
 |
-    _expr_seq T_SEMI expr
+    expr_seq T_SEMI expr
     {
-        $$($1);
-        $$->push_back($3);
+        $$( $1 );
+        $$->push_back( $3 );
     }
 ;
 
@@ -432,13 +450,13 @@ type_declaration_scope:
     type_declaration
     {
         $$( std::make_shared<TypeDeclarationScope>() );
-        $$->insert( { *$1->typeId(), $1 } );
+        $$->insert( { *$1->id(), $1 } );
     }
 |
     type_declaration_scope type_declaration
     {
         $$( $1 );
-        $$->insert( { *$2->typeId(), $2 } );
+        $$->insert( { *$2->id(), $2 } );
     }
 ;
 

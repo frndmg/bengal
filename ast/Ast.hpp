@@ -15,22 +15,22 @@ namespace ast
 class Ast
 {
 public:
-    Ast(const std::shared_ptr<Expr>& root) : m_root(root) { }
-    Ast(Expr* root = nullptr) : m_root( root ) { }
+    Ast( const std::shared_ptr<Expr>& root ) : m_root( root ) {}
+    Ast( Expr* root = nullptr ) : m_root( root ) {}
 
     bool checkSemantic();
     void generateCode();
 
-    void setRoot(Expr* root) { m_root = std::shared_ptr<Expr>( root ); }
-    void setRoot(const std::shared_ptr<Expr>& root) { m_root = root; }
-    void setRoot(const std::shared_ptr<Expr>&& root) { m_root = std::move(root); }
-
-    operator std::string() const
+    void setRoot( Expr* root ) { m_root = std::shared_ptr<Expr>( root ); }
+    void setRoot( const std::shared_ptr<Expr>& root ) { m_root = root; }
+    void setRoot( const std::shared_ptr<Expr>&& root )
     {
-        return "Ast( " + static_cast<std::string>( *m_root ) + " )";
+        m_root = std::move( root );
     }
 
-    friend std::ostream& operator<<(std::ostream& out, const Ast& ast)
+    operator std::string() const;
+
+    friend std::ostream& operator<<( std::ostream& out, const Ast& ast )
     {
         return out << static_cast<std::string>( ast );
     }
@@ -41,5 +41,4 @@ private:
 
 } // ast namespace
 
-
-#endif //BENGAL_AST_HPP
+#endif // BENGAL_AST_HPP

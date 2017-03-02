@@ -8,11 +8,13 @@ namespace ast
 
 class NilExpr : public RValue
 {
+public:
+    NilExpr(const Position& pos = { 0, 0, 0, 0 });
+
     // Node interface
 public:
-    virtual bool checkSemantic(Scope&, Report&) override {
-        setType( single_town<NilType>() );
-        return true; }
+    virtual bool checkSemantic(Scope&, Report&) override;
+    virtual operator std::string() const override;
 };
 
 } // ast namespace

@@ -35,22 +35,22 @@ private:
 
 struct IntType : Type
 {
-    IntType() : Type( "Int32" ) {}
+    IntType() : Type( "int" ) {}
 };
 
 struct StringType : Type
 {
-    StringType() : Type( "String" ) {}
+    StringType() : Type( "string" ) {}
 };
 
 struct NilType : Type
 {
-    NilType() : Type( "Nil" ) {}
+    NilType() : Type( "nil" ) {}
 };
 
 struct NoneType : Type
 {
-    NoneType() : Type( "None" ) {}
+    NoneType() : Type( "none" ) {}
 };
 
 struct ArrayType : Type
@@ -94,9 +94,13 @@ private:
     std::shared_ptr<Type> m_typeAlias;
 };
 
-struct FunctionType : Type
+struct FunctionType :
+        Type,
+        std::vector<
+            std::pair<std::string, std::shared_ptr<Type> >
+        >
 {
-    FunctionType(const std::string& typeName) : Type( typeName ) {}
+    FunctionType(const std::string& typeName) : Type( typeName ) { }
 };
 
 struct ProcedureType : FunctionType

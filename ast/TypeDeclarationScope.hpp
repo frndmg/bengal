@@ -4,24 +4,26 @@
 #include "DeclarationScope.hpp"
 #include "TypeDeclaration.hpp"
 
-#include <vector>
+#include <set>
 #include <unordered_map>
 #include <unordered_set>
-#include <set>
-
+#include <vector>
 
 namespace ast
 {
 
-class TypeDeclarationScope :
-        public DeclarationScope, public std::unordered_map<std::string, std::shared_ptr<TypeDeclaration> >
+class TypeDeclarationScope
+    : public DeclarationScope,
+      public std::unordered_map<std::string, std::shared_ptr<TypeDeclaration> >
 {
+
     // Node interface
 public:
-    virtual bool checkSemantic(Scope &scope, Report &report) override;
+    virtual bool checkSemantic( Scope& scope, Report& report ) override;
+    virtual operator std::string() const override;
 
 private:
-    bool hasCycle(std::set<std::string>& touched, const std::string& x);
+    bool hasCycle( std::set<std::string>& touched, const std::string& x );
 };
 
 } // ast namespace

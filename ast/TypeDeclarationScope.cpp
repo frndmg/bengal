@@ -1,39 +1,43 @@
 #include "TypeDeclarationScope.hpp"
 
-
 using namespace ast;
-namespace sem = semantic;
 
+// Create a type from TypeDeclaration
 template <typename Type>
-std::shared_ptr<Type> createType(const std::shared_ptr<TypeDeclaration>& type)
+std::shared_ptr<Type> createType( const std::shared_ptr<TypeDeclaration>& type )
 {
-    return std::make_shared<Type>( *type->typeId(), nullptr );
+    return std::make_shared<Type>( *type->id(), nullptr );
 }
 
+// Specification for StructType
 template <>
-std::shared_ptr<sem::StructType> createType(const std::shared_ptr<TypeDeclaration>& type)
+std::shared_ptr<semantic::StructType>
+createType( const std::shared_ptr<TypeDeclaration>& type )
 {
-    auto type_def = std::make_shared<sem::StructType>( *type->typeId() );
-    return type_def;
+    return std::make_shared<semantic::StructType>( *type->id() );
 }
 
 template <typename Type>
-std::shared_ptr<Type> createType(const std::shared_ptr<TypeDeclaration>& type, sem::Scope& scope)
+std::shared_ptr<Type> createType(
+        const std::shared_ptr<TypeDeclaration>& type,
+        semantic::Scope& scope )
 {
-    std::shared_ptr<Type> type_def;
-    if ( not bool(
-           type_def =
-           std::dynamic_pointer_cast<Type>(
-              scope.getTypeDef( *type->typeId() )
-           ) ) )
+    const auto id = *type->id();
+    // The actual type from the scope.
+    // Can be null if never created
+    auto from_scope = scope.getTypeDefOf( id );
+    auto type_def = std::dynamic_pointer_cast<Type>( from_scope );
+    if ( type_def == nullptr )
     {
-        type_def = createType<Type>(type);
-        scope.typeDef()[*type->typeId()] = type_def;
+        type_def = createType<Type>( type );
+        scope.typeDef()[id] = type_def;
     }
     return type_def;
 }
 
-bool TypeDeclarationScope::checkSemantic(Node::Scope& scope, Node::Report& report)
+bool TypeDeclarationScope::checkSemantic(
+        Node::Scope& scope,
+        Node::Report& report )
 {
     std::set<std::string> well_defined_types;
 
@@ -41,7 +45,7 @@ bool TypeDeclarationScope::checkSemantic(Node::Scope& scope, Node::Report& repor
     {
         auto& type_name = type.first;
         // If this type is already defined in the global scope
-        if ( scope.getTypeDef( type_name ) != nullptr )
+        if ( scope.getTypeDefOf( type_name ) != nullptr )
         {
             // TODO: Report error
             // Type `type_name` already defined
@@ -49,11 +53,13 @@ bool TypeDeclarationScope::checkSemantic(Node::Scope& scope, Node::Report& repor
             continue;
         }
         bool well_defined_type = true;
-        for ( auto& type_depend : *type.second->typeDepends() ) // For every types that this `type` depends
+        for ( auto& type_depend :
+                *type.second
+                     ->typeDepends() ) // For every types that this `type` depends
         {
             // If `type_depend` isn't in the current scope and the global scope
-            if ( find( type_depend ) == end() and
-                 scope.getTypeDef( type_depend ) == nullptr )
+            if ( find( type_depend ) == end()
+                 and scope.getTypeDefOf( type_depend ) == nullptr )
             {
                 well_defined_type = false;
                 // TODO: Report error
@@ -86,49 +92,57 @@ bool TypeDeclarationScope::checkSemantic(Node::Scope& scope, Node::Report& repor
         auto& type = ( *this )[x];
         if ( type->isAliasDeclaration() )
         {
-            auto x = createType<sem::AliasType>(type, scope);
+            auto x = createType<semantic::AliasType>( type, scope );
             auto find_alias_type = unordered_map::find( *type->type() );
             if ( find_alias_type != unordered_map::end() )
             {
                 auto& alias_type = find_alias_type->second;
                 if ( alias_type->isAliasDeclaration() )
-                    x->setTypeAlias( createType<sem::AliasType>( alias_type, scope ) );
+                    x->setTypeAlias(
+                            createType<semantic::AliasType>( alias_type, scope ) );
                 else if ( alias_type->isArrayDeclaration() )
-                    x->setTypeAlias( createType<sem::ArrayType>( alias_type, scope ) );
+                    x->setTypeAlias(
+                            createType<semantic::ArrayType>( alias_type, scope ) );
                 else if ( alias_type->isTypeDeclaration() )
-                    x->setTypeAlias( createType<sem::StructType>( alias_type, scope ) );
+                    x->setTypeAlias(
+                            createType<semantic::StructType>( alias_type, scope ) );
             }
-        }
-        else if ( type->isArrayDeclaration() )
+        } else if ( type->isArrayDeclaration() )
         {
-            auto x = createType<sem::ArrayType>( type, scope );
+            auto x = createType<semantic::ArrayType>( type, scope );
             auto find_array_type = unordered_map::find( *type->type() );
             if ( find_array_type != unordered_map::end() )
             {
                 auto& array_type = find_array_type->second;
                 if ( array_type->isAliasDeclaration() )
-                    x->setType( createType<sem::AliasType>( array_type, scope ) );
+                    x->setType(
+                            createType<semantic::AliasType>( array_type, scope ) );
                 else if ( array_type->isArrayDeclaration() )
-                    x->setType( createType<sem::ArrayType>( array_type, scope ) );
+                    x->setType(
+                            createType<semantic::ArrayType>( array_type, scope ) );
                 else if ( array_type->isTypeDeclaration() )
-                    x->setType( createType<sem::StructType>( array_type, scope ) );
+                    x->setType(
+                            createType<semantic::StructType>( array_type, scope ) );
             }
-        }
-        else if ( type->isTypeDeclaration() )
+        } else if ( type->isTypeDeclaration() )
         {
-            auto x = createType<sem::StructType>( type, scope );
+            auto x = createType<semantic::StructType>( type, scope );
             for ( auto& x_member : *type->fields() )
             {
-                auto find_member_type = unordered_map::find( *x_member->type() );
+                auto find_member_type
+                        = unordered_map::find( *x_member->type() );
                 if ( find_member_type != unordered_map::end() )
                 {
                     auto& member_type = find_member_type->second;
                     if ( member_type->isAliasDeclaration() )
-                        x->push_back( { *member_type->typeId(), createType<sem::AliasType>( member_type, scope ) } );
+                        x->push_back( { *member_type->id(),
+                                        createType<semantic::AliasType>( member_type, scope ) } );
                     else if ( member_type->isArrayDeclaration() )
-                        x->push_back( { *member_type->typeId(), createType<sem::ArrayType>( member_type, scope ) } );
+                        x->push_back( { *member_type->id(),
+                                        createType<semantic::ArrayType>( member_type, scope ) } );
                     else if ( member_type->isTypeDeclaration() )
-                        x->push_back( { *member_type->typeId(), createType<sem::StructType>( member_type, scope ) } );
+                        x->push_back( { *member_type->id(),
+                                        createType<semantic::StructType>( member_type, scope ) } );
                 }
             }
         }
@@ -137,12 +151,35 @@ bool TypeDeclarationScope::checkSemantic(Node::Scope& scope, Node::Report& repor
     return well_defined_types.size() == size();
 }
 
-bool TypeDeclarationScope::hasCycle(std::set<std::string>& touched, const std::string& x)
+bool TypeDeclarationScope::hasCycle(
+        std::set<std::string>& touched,
+        const std::string& x )
 {
     if ( not std::get<1>( touched.insert( x ) ) )
         return true;
     auto& type = ( *this )[x];
     if ( type->isArrayDeclaration() or type->isAliasDeclaration() )
-        return hasCycle( touched, *type->typeId() );
+        return hasCycle( touched, *type->id() );
     return false;
+}
+
+TypeDeclarationScope::operator std::string() const
+{
+    static std::string s;
+
+    // Only compute it once
+    if ( s.empty() )
+    {
+        s += "TypeDeclarationScope( { ";
+        auto i = this->begin();
+        if ( i != this->end() )
+        {
+            s += static_cast<std::string>( *( ( *( i++ ) ).second ) );
+            for ( ; i != this->end(); i++ )
+                s += ", " + static_cast<std::string>( *( *i ).second );
+        }
+        s += " } )";
+    }
+
+    return s;
 }

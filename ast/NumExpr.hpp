@@ -14,26 +14,14 @@ class NumExpr : public RValue
     int m_val;
 
 public:
-    NumExpr(int val) :
-        RValue()
-      , m_val(val)
-    {
-    }
-
-//    virtual void generateCode();
+    NumExpr(int val,
+            const Position& pos = { 0, 0, 0, 0 });
 
     // Node interface
 public:
-    virtual bool checkSemantic(Scope&, Report&) override
-    {
-        setType( single_town<IntType>() );
-        return true;
-    }
-
-    virtual operator std::string() const override
-    {
-        return "NumExpr( " + std::to_string(m_val) + " )";
-    }
+//    virtual void generateCode();
+    virtual bool checkSemantic(Scope&, Report&) override;
+    virtual operator std::string() const override;
 };
 
 } // ast namespace
