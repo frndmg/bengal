@@ -33,7 +33,6 @@ protected:
 
 public:
     Node(const Position& pos = { 0, 0, 0, 0 });
-    virtual ~Node() { }
 
 // Virtual Methods
 //    virtual void generateCode(const std::shared_ptr<CodeGenerator>& cg) = 0;
