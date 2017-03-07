@@ -25,7 +25,7 @@ DeclarationList::operator std::string() const
 
     if ( s.empty() )
     {
-        s += "DeclarationList( { ";
+        s += "DeclarationList( ";
         auto i = this->begin();
         if ( i != this->end() )
         {
@@ -33,7 +33,7 @@ DeclarationList::operator std::string() const
             for ( ; i != this->end(); i++ )
                 s += ", " + static_cast<std::string>( **i );
         }
-        s += " } )";
+        s += " )";
     }
 
     return s;

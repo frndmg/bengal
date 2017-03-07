@@ -170,7 +170,7 @@ TypeDeclarationScope::operator std::string() const
     // Only compute it once
     if ( s.empty() )
     {
-        s += "TypeDeclarationScope( { ";
+        s += "TypeDeclarationScope( ";
         auto i = this->begin();
         if ( i != this->end() )
         {
@@ -178,7 +178,7 @@ TypeDeclarationScope::operator std::string() const
             for ( ; i != this->end(); i++ )
                 s += ", " + static_cast<std::string>( *( *i ).second );
         }
-        s += " } )";
+        s += " )";
     }
 
     return s;
