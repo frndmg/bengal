@@ -13,13 +13,14 @@ namespace ast
 {
 
 class TypeDeclarationScope
-    : public DeclarationScope,
-      public std::unordered_map<std::string, std::shared_ptr<TypeDeclaration> >
+        : public DeclarationScope,
+          public std::unordered_map<std::string, std::shared_ptr<TypeDeclaration> >
 {
 
     // Node interface
 public:
     virtual bool checkSemantic( Scope& scope, Report& report ) override;
+
     virtual operator std::string() const override;
 
 private:
