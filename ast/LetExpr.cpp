@@ -12,8 +12,9 @@ LetExpr::LetExpr(
 {
 }
 
-bool LetExpr::checkSemantic( Node::Scope& scope, Node::Report& report )
+bool LetExpr::checkSemantic( Scope& scope, Report& report )
 {
+
 }
 
 LetExpr::operator std::string() const
