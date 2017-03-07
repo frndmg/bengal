@@ -11,6 +11,12 @@ bool DeclarationList::checkSemantic(
         Node::Scope& scope,
         Node::Report& report )
 {
+    // Only have to check that all the declaration scopes has been
+    // declared well semantically.
+    bool ok( true );
+    for ( auto& x : *this )
+        ok = x->checkSemantic( scope, report ) and ok;
+    return ok;
 }
 
 DeclarationList::operator std::string() const
