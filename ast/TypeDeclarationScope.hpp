@@ -16,6 +16,7 @@ class TypeDeclarationScope
         : public DeclarationScope,
           public std::unordered_map<std::string, std::shared_ptr<TypeDeclaration> >
 {
+    typedef std::unordered_map<std::string, std::shared_ptr<TypeDeclaration> > unordered_map;
 
     // Node interface
 public:
