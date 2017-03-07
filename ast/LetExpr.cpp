@@ -18,7 +18,8 @@ bool LetExpr::checkSemantic( Node::Scope& scope, Node::Report& report )
 
 LetExpr::operator std::string() const
 {
-    return "LetExpr( " + static_cast<std::string>( *m_scope ) + ", "
+    return "LetExpr( "
+           + static_cast<std::string>( *m_scope ) + ", "
            + static_cast<std::string>( *m_expr_seq ) + " )";
 }
 
