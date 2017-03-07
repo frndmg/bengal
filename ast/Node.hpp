@@ -32,7 +32,7 @@ protected:
     using NoneType = semantic::NoneType;
 
 public:
-    Node(const Position& pos = { 0, 0, 0, 0 });
+    Node( const Position& pos = { 0, 0, 0, 0 } );
 
 // Virtual Methods
 //    virtual void generateCode(const std::shared_ptr<CodeGenerator>& cg) = 0;
@@ -43,10 +43,11 @@ public:
     /// \param report
     /// \return
     ///
-    virtual bool checkSemantic(Scope& scope, Report& report) = 0;
+    virtual bool checkSemantic( Scope& scope, Report& report ) = 0;
+
     virtual operator std::string() const;
 
-    friend std::ostream& operator<<(std::ostream& out, const Node& n)
+    friend std::ostream& operator<<( std::ostream& out, const Node& n )
     {
         return out << static_cast<std::string>( n );
     }
