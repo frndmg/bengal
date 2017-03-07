@@ -13,6 +13,7 @@
 namespace ast
 {
 
+/// \brief Base class for bengal ast nodes
 class Node
 {
 protected:
