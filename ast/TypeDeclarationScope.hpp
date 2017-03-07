@@ -18,6 +18,9 @@ class TypeDeclarationScope
 {
     typedef std::unordered_map<std::string, std::shared_ptr<TypeDeclaration> > unordered_map;
 
+public:
+    TypeDeclarationScope( const Position& = { 0, 0, 0, 0 } );
+
     // Node interface
 public:
     virtual bool checkSemantic( Scope& scope, Report& report ) override;

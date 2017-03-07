@@ -6,8 +6,11 @@
 namespace ast
 {
 
-class DeclarationScope : public Node
+class DeclarationScope
+        : public Node
 {
+protected:
+    DeclarationScope( const Position& pos );
 };
 
 } // ast namespace

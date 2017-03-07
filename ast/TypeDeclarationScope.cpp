@@ -183,3 +183,8 @@ TypeDeclarationScope::operator std::string() const
 
     return s;
 }
+
+TypeDeclarationScope::TypeDeclarationScope( const Position& pos )
+        : DeclarationScope( pos )
+        , unordered_map()
+{ }
