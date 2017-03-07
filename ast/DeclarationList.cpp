@@ -13,9 +13,9 @@ bool DeclarationList::checkSemantic(
 {
     // Only have to check that all the declaration scopes has been
     // declared well semantically.
-    bool ok = false;
-    for (auto& x : *this)
-        ok = x->checkSemantic(scope, report) and ok;
+    bool ok( true );
+    for ( auto& x : *this )
+        ok = x->checkSemantic( scope, report ) and ok;
     return ok;
 }
 
