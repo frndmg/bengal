@@ -11,11 +11,11 @@ add_custom_command(
 )
 
 if (${BENGAL_DEBUG_PARSING})
-    set(BISON_FLAGS ${BISON_FLAGS} "--debug --construction")
+    set(BISON_FLAGS ${BISON_FLAGS} --debug --construction)
 endif ()
 
 if (${BENGAL_PARSING_PRINT_TOKENS})
-    set(BISON_FLAGS ${BISON_FLAGS} "--print")
+    set(BISON_FLAGS ${BISON_FLAGS} --print)
 endif()
 
 add_custom_command(
