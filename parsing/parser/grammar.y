@@ -449,7 +449,7 @@ declaration_scope:
 type_declaration_scope:
     type_declaration
     {
-        $$( std::make_shared<TypeDeclarationScope>() );
+        $$ = std::make_shared<TypeDeclarationScope>( @@ );
         $$->insert( { *$1->id(), $1 } );
     }
 |
@@ -511,15 +511,15 @@ variable_declaration:
 type_declaration:
     T_TYPE id T_EQUAL id
     // alias
-    { $$( std::make_shared<TypeDeclaration>($2, $4) ); }
+    { $$( std::make_shared<TypeDeclaration>( $2, $4 ) ); }
 |
     T_TYPE id T_EQUAL T_LEFT_BRACE type_fields T_RIGHT_BRACE
     // new type
-    { $$( std::make_shared<TypeDeclaration>($2, $5) ); }
+    { $$( std::make_shared<TypeDeclaration>( $2, $5 ) ); }
 |
     T_TYPE id T_EQUAL T_ARRAY T_OF id
     // new array type
-    { $$( std::make_shared<TypeDeclaration>($2, $6, true) ); }
+    { $$( std::make_shared<TypeDeclaration>( $2, $6, true ) ); }
 ;
 
 
