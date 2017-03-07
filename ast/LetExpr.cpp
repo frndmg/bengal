@@ -21,3 +21,13 @@ LetExpr::operator std::string() const
     return "LetExpr( " + static_cast<std::string>( *m_scope ) + ", "
            + static_cast<std::string>( *m_expr_seq ) + " )";
 }
+
+const std::shared_ptr<DeclarationList>& LetExpr::scope() const
+{
+    return m_scope;
+}
+
+const std::shared_ptr<ExprSeqExpr>& LetExpr::expr_seq() const
+{
+    return m_expr_seq;
+}

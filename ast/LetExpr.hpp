@@ -17,6 +17,10 @@ public:
             const std::shared_ptr<ExprSeqExpr>& expr_seq,
             const Position& pos = { 0, 0, 0, 0 } );
 
+    const std::shared_ptr<ExprSeqExpr>& expr_seq() const;
+
+    const std::shared_ptr<DeclarationList>& scope() const;
+
     // Node interface
 public:
     virtual bool checkSemantic( Scope& scope, Report& report ) override;
