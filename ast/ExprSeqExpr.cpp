@@ -20,18 +20,24 @@ bool ExprSeqExpr::checkSemantic( Scope& scope, Report& report )
 
 ExprSeqExpr::operator std::string() const
 {
-    std::string s = "ExprSeqExpr( ";
+    static std::string s;
 
-    // Get the first element
-    auto i = this->begin();
-
-    if ( i != this->end() )
+    // Only compute it the first time it is called
+    if ( s.empty() )
     {
-        s += static_cast<std::string>( **( i++ ) );
-        // The rest
-        for ( ; i != this->end(); i++ )
-            s += ", " + static_cast<std::string>( **i );
+        s += "ExprSeqExpr( ";
+        // Get the first element
+        auto i = this->begin();
+
+        if ( i != this->end() )
+        {
+            s += static_cast<std::string>( **( i++ ) );
+            // The rest
+            for ( ; i != this->end(); i++ )
+                s += ", " + static_cast<std::string>( **i );
+        }
+        s += " )";
     }
 
-    return s + " )";
+    return s;
 }
