@@ -22,12 +22,17 @@ bool LetExpr::checkSemantic( Scope& scope, Report& report )
     ok = this->expr_seq()->checkSemantic( new_scope, report ) and ok;
     // at this time new_scope is gone
 
-    // If the type of the let's return isn't in the above scope then error
-    const auto& ret_type = this->expr_seq()->type()->typeName();
-    if ( scope.getTypeDefOf( ret_type ) == nullptr )
+    // If the let expression returns any value
+    const auto& ret_type = this->expr_seq()->type();
+    if ( ret_type != nullptr )
     {
-        ok = false;
-        report.error( *this, "The type `%s` does not exist in the current scope.", ret_type );
+        // If the type of the let's return isn't in the above scope then error
+        const auto& ret_type_name = ret_type->typeName();
+        if ( scope.getTypeDefOf( ret_type_name ) == nullptr )
+        {
+            ok = false;
+            report.error( *this, "The type `%s` does not exist in the current scope.", ret_type_name.c_str() );
+        }
     }
     return ok;
 }
