@@ -10,7 +10,7 @@ class DeclarationScope
         : public Node
 {
 protected:
-    DeclarationScope( const Position& pos );
+    DeclarationScope( const Position& pos = { 0, 0, 0, 0 } );
 };
 
 } // ast namespace
