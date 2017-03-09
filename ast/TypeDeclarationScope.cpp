@@ -167,19 +167,15 @@ TypeDeclarationScope::operator std::string() const
 {
     static std::string s;
 
-    // Only compute it once
-    if ( s.empty() )
+    s += "TypeDeclarationScope( ";
+    auto i = this->begin();
+    if ( i != this->end() )
     {
-        s += "TypeDeclarationScope( ";
-        auto i = this->begin();
-        if ( i != this->end() )
-        {
-            s += static_cast<std::string>( *( ( *( i++ ) ).second ) );
-            for ( ; i != this->end(); i++ )
-                s += ", " + static_cast<std::string>( *( *i ).second );
-        }
-        s += " )";
+        s += static_cast<std::string>( *( ( *( i++ ) ).second ) );
+        for ( ; i != this->end(); i++ )
+            s += ", " + static_cast<std::string>( *( *i ).second );
     }
+    s += " )";
 
     return s;
 }

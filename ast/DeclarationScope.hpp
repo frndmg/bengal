@@ -9,7 +9,7 @@ namespace ast
 class DeclarationScope
         : public Node
 {
-protected:
+public:
     DeclarationScope( const Position& pos = { 0, 0, 0, 0 } );
 };
 
