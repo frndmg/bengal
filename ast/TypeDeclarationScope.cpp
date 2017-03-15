@@ -1,5 +1,7 @@
 #include "TypeDeclarationScope.hpp"
 
+#include "type_declaration_utils/type_declaration_utility.hpp"
+
 using namespace ast;
 
 // Create a type from TypeDeclaration

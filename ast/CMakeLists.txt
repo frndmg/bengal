@@ -36,7 +36,7 @@ set(SOURCE
     UnaryExpr.cpp
     BreakExpr.cpp
     Ast.cpp
-)
+        type_declaration_utils/type_declaration_utility.hpp)
 
 add_library(${BENGAL_AST_LIBRARY} SHARED ${SOURCE})
 set_property(TARGET ${BENGAL_AST_LIBRARY} PROPERTY CXX_STANDARD 14)
