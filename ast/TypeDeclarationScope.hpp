@@ -1,6 +1,8 @@
 #ifndef TYPEDECLARATIONSCOPE_HPP
 #define TYPEDECLARATIONSCOPE_HPP
 
+#define TYPEDECL_TYPE_ALREADY_DEFINED "Type `%s` already defined."
+
 #include "DeclarationScope.hpp"
 #include "TypeDeclaration.hpp"
 

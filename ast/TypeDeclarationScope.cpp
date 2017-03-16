@@ -46,11 +46,12 @@ bool TypeDeclarationScope::checkSemantic(
     for ( auto& type : *this ) // For every types in this scope
     {
         auto& type_name = type.first;
+
         // If this type is already defined in the global scope
         if ( scope.getTypeDefOf( type_name ) != nullptr )
         {
-            // TODO: Report error
-            // Type `type_name` already defined
+            // Report the error and go with the next one.
+            report.error(*this, TYPEDECL_TYPE_ALREADY_DEFINED, type_name);
 
             continue;
         }
