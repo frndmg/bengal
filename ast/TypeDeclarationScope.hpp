@@ -38,6 +38,8 @@ public:
 
 private:
     bool hasCycle( std::set<std::string>& touched, const std::string& x );
+
+    void checkUniqueName( Scope& scope, Report& report );
 };
 
 } // ast namespace

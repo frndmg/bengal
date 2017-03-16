@@ -41,6 +41,9 @@ bool TypeDeclarationScope::checkSemantic(
         Node::Scope& scope,
         Node::Report& report )
 {
+    // No more than one type with the same name
+    checkUniqueName( scope, report );
+
     std::set<std::string> well_defined_types;
 
     for ( auto& type : *this ) // For every types in this scope
@@ -91,7 +94,7 @@ bool TypeDeclarationScope::checkSemantic(
     // Create all well defined types in the `scope.typeDef`
     for ( auto& x : well_defined_types )
     {
-        auto& type = find(x)->second;
+        auto& type = find( x )->second;
         if ( type->isAliasDeclaration() )
         {
             auto x = createType<semantic::AliasType>( type, scope );
@@ -101,16 +104,16 @@ bool TypeDeclarationScope::checkSemantic(
                 auto& alias_type = find_alias_type->second;
                 if ( alias_type->isAliasDeclaration() )
                     x->setTypeAlias(
-                            createType<semantic::AliasType>( alias_type
-                                                             , scope ) );
+                            createType<semantic::AliasType>( alias_type,
+                                                             scope ) );
                 else if ( alias_type->isArrayDeclaration() )
                     x->setTypeAlias(
-                            createType<semantic::ArrayType>( alias_type
-                                                             , scope ) );
+                            createType<semantic::ArrayType>( alias_type,
+                                                             scope ) );
                 else if ( alias_type->isTypeDeclaration() )
                     x->setTypeAlias(
-                            createType<semantic::StructType>( alias_type
-                                                              , scope ) );
+                            createType<semantic::StructType>( alias_type,
+                                                              scope ) );
             }
         } else if ( type->isArrayDeclaration() )
         {
@@ -121,16 +124,16 @@ bool TypeDeclarationScope::checkSemantic(
                 auto& array_type = find_array_type->second;
                 if ( array_type->isAliasDeclaration() )
                     x->setType(
-                            createType<semantic::AliasType>( array_type
-                                                             , scope ) );
+                            createType<semantic::AliasType>( array_type,
+                                                             scope ) );
                 else if ( array_type->isArrayDeclaration() )
                     x->setType(
-                            createType<semantic::ArrayType>( array_type
-                                                             , scope ) );
+                            createType<semantic::ArrayType>( array_type,
+                                                             scope ) );
                 else if ( array_type->isTypeDeclaration() )
                     x->setType(
-                            createType<semantic::StructType>( array_type
-                                                              , scope ) );
+                            createType<semantic::StructType>( array_type,
+                                                              scope ) );
             }
         } else if ( type->isTypeDeclaration() )
         {
@@ -145,18 +148,15 @@ bool TypeDeclarationScope::checkSemantic(
                     if ( member_type->isAliasDeclaration() )
                         x->push_back( { *member_type->id(),
                                         createType<semantic::AliasType>(
-                                                member_type
-                                                , scope ) } );
+                                                member_type, scope ) } );
                     else if ( member_type->isArrayDeclaration() )
                         x->push_back( { *member_type->id(),
                                         createType<semantic::ArrayType>(
-                                                member_type
-                                                , scope ) } );
+                                                member_type, scope ) } );
                     else if ( member_type->isTypeDeclaration() )
                         x->push_back( { *member_type->id(),
                                         createType<semantic::StructType>(
-                                                member_type
-                                                , scope ) } );
+                                                member_type, scope ) } );
                 }
             }
         }
@@ -171,7 +171,7 @@ bool TypeDeclarationScope::hasCycle(
 {
     if ( not std::get<1>( touched.insert( x ) ) )
         return true;
-    auto& type = find(x)->second;
+    auto& type = find( x )->second;
     if ( type->isArrayDeclaration() or type->isAliasDeclaration() )
         return hasCycle( touched, *type->id() );
     return false;
@@ -198,3 +198,33 @@ TypeDeclarationScope::TypeDeclarationScope( const Position& pos )
         : DeclarationScope( pos )
         , map()
 { }
+
+void TypeDeclarationScope::checkUniqueName(
+        Node::Scope& scope,
+        Node::Report& report )
+{
+    typedef map::size_type size_type;
+
+    for ( size_type i = 0; i < bucket_count(); ++i )
+    {
+        auto bucket_size_i = bucket_size( i );
+        auto it = begin( i );
+
+        if ( bucket_size_i > 1 )
+        {
+            // Check in the current TypeDeclarationScope
+            report.error( *this,
+                          TYPEDECL_TYPE_ALREADY_DEFINED,
+                          begin( i )->first.c_str() );
+        }
+        else if ( bucket_size_i == 1 )
+        {
+            // Check in outer scope
+            const auto& type_name = it->first;
+            if ( scope.getTypeDefOf( type_name ) != nullptr )
+                report.error( *this,
+                              TYPEDECL_TYPE_ALREADY_DEFINED,
+                              type_name.c_str() );
+        }
+    }
+}
