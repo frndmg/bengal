@@ -58,7 +58,6 @@ bool TypeDeclarationScope::checkSemantic(
 
         bool well_defined_type = true;
         for ( auto& type_depend : *type.second->typeDepends() )
-            // For every types that this `type` depends
         {
             // If `type_depend` isn't in the current scope and the global scope
             if ( find( type_depend ) == end()

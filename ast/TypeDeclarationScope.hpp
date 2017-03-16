@@ -18,7 +18,14 @@ class TypeDeclarationScope
         : public DeclarationScope,
           public std::unordered_map<std::string, std::shared_ptr<TypeDeclaration> >
 {
-    typedef std::unordered_map<std::string, std::shared_ptr<TypeDeclaration> > map;
+public:
+    typedef std::unordered_map< std::string, std::shared_ptr<TypeDeclaration> > map;
+    typedef map::key_type key_type;
+    typedef map::mapped_type mapped_type;
+    typedef map::value_type value_type;
+
+    typedef map::iterator iterator;
+    typedef map::const_iterator const_iterator;
 
 public:
     TypeDeclarationScope( const Position& = { 0, 0, 0, 0 } );
