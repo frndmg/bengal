@@ -95,8 +95,8 @@ bool TypeDeclarationScope::checkSemantic(
         if ( type->isAliasDeclaration() )
         {
             auto x = createType<semantic::AliasType>( type, scope );
-            auto find_alias_type = unordered_map::find( *type->type() );
-            if ( find_alias_type != unordered_map::end() )
+            auto find_alias_type = map::find( *type->type() );
+            if ( find_alias_type != map::end() )
             {
                 auto& alias_type = find_alias_type->second;
                 if ( alias_type->isAliasDeclaration() )
@@ -112,8 +112,8 @@ bool TypeDeclarationScope::checkSemantic(
         } else if ( type->isArrayDeclaration() )
         {
             auto x = createType<semantic::ArrayType>( type, scope );
-            auto find_array_type = unordered_map::find( *type->type() );
-            if ( find_array_type != unordered_map::end() )
+            auto find_array_type = map::find( *type->type() );
+            if ( find_array_type != map::end() )
             {
                 auto& array_type = find_array_type->second;
                 if ( array_type->isAliasDeclaration() )
@@ -132,8 +132,8 @@ bool TypeDeclarationScope::checkSemantic(
             for ( auto& x_member : *type->fields() )
             {
                 auto find_member_type
-                        = unordered_map::find( *x_member->type() );
-                if ( find_member_type != unordered_map::end() )
+                        = map::find( *x_member->type() );
+                if ( find_member_type != map::end() )
                 {
                     auto& member_type = find_member_type->second;
                     if ( member_type->isAliasDeclaration() )
@@ -184,5 +184,5 @@ TypeDeclarationScope::operator std::string() const
 
 TypeDeclarationScope::TypeDeclarationScope( const Position& pos )
         : DeclarationScope( pos )
-        , unordered_map()
+        , map()
 { }
