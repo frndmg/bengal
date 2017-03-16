@@ -16,10 +16,10 @@ namespace ast
 
 class TypeDeclarationScope
         : public DeclarationScope,
-          public std::unordered_map<std::string, std::shared_ptr<TypeDeclaration> >
+          public std::unordered_multimap<std::string, std::shared_ptr<TypeDeclaration> >
 {
 public:
-    typedef std::unordered_map< std::string, std::shared_ptr<TypeDeclaration> > map;
+    typedef std::unordered_multimap< std::string, std::shared_ptr<TypeDeclaration> > map;
     typedef map::key_type key_type;
     typedef map::mapped_type mapped_type;
     typedef map::value_type value_type;

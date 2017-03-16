@@ -91,7 +91,7 @@ bool TypeDeclarationScope::checkSemantic(
     // Create all well defined types in the `scope.typeDef`
     for ( auto& x : well_defined_types )
     {
-        auto& type = ( *this )[x];
+        auto& type = find(x)->second;
         if ( type->isAliasDeclaration() )
         {
             auto x = createType<semantic::AliasType>( type, scope );
@@ -171,7 +171,7 @@ bool TypeDeclarationScope::hasCycle(
 {
     if ( not std::get<1>( touched.insert( x ) ) )
         return true;
-    auto& type = ( *this )[x];
+    auto& type = find(x)->second;
     if ( type->isArrayDeclaration() or type->isAliasDeclaration() )
         return hasCycle( touched, *type->id() );
     return false;
