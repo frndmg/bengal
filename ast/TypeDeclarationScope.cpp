@@ -5,7 +5,7 @@
 using namespace ast;
 
 // Create a type from TypeDeclaration
-template <typename Type>
+template < typename Type >
 std::shared_ptr<Type> createType( const std::shared_ptr<TypeDeclaration>& type )
 {
     return std::make_shared<Type>( *type->id(), nullptr );
@@ -19,7 +19,7 @@ createType( const std::shared_ptr<TypeDeclaration>& type )
     return std::make_shared<semantic::StructType>( *type->id() );
 }
 
-template <typename Type>
+template < typename Type >
 std::shared_ptr<Type> createType(
         const std::shared_ptr<TypeDeclaration>& type,
         semantic::Scope& scope )
@@ -51,14 +51,14 @@ bool TypeDeclarationScope::checkSemantic(
         if ( scope.getTypeDefOf( type_name ) != nullptr )
         {
             // Report the error and go with the next one.
-            report.error(*this, TYPEDECL_TYPE_ALREADY_DEFINED, type_name);
+            report.error( *this, TYPEDECL_TYPE_ALREADY_DEFINED, type_name );
 
             continue;
         }
+
         bool well_defined_type = true;
-        for ( auto& type_depend :
-                *type.second
-                     ->typeDepends() ) // For every types that this `type` depends
+        for ( auto& type_depend : *type.second->typeDepends() )
+            // For every types that this `type` depends
         {
             // If `type_depend` isn't in the current scope and the global scope
             if ( find( type_depend ) == end()
@@ -102,13 +102,16 @@ bool TypeDeclarationScope::checkSemantic(
                 auto& alias_type = find_alias_type->second;
                 if ( alias_type->isAliasDeclaration() )
                     x->setTypeAlias(
-                            createType<semantic::AliasType>( alias_type, scope ) );
+                            createType<semantic::AliasType>( alias_type
+                                                             , scope ) );
                 else if ( alias_type->isArrayDeclaration() )
                     x->setTypeAlias(
-                            createType<semantic::ArrayType>( alias_type, scope ) );
+                            createType<semantic::ArrayType>( alias_type
+                                                             , scope ) );
                 else if ( alias_type->isTypeDeclaration() )
                     x->setTypeAlias(
-                            createType<semantic::StructType>( alias_type, scope ) );
+                            createType<semantic::StructType>( alias_type
+                                                              , scope ) );
             }
         } else if ( type->isArrayDeclaration() )
         {
@@ -119,13 +122,16 @@ bool TypeDeclarationScope::checkSemantic(
                 auto& array_type = find_array_type->second;
                 if ( array_type->isAliasDeclaration() )
                     x->setType(
-                            createType<semantic::AliasType>( array_type, scope ) );
+                            createType<semantic::AliasType>( array_type
+                                                             , scope ) );
                 else if ( array_type->isArrayDeclaration() )
                     x->setType(
-                            createType<semantic::ArrayType>( array_type, scope ) );
+                            createType<semantic::ArrayType>( array_type
+                                                             , scope ) );
                 else if ( array_type->isTypeDeclaration() )
                     x->setType(
-                            createType<semantic::StructType>( array_type, scope ) );
+                            createType<semantic::StructType>( array_type
+                                                              , scope ) );
             }
         } else if ( type->isTypeDeclaration() )
         {
@@ -139,13 +145,19 @@ bool TypeDeclarationScope::checkSemantic(
                     auto& member_type = find_member_type->second;
                     if ( member_type->isAliasDeclaration() )
                         x->push_back( { *member_type->id(),
-                                        createType<semantic::AliasType>( member_type, scope ) } );
+                                        createType<semantic::AliasType>(
+                                                member_type
+                                                , scope ) } );
                     else if ( member_type->isArrayDeclaration() )
                         x->push_back( { *member_type->id(),
-                                        createType<semantic::ArrayType>( member_type, scope ) } );
+                                        createType<semantic::ArrayType>(
+                                                member_type
+                                                , scope ) } );
                     else if ( member_type->isTypeDeclaration() )
                         x->push_back( { *member_type->id(),
-                                        createType<semantic::StructType>( member_type, scope ) } );
+                                        createType<semantic::StructType>(
+                                                member_type
+                                                , scope ) } );
                 }
             }
         }
