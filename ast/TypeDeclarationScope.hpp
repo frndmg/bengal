@@ -40,6 +40,11 @@ private:
     bool hasCycle( std::set<std::string>& touched, const std::string& x );
 
     void checkUniqueName( Scope& scope, Report& report );
+
+    void checkTypeDepend(
+            std::set<std::string>& well_defined_types,
+            Scope& scope,
+            Report& report );
 };
 
 } // ast namespace

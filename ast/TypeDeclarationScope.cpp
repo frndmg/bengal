@@ -44,20 +44,13 @@ bool TypeDeclarationScope::checkSemantic(
     // No more than one type with the same name
     checkUniqueName( scope, report );
 
-    std::set<std::string> well_defined_types;
+    // Every type has all its dependencies in order
+    std::set< std::string > well_defined_types;
+    checkTypeDepend( well_defined_types, scope, report );
 
     for ( auto& type : *this ) // For every types in this scope
     {
         auto& type_name = type.first;
-
-        // If this type is already defined in the global scope
-        if ( scope.getTypeDefOf( type_name ) != nullptr )
-        {
-            // Report the error and go with the next one.
-            report.error( *this, TYPEDECL_TYPE_ALREADY_DEFINED, type_name );
-
-            continue;
-        }
 
         bool well_defined_type = true;
         for ( auto& type_depend : *type.second->typeDepends() )
@@ -227,4 +220,12 @@ void TypeDeclarationScope::checkUniqueName(
                               type_name.c_str() );
         }
     }
+}
+
+void TypeDeclarationScope::checkTypeDepend(
+        std::set<std::string>& well_defined_types,
+        Node::Scope& scope,
+        Node::Report& report )
+{
+
 }
