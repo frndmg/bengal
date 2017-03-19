@@ -45,28 +45,10 @@ bool TypeDeclarationScope::checkSemantic(
     checkUniqueName( scope, report );
 
     // Every type has all its dependencies in order
-    std::set< std::string > well_defined_types;
+    std::set<std::string> well_defined_types;
     checkTypeDepend( well_defined_types, scope, report );
 
-    for ( auto& type : *this ) // For every types in this scope
-    {
-        auto& type_name = type.first;
 
-        bool well_defined_type = true;
-        for ( auto& type_depend : *type.second->typeDepends() )
-        {
-            // If `type_depend` isn't in the current scope and the global scope
-            if ( find( type_depend ) == end()
-                 and scope.getTypeDefOf( type_depend ) == nullptr )
-            {
-                well_defined_type = false;
-                // TODO: Report error
-                // Type `type_depend` doesn't exist
-            }
-        }
-        if ( well_defined_type )
-            well_defined_types.insert( type_name );
-    }
 
     // Check cyclic definitions
 
@@ -209,8 +191,7 @@ void TypeDeclarationScope::checkUniqueName(
             report.error( *this,
                           TYPEDECL_TYPE_ALREADY_DEFINED,
                           begin( i )->first.c_str() );
-        }
-        else if ( bucket_size_i == 1 )
+        } else if ( bucket_size_i == 1 )
         {
             // Check in outer scope
             const auto& type_name = it->first;
@@ -227,5 +208,22 @@ void TypeDeclarationScope::checkTypeDepend(
         Node::Scope& scope,
         Node::Report& report )
 {
+    for ( auto& value : *this )
+    {
+        auto& type_name = value.first;
+        auto& type = value.second;
+        bool well_defined_type = true;
 
+        for ( auto& type_depend : *type->typeDepends() )
+            if ( find( type_depend ) == end()
+                 and scope.getTypeDefOf( type_depend ) == nullptr )
+            {
+                well_defined_type = false;
+                report.error( *this,
+                              "Type `%s` does not exist.",
+                              type_depend.c_str() );
+            }
+        if ( well_defined_type )
+            well_defined_types.insert( type_name );
+    }
 }
