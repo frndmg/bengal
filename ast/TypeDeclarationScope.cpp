@@ -140,40 +140,6 @@ bool TypeDeclarationScope::checkSemantic(
     return well_defined_types.size() == size();
 }
 
-bool TypeDeclarationScope::hasCycle(
-        std::set<std::string>& touched,
-        const std::string& x )
-{
-    if ( not std::get<1>( touched.insert( x ) ) )
-        return true;
-    auto& type = find( x )->second;
-    if ( type->isArrayDeclaration() or type->isAliasDeclaration() )
-        return hasCycle( touched, *type->id() );
-    return false;
-}
-
-TypeDeclarationScope::operator std::string() const
-{
-    std::string s;
-
-    s += "TypeDeclarationScope( ";
-    auto i = this->begin();
-    if ( i != this->end() )
-    {
-        s += static_cast<std::string>( *( ( *( i++ ) ).second ) );
-        for ( ; i != this->end(); i++ )
-            s += ", " + static_cast<std::string>( *( *i ).second );
-    }
-    s += " )";
-
-    return s;
-}
-
-TypeDeclarationScope::TypeDeclarationScope( const Position& pos )
-        : DeclarationScope( pos )
-        , map()
-{ }
-
 void TypeDeclarationScope::checkUniqueName(
         Node::Scope& scope,
         Node::Report& report )
@@ -227,3 +193,37 @@ void TypeDeclarationScope::checkTypeDepend(
             well_defined_types.insert( type_name );
     }
 }
+
+bool TypeDeclarationScope::hasCycle(
+        std::set<std::string>& touched,
+        const std::string& x )
+{
+    if ( not std::get<1>( touched.insert( x ) ) )
+        return true;
+    auto& type = find( x )->second;
+    if ( type->isArrayDeclaration() or type->isAliasDeclaration() )
+        return hasCycle( touched, *type->id() );
+    return false;
+}
+
+TypeDeclarationScope::operator std::string() const
+{
+    std::string s;
+
+    s += "TypeDeclarationScope( ";
+    auto i = this->begin();
+    if ( i != this->end() )
+    {
+        s += static_cast<std::string>( *( ( *( i++ ) ).second ) );
+        for ( ; i != this->end(); i++ )
+            s += ", " + static_cast<std::string>( *( *i ).second );
+    }
+    s += " )";
+
+    return s;
+}
+
+TypeDeclarationScope::TypeDeclarationScope( const Position& pos )
+        : DeclarationScope( pos )
+        , map()
+{ }
