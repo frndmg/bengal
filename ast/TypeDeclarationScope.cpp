@@ -174,11 +174,20 @@ void TypeDeclarationScope::checkTypeDepend(
 {
     for ( auto& value : *this )
     {
-        auto& type_name = value.first;
-        auto& type = value.second;
+        // Name of the current type
+        const auto& type_name = value.first;
+
+        // Value of the current type
+        const auto& type = value.second;
+
+        // Is a well defined type
         bool well_defined_type = true;
 
-        for ( auto& type_depend : *type->typeDepends() )
+        // Get all types that `type` depends on.
+        std::vector< Id > type_depends;
+        type->typeDepends( std::back_inserter( type_depends ) );
+
+        for ( auto& type_depend : type_depends )
             if ( find( type_depend ) == end()
                  and scope.getTypeDefOf( type_depend ) == nullptr )
             {
