@@ -154,7 +154,7 @@ bool TypeDeclarationScope::hasCycle(
 
 TypeDeclarationScope::operator std::string() const
 {
-    static std::string s;
+    std::string s;
 
     s += "TypeDeclarationScope( ";
     auto i = this->begin();
