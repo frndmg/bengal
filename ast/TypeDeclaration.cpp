@@ -22,19 +22,6 @@ bool TypeDeclaration::checkSemantic( Scope& scope, Report& report )
     // Empty. All the semantic check is done in TypeDeclarationScope
 }
 
-std::shared_ptr< std::vector<std::string> > TypeDeclaration::typeDepends() const
-{
-    typedef std::vector< std::string > Vector;
-
-    auto vector = std::make_shared< Vector >();
-    if ( isArrayDeclaration() or isAliasDeclaration() )
-        vector->push_back( *m_type );
-    else
-        for ( const auto& x : *m_fields )
-            vector->push_back( *x->type() );
-    return vector;
-}
-
 const std::shared_ptr<Id>& TypeDeclaration::id() const
 { return m_id; }
 
