@@ -48,8 +48,6 @@ bool TypeDeclarationScope::checkSemantic(
     std::set<std::string> well_defined_types;
     checkTypeDepend( well_defined_types, scope, report );
 
-
-
     // Check cyclic definitions
 
     // TODO: Improve the implementation
