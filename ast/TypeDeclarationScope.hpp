@@ -14,6 +14,7 @@
 namespace ast
 {
 
+/// \brief TypeDeclarationScope class
 class TypeDeclarationScope
         : public DeclarationScope,
           public std::unordered_multimap<std::string, std::shared_ptr<TypeDeclaration> >
