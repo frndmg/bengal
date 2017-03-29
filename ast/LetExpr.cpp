@@ -19,8 +19,12 @@ bool LetExpr::checkSemantic( Scope& scope, Report& report )
     // The execution of the let expression occurs in a new scope
     Scope new_scope( &scope );
     ok = this->scope()->checkSemantic( new_scope, report ) and ok;
-    // TODO: Get the most deep scope, something like
-    // new_scope = scope()->deepScope();
+
+    // Get the last scope
+    auto& scopes = this->scope()->scopes();
+    if ( scopes.size() > 1 )  // There is at least one (empty) scope
+        new_scope = *scopes.at( scopes.size() - 1 );
+
     ok = this->expr_seq()->checkSemantic( new_scope, report ) and ok;
     // at this time new_scope is gone
 
