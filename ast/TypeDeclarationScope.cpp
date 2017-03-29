@@ -146,16 +146,21 @@ void TypeDeclarationScope::checkUniqueName(
 
     for ( size_type i = 0; i < bucket_count(); ++i )
     {
-        auto bucket_size_i = bucket_size( i );
+        // The size of the bucket ``i``
+        size_type bucket_size_i = bucket_size( i );
+
+        // Iterator to the beginning of bucket ``i``
         auto it = begin( i );
 
         if ( bucket_size_i > 1 )
         {
-            // Check in the current TypeDeclarationScope
+            auto type_name = begin( i )->first.c_str();
+            // Multiple definitions of type ``type_name``
             report.error( *this,
                           TYPEDECL_TYPE_ALREADY_DEFINED,
-                          begin( i )->first.c_str() );
-        } else if ( bucket_size_i == 1 )
+                          type_name );
+        }
+        else if ( bucket_size_i == 1 )
         {
             // Check in outer scope
             const auto& type_name = it->first;
