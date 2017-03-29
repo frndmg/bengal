@@ -37,7 +37,9 @@ bool LetExpr::checkSemantic( Scope& scope, Report& report )
         if ( scope.getTypeDefOf( ret_type_name ) == nullptr )
         {
             ok = false;
-            report.error( *this, "The type `%s` does not exist in the current scope.", ret_type_name.c_str() );
+            report.error( *this,
+                          "The type `%s` does not exist in the current scope.",
+                          ret_type_name.c_str() );
         }
     }
     return ok;
