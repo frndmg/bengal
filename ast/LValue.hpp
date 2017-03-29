@@ -41,6 +41,8 @@ public:
 public:
     virtual bool checkSemantic(Scope& scope, Report& report) override;
 
+    virtual operator std::string() const;
+
 private:
     std::shared_ptr<Id>     m_id;
     std::shared_ptr<Expr>   m_index;

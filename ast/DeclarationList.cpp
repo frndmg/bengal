@@ -48,7 +48,7 @@ DeclarationList::operator std::string() const
     return s;
 }
 
-std::vector< std::shared_ptr< Node::Scope > >& DeclarationList::scopes() const
+std::vector< std::shared_ptr< Node::Scope > >& DeclarationList::scopes()
 {
     return m_scopes;
 }

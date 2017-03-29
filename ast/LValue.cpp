@@ -116,3 +116,9 @@ void LValue::setNext(const std::shared_ptr<LValue>& next)
     if ( not next->isSimple() )
         m_next = next;
 }
+
+LValue::operator std::string() const
+{
+    // TODO: Implement this
+    return "LValue()";
+}
