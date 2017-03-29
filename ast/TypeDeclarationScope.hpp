@@ -40,6 +40,9 @@ public:
 private:
     bool hasCycle( std::set<std::string>& touched, const std::string& x );
 
+    /// \brief Checks if all the defined types have a unique name
+    /// \param scope
+    /// \param report
     void checkUniqueName( Scope& scope, Report& report );
 
     void checkTypeDepend(
