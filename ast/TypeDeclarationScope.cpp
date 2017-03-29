@@ -165,8 +165,8 @@ void TypeDeclarationScope::checkUniqueName(
 
 void TypeDeclarationScope::checkTypeDepend(
         std::set<std::string>& well_defined_types,
-        Node::Scope& scope,
-        Node::Report& report )
+        Scope& scope,
+        Report& report )
 {
     for ( auto& value : *this )
     {
@@ -174,14 +174,14 @@ void TypeDeclarationScope::checkTypeDepend(
         const auto& type_name = value.first;
 
         // Value of the current type
-        const auto& type = value.second;
+        const auto& type_declaration = value.second;
 
         // Is a well defined type
         bool well_defined_type = true;
 
-        // Get all types that `type` depends on.
+        // Get all types that ``type_declaration`` depends on.
         std::vector< Id > type_depends;
-        type->typeDepends( std::back_inserter( type_depends ) );
+        type_declaration->typeDepends( std::back_inserter( type_depends ) );
 
         for ( auto& type_depend : type_depends )
             if ( find( type_depend ) == end()
@@ -189,7 +189,7 @@ void TypeDeclarationScope::checkTypeDepend(
             {
                 well_defined_type = false;
                 report.error( *this,
-                              "Type `%s` does not exist.",
+                              TYPEDECL_TYPE_DOES_NOT_EXIST,
                               type_depend.c_str() );
             }
         if ( well_defined_type )
