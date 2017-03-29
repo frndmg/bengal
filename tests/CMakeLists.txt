@@ -7,6 +7,12 @@ function(add_tiger_test TEST_NAME TEST_TYPE TEST_LABEL)
     )
 endfunction()
 
+function(run_tiger FOLDER TIGER_FILE_NAME)
+    add_test(NAME ${FOLDER}/${TIGER_FILE_NAME}
+             COMMAND tiger tigs/${FOLDER}/${TIGER_FILE_NAME}.tig
+             WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests)
+endfunction()
+
 # INT EXPRESSION
 ## POSITIVE
 add_tiger_test(int_expr positive 01)
@@ -83,6 +89,10 @@ add_tiger_test(array_expr simple 01)
 add_tiger_test(if_expr simple 01)
 add_tiger_test(if_expr simple 02)
 add_tiger_test(if_expr simple 03)
+
+
+# OTHER TESTS
+run_tiger(other 8queens)
 
 
 # Add boost testing
