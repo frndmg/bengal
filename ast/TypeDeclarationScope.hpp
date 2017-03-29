@@ -3,6 +3,8 @@
 
 #define TYPEDECL_TYPE_ALREADY_DEFINED "Type `%s` already defined."
 
+#define TYPEDECL_TYPE_DOES_NOT_EXIST "Type `%s` does not exist."
+
 #include "DeclarationScope.hpp"
 #include "TypeDeclaration.hpp"
 

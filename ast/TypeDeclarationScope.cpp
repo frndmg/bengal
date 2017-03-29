@@ -61,6 +61,7 @@ bool TypeDeclarationScope::checkSemantic(
             well_defined_types.erase( type_name );
             // TODO: Report error
             // Cyclic definition
+            std::cout << "Cyclic definition of " << type_name << std::endl;
         }
     }
 
@@ -204,8 +205,8 @@ bool TypeDeclarationScope::hasCycle(
     if ( not std::get<1>( touched.insert( x ) ) )
         return true;
     auto& type = find( x )->second;
-    if ( type->isArrayDeclaration() or type->isAliasDeclaration() )
-        return hasCycle( touched, *type->id() );
+    if ( type->isAliasDeclaration() )
+        return hasCycle( touched, *type->type() );
     return false;
 }
 
