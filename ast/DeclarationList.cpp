@@ -14,8 +14,17 @@ bool DeclarationList::checkSemantic(
     // Only have to check that all the declaration scopes has been
     // declared well semantically.
     bool ok( true );
+
+    auto new_scope = std::make_shared< Scope >( &scope );
+    scopes().push_back( new_scope );
+
     for ( auto& x : *this )
-        ok = x->checkSemantic( scope, report ) and ok;
+    {
+        new_scope = std::make_shared< Scope >( new_scope.get() );
+        scopes().push_back( new_scope );
+
+        ok = x->checkSemantic( *new_scope, report ) and ok;
+    }
     return ok;
 }
 
@@ -25,7 +34,7 @@ DeclarationList::operator std::string() const
 
     if ( s.empty() )
     {
-        s += "DeclarationList( { ";
+        s += "DeclarationList( ";
         auto i = this->begin();
         if ( i != this->end() )
         {
@@ -33,8 +42,13 @@ DeclarationList::operator std::string() const
             for ( ; i != this->end(); i++ )
                 s += ", " + static_cast<std::string>( **i );
         }
-        s += " } )";
+        s += " )";
     }
 
     return s;
+}
+
+std::vector< std::shared_ptr< Node::Scope > >& DeclarationList::scopes() const
+{
+    return m_scopes;
 }

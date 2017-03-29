@@ -21,6 +21,11 @@ public:
     virtual bool checkSemantic( Scope& scope, Report& report ) override;
 
     virtual operator std::string() const override;
+
+    std::vector< std::shared_ptr< Node::Scope > >& scopes() const;
+
+private:
+    std::vector< std::shared_ptr< Scope > > m_scopes;
 };
 
 } // ast namespace

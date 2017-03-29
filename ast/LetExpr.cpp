@@ -19,6 +19,12 @@ bool LetExpr::checkSemantic( Scope& scope, Report& report )
     // The execution of the let expression occurs in a new scope
     Scope new_scope( &scope );
     ok = this->scope()->checkSemantic( new_scope, report ) and ok;
+
+    // Get the last scope
+    auto& scopes = this->scope()->scopes();
+    if ( scopes.size() > 1 )  // There is at least one (empty) scope
+        new_scope = *scopes.at( scopes.size() - 1 );
+
     ok = this->expr_seq()->checkSemantic( new_scope, report ) and ok;
     // at this time new_scope is gone
 
@@ -31,7 +37,9 @@ bool LetExpr::checkSemantic( Scope& scope, Report& report )
         if ( scope.getTypeDefOf( ret_type_name ) == nullptr )
         {
             ok = false;
-            report.error( *this, "The type `%s` does not exist in the current scope.", ret_type_name.c_str() );
+            report.error( *this,
+                          "The type `%s` does not exist in the current scope.",
+                          ret_type_name.c_str() );
         }
     }
     return ok;
