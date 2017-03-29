@@ -42,7 +42,7 @@ add_tiger_test(let_expr simple01)
 add_tiger_test(let_expr/type_declaration alias)
 add_tiger_test(let_expr/type_declaration array_of_int)
 add_tiger_test(let_expr/type_declaration two_fields)
-add_tiger_test(let_expr/type_declaration/semantic_error alias_b_does_not_exits)
+add_tiger_test(let_expr/type_declaration/semantic_error alias_b_does_not_exist)
 ## FUNCTION DECLARATION
 add_tiger_test(let_expr/function_declaration no_params_no_return_no_body)
 add_tiger_test(let_expr/function_declaration one_param_no_return_no_body)
