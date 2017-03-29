@@ -160,15 +160,6 @@ void TypeDeclarationScope::checkUniqueName(
                           TYPEDECL_TYPE_ALREADY_DEFINED,
                           type_name );
         }
-        else if ( bucket_size_i == 1 )
-        {
-            // Check in outer scope
-            const auto& type_name = it->first;
-            if ( scope.getTypeDefOf( type_name ) != nullptr )
-                report.error( *this,
-                              TYPEDECL_TYPE_ALREADY_DEFINED,
-                              type_name.c_str() );
-        }
     }
 }
 
