@@ -154,7 +154,7 @@ void TypeDeclarationScope::checkUniqueName(
 
         if ( bucket_size_i > 1 )
         {
-            auto type_name = begin( i )->first.c_str();
+            auto type_name = it->first.c_str();
             // Multiple definitions of type ``type_name``
             report.error( *this,
                           TYPEDECL_TYPE_ALREADY_DEFINED,
