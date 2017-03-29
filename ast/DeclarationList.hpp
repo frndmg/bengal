@@ -22,7 +22,7 @@ public:
 
     virtual operator std::string() const override;
 
-    std::vector< std::shared_ptr< Node::Scope > >& scopes() const;
+    std::vector< std::shared_ptr< Node::Scope > >& scopes();
 
 private:
     std::vector< std::shared_ptr< Scope > > m_scopes;
