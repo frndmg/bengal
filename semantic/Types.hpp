@@ -19,32 +19,16 @@ namespace std
 {
 
 template <>
-shared_ptr<semantic::IntType> make_shared<semantic::IntType>()
-{
-    static std::shared_ptr<semantic::IntType> int_type;
-    return int_type;
-}
+shared_ptr<semantic::IntType> make_shared<semantic::IntType>();
 
 template <>
-shared_ptr<semantic::StringType> make_shared<semantic::StringType>()
-{
-    static std::shared_ptr<semantic::StringType> string_type;
-    return string_type;
-}
+shared_ptr<semantic::StringType> make_shared<semantic::StringType>();
 
 template <>
-shared_ptr<semantic::NilType> make_shared<semantic::NilType>()
-{
-    static std::shared_ptr<semantic::NilType> nil_type;
-    return nil_type;
-}
+shared_ptr<semantic::NilType> make_shared<semantic::NilType>();
 
 template <>
-shared_ptr<semantic::NoneType> make_shared<semantic::NoneType>()
-{
-    static std::shared_ptr<semantic::NoneType> none_type;
-    return none_type;
-}
+shared_ptr<semantic::NoneType> make_shared<semantic::NoneType>();
 
 }
 
@@ -128,7 +112,7 @@ struct StructType
     StructType(
             const std::string& typeName,
             std::initializer_list<value_type> init = { } )
-            : Type( typeName ), vector( init )
+            : Type( typeName ), m_body( init )
     { }
 
     const vector& body()
