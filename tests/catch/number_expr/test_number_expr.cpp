@@ -2,7 +2,7 @@
 
 #include <parser.h>
 
-TEST_CASE( "Positive Numbers", "[positive]" )
+TEST_CASE( "positive numbers", "[positive]" )
 {
     std::fstream fstream( "int_expr/positive.tig" );
 
@@ -13,7 +13,7 @@ TEST_CASE( "Positive Numbers", "[positive]" )
     REQUIRE( parser.parse() == 0 );
 }
 
-TEST_CASE( "Negative Numbers", "[negative]" )
+TEST_CASE( "negative numbers", "[negative]" )
 {
     std::fstream fstream( "int_expr/negative.tig" );
 
