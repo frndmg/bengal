@@ -96,3 +96,7 @@ add_tiger_test(other 8queens)
 
 # Add boost testing
 add_subdirectory(boost)
+
+
+# Add catch testing
+add_subdirectory(catch)
