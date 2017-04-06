@@ -18,16 +18,17 @@ bool UnaryExpr::checkSemantic(Scope& scope, Report& report)
 {
     bool ok = m_expr->checkSemantic( scope, report );
 
-    auto int_type = scope.getTypeDefOf( "int" );
+    auto int_type = scope.getType( "int" );
 
     switch ( m_op )
     {
     case NEG:
-        if ( not ( ok = sameType( int_type, { m_expr } ) ) )
+        if ( not sameType( int_type, { m_expr } ) )
         {
             report.error(*this,
                          "The expression is not of type int. Note: [type = %s]",
                          m_expr->type()->typeName().c_str());
+            ok = false;
         }
         break;
     default:
