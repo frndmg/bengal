@@ -7,14 +7,20 @@
 namespace ast
 {
 
-class FieldList : public Node, private ptr_list<Field>
+class FieldList : public Node, private std::vector< std::shared_ptr<Field> >
 {
 public:
-    using ptr_list<Field>::push_back;
-    using ptr_list<Field>::begin;
-    using ptr_list<Field>::end;
-    using ptr_list<Field>::size;
-    using ptr_list<Field>::operator[];
+    using vector = std::vector< std::shared_ptr< Field > >;
+    using vector::push_back;
+    using vector::begin;
+    using vector::end;
+    using vector::size;
+    using vector::operator[];
+
+    using vector::value_type;
+
+    using vector::iterator;
+    using vector::const_iterator;
 
     // Node interface
 public:
