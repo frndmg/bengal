@@ -31,15 +31,18 @@ public:
     const std::shared_ptr<TypeFields> arguments() const
     { return m_arguments; }
 
-    const std::shared_ptr< Expr > body() const
+    const std::shared_ptr<Expr> body() const
     { return m_body; }
 
-    const std::shared_ptr< Id > returnType() const
+    const std::shared_ptr<Id> returnType() const
     { return m_retType; }
 
     // Node interface
 public:
     virtual bool checkSemantic( Scope& scope, Report& report ) override;
+
+private:
+    bool checkArguments( Scope& scope, Report& report ) const;
 };
 
 } // ast namespace

@@ -16,34 +16,10 @@ FunctionDeclaration::FunctionDeclaration(
 
 bool FunctionDeclaration::checkSemantic( Scope& scope, Report& report )
 {
-    bool ok = true;
-
     // All in a function declaration occurs inside a new scope.
     Scope nested_scope( &scope );
 
-    for ( auto& x : *arguments() )
-    {
-        auto variable_type = nested_scope.getType( *x->type() );
-
-        if ( variable_type == nullptr )
-        {
-            // If the variable has an invalid type.
-            report.error( *x,
-                          "The type %s does not exist in the current scope.",
-                          x->type()->c_str() );
-            ok = false;
-
-            continue;
-        }
-
-        if ( not nested_scope.addVariable( *x->id(), variable_type ) )
-        {
-            // If the variable already defined.
-            report.error( *x, "The variable name %s already taken.",
-                          x->id()->c_str() );
-            ok = false;
-        }
-    }
+    bool ok = checkArguments( nested_scope, report );
 
     std::string return_type_name;
     if ( returnType() != nullptr )
@@ -77,5 +53,34 @@ bool FunctionDeclaration::checkSemantic( Scope& scope, Report& report )
         ok = false;
     }
 
+    return ok;
+}
+
+bool FunctionDeclaration::checkArguments( Scope& scope, Report& report ) const
+{
+    bool ok = true;
+    for ( auto& x : *arguments() )
+    {
+        auto variable_type = scope.getType( *x->type() );
+
+        if ( variable_type == nullptr )
+        {
+            // If the variable has an invalid type.
+            report.error( *x,
+                          "The type %s does not exist in the current scope.",
+                          x->type()->c_str() );
+            ok = false;
+
+            continue;
+        }
+
+        if ( not scope.addVariable( *x->id(), variable_type ) )
+        {
+            // If the variable already defined.
+            report.error( *x, "The variable name %s already taken.",
+                          x->id()->c_str() );
+            ok = false;
+        }
+    }
     return ok;
 }
