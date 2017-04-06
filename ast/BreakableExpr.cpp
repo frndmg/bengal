@@ -17,5 +17,7 @@ BreakableExpr::BreakableExpr(const std::shared_ptr<ast::Expr>& body,
 bool BreakableExpr::checkSemantic(Scope& scope, Report& report)
 {
     Scope p( &scope, Scope::BreakableScope );
-    return m_body->checkSemantic( p, report );
+    bool ok = m_body->checkSemantic( p, report );
+    setType( m_body->type() );
+    return ok;
 }
