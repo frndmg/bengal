@@ -11,8 +11,7 @@ BinExpr::BinExpr(
         , m_lexpr( lexpr )
         , m_rexpr( rexpr )
         , m_op( op )
-{
-}
+{ }
 
 bool BinExpr::checkSemantic( Scope& scope, Report& report )
 {
@@ -22,8 +21,8 @@ bool BinExpr::checkSemantic( Scope& scope, Report& report )
         return false;
 
     auto ok = true;
-    auto int_type = scope.getTypeDefOf( "int" );
-    auto string_type = scope.getTypeDefOf( "string" );
+    auto int_type = scope.getType( "int" );
+    auto string_type = scope.getType( "string" );
 
     switch ( m_op )
     {
@@ -36,8 +35,11 @@ bool BinExpr::checkSemantic( Scope& scope, Report& report )
             // All this operations are over integers
             if ( not( ok = sameType( int_type, { m_lexpr, m_rexpr } ) ) )
             {
-                report.error( *this, " Operands must be of type int, found expressions of type "
-                        "[%s] and [%s]", m_lexpr->type()->typeName().c_str(), m_rexpr->type()->typeName().c_str() );
+                report.error( *this,
+                              " Operands must be of type int, found expressions of type "
+                                      "[%s] and [%s]",
+                              m_lexpr->type()->typeName().c_str(),
+                              m_rexpr->type()->typeName().c_str() );
             }
             break;
         case GREATER:
@@ -48,13 +50,17 @@ bool BinExpr::checkSemantic( Scope& scope, Report& report )
             if ( not( ok = ( sameType( int_type, { m_lexpr, m_rexpr } ) or
                              sameType( string_type, { m_lexpr, m_rexpr } ) ) ) )
             {
-                report.error( *this, " Operands must be of type int or string, found expressions of type "
-                        "[%s] and [%s]", m_lexpr->type()->typeName().c_str(), m_rexpr->type()->typeName().c_str() );
+                report.error( *this,
+                              " Operands must be of type int or string, found expressions of type "
+                                      "[%s] and [%s]",
+                              m_lexpr->type()->typeName().c_str(),
+                              m_rexpr->type()->typeName().c_str() );
             }
             break;
         case EQUAL:
         case NEQUAL:
-            return ok and not sameType( single_town<NoneType>(), { m_lexpr } ) and
+            return ok and
+                   not sameType( single_town<NoneType>(), { m_lexpr } ) and
                    sameType( { m_lexpr, m_rexpr } );
         default:
             break;
@@ -68,7 +74,8 @@ bool BinExpr::checkSemantic( Scope& scope, Report& report )
 
 BinExpr::operator std::string() const
 {
-    static const std::string ops[]{ "=", "!=", ">", "<", ">=", "<=", "&", "|", "*", "/", "+", "-" };
+    static const std::string ops[]{ "=", "!=", ">", "<", ">=", "<=", "&", "|",
+                                    "*", "/", "+", "-" };
 
     return "BinExpr( "
            + static_cast<std::string>( *m_lexpr )
