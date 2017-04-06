@@ -89,8 +89,8 @@ struct NoneType
 struct ArrayType
         : Type
 {
-    ArrayType( const std::string& typeName, const std::shared_ptr<Type>& type )
-            : Type( typeName ), m_type( type )
+    ArrayType( const std::string& array_name, const std::shared_ptr<Type>& type )
+            : Type( array_name ), m_type( type )
     { }
 
     const std::shared_ptr<Type>& type() const
@@ -110,9 +110,9 @@ struct StructType
     typedef vector::value_type value_type;
 
     StructType(
-            const std::string& typeName,
+            const std::string& struct_name,
             std::initializer_list<value_type> init = { } )
-            : Type( typeName ), m_body( init )
+            : Type( struct_name ), m_body( init )
     { }
 
     const vector& body()
@@ -126,24 +126,24 @@ struct AliasType
         : Type
 {
     AliasType(
-            const std::string& typeName,
+            const std::string& alias_name,
             const std::shared_ptr<Type>& typeAlias )
             :
-            Type( typeName ), m_typeAlias( typeAlias )
+            Type( alias_name ), m_alias_type( typeAlias )
     { }
 
-    const std::shared_ptr<Type>& typeAlias() const
+    const std::shared_ptr<Type>& aliasType() const
     {
-        return m_typeAlias;
+        return m_alias_type;
     }
 
     void setTypeAlias( const std::shared_ptr<Type>& typeAlias )
     {
-        m_typeAlias = typeAlias;
+        m_alias_type = typeAlias;
     }
 
 private:
-    std::shared_ptr<Type> m_typeAlias;
+    std::shared_ptr<Type> m_alias_type;
 };
 
 struct FunctionType
@@ -154,9 +154,9 @@ struct FunctionType
 
     FunctionType(
             const std::shared_ptr<Type>& return_type,
-            const std::string& type_name,
+            const std::string& function_name,
             std::initializer_list<value_type> init = { } )
-            : Type( type_name ), m_params( init )
+            : Type( function_name ), m_params( init )
     { }
 
 public:
@@ -175,9 +175,9 @@ struct ProcedureType
         : FunctionType
 {
     ProcedureType(
-            const std::string& typeName,
+            const std::string& procedure_name,
             std::initializer_list<value_type> init = { } )
-            : FunctionType( std::make_shared<NoneType>(), typeName, init )
+            : FunctionType( std::make_shared<NoneType>(), procedure_name, init )
     { }
 };
 
