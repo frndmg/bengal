@@ -11,7 +11,7 @@ class Ast
 public:
     /// \brief Creates a new instance with a root.
     /// \param root The root of the ast.
-    Ast( const std::shared_ptr<Expr>& root )
+    Ast( const std::shared_ptr<Expr>& root = nullptr )
             : m_root( root )
     { }
 
