@@ -2,19 +2,21 @@
 
 using namespace ast;
 
-NumExpr::NumExpr(int val, const Position& pos) :
-    RValue( pos ),
-    m_val( val )
-{
-}
+NumExpr::NumExpr( int value, const Position& pos )
+        : RValue( pos )
+        , m_value( value )
+{ }
 
-bool NumExpr::checkSemantic(Scope& scope, Report&)
+int NumExpr::value() const
+{ return m_value; }
+
+bool NumExpr::checkSemantic( Scope& scope, Report& )
 {
-    setType( scope.getTypeDefOf( "int" ) );
+    setType( scope.getType( "int" ) );
     return true;
 }
 
 NumExpr::operator std::string() const
 {
-    return "NumExpr( " + std::to_string(m_val) + " )";
+    return "NumExpr( " + std::to_string( m_value ) + " )";
 }

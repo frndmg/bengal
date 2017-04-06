@@ -27,7 +27,6 @@
     BREAKABLEEXPR: std::shared_ptr<BreakableExpr>;
     FUNCTIONDECLARATION: std::shared_ptr<FunctionDeclaration>;
     RVALUE: std::shared_ptr<RValue>;
-    DECLARATION: std::shared_ptr<Declaration>;
     ID: std::shared_ptr<Id>;
     STRINGEXPR: std::shared_ptr<StringExpr>;
     DECLARATIONLIST: std::shared_ptr<DeclarationList>;

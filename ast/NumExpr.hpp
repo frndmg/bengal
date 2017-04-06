@@ -3,25 +3,30 @@
 
 #include "RValue.hpp"
 
-#include <iostream>
-#include <string>
-
 namespace ast
 {
 
-class NumExpr : public RValue
+class NumExpr
+        : public RValue
 {
-    int m_val;
-
 public:
-    NumExpr(int val,
-            const Position& pos = { 0, 0, 0, 0 });
+    /// \brief Creates a NumExpr with value val in position pos.
+    /// \param value Value.
+    /// \param pos Position in file.
+    NumExpr( int value, const Position& pos = { 0, 0, 0, 0 } );
 
-    // Node interface
-public:
+    /// \brief Gets the value of the current NumExpr.
+    /// \return The value of the current NumExpr.
+    int value() const;
+
+    virtual bool checkSemantic( Scope&, Report& ) override;
+
 //    virtual void generateCode();
-    virtual bool checkSemantic(Scope&, Report&) override;
+
     virtual operator std::string() const override;
+
+private:
+    int m_value;
 };
 
 } // ast namespace

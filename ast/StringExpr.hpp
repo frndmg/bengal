@@ -8,22 +8,22 @@
 namespace ast
 {
 
-class StringExpr : public RValue
+class StringExpr
+        : public RValue
 {
 public:
-    StringExpr(const std::string& str,
-               const Position& pos = { 0, 0, 0, 0 });
+    StringExpr(
+            const std::string& value,
+            const Position& pos = { 0, 0, 0, 0 } );
+
+    const std::string& value();
+
+    virtual bool checkSemantic( Scope& scope, Report& report ) override;
+
+    virtual operator std::string() const override;
 
 private:
-    std::string m_str;
-
-    // Node interface
-public:
-    virtual bool checkSemantic(Scope &scope, Report &report) override;
-    virtual operator std::string() const override
-    {
-        return "StringExpr( " + m_str + " )";
-    }
+    std::string m_value;
 };
 
 } // ast namespace

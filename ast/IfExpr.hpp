@@ -6,13 +6,24 @@
 namespace ast
 {
 
-class IfExpr : public RValue
+class IfExpr
+        : public RValue
 {
 public:
-    IfExpr(const std::shared_ptr<Expr>& cond,
-           const std::shared_ptr<Expr>& then,
-           const std::shared_ptr<Expr>& els = nullptr,
-           const Position& pos = { 0, 0, 0, 0 });
+    IfExpr(
+            const std::shared_ptr<Expr>& cond,
+            const std::shared_ptr<Expr>& then,
+            const std::shared_ptr<Expr>& els = nullptr,
+            const Position& pos = { 0, 0, 0, 0 } );
+
+    const std::shared_ptr<Expr> if_() const
+    { return m_cond; }
+
+    const std::shared_ptr<Expr> then_() const
+    { return m_then; }
+
+    const std::shared_ptr<Expr> else_() const
+    { return m_else; }
 
 private:
     std::shared_ptr<Expr> m_cond;
@@ -21,7 +32,7 @@ private:
 
     // Node interface
 public:
-    virtual bool checkSemantic(Scope &scope, Report &report) override;
+    virtual bool checkSemantic( Scope& scope, Report& report ) override;
 };
 
 } // ast namespace

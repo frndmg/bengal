@@ -8,10 +8,20 @@
 namespace ast
 {
 
-class Field : public Node
+class Field
+        : public Node
 {
 public:
-    Field(std::shared_ptr<Id> id, std::shared_ptr<Expr> expr);
+    Field(
+            const std::shared_ptr<Id>& id,
+            const std::shared_ptr<Expr>& expr,
+            const Position& pos = { 0, 0, 0, 0 } );
+
+    const std::shared_ptr<Id> id() const
+    { return m_id; }
+
+    const std::shared_ptr<Expr> expr() const
+    { return m_expr; }
 
 private:
     std::shared_ptr<Id> m_id;
@@ -19,7 +29,7 @@ private:
 
     // Node interface
 public:
-    virtual bool checkSemantic(Scope &scope, Report &report) override;
+    virtual bool checkSemantic( Scope& scope, Report& report ) override;
 };
 
 } // ast namespace

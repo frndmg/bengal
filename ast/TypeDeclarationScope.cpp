@@ -61,6 +61,7 @@ bool TypeDeclarationScope::checkSemantic(
             well_defined_types.erase( type_name );
             // TODO: Report error
             // Cyclic definition
+            std::cout << "Cyclic definition of " << type_name << std::endl;
         }
     }
 
@@ -146,31 +147,27 @@ void TypeDeclarationScope::checkUniqueName(
 
     for ( size_type i = 0; i < bucket_count(); ++i )
     {
-        auto bucket_size_i = bucket_size( i );
+        // The size of the bucket ``i``
+        size_type bucket_size_i = bucket_size( i );
+
+        // Iterator to the beginning of bucket ``i``
         auto it = begin( i );
 
         if ( bucket_size_i > 1 )
         {
-            // Check in the current TypeDeclarationScope
+            auto type_name = it->first.c_str();
+            // Multiple definitions of type ``type_name``
             report.error( *this,
                           TYPEDECL_TYPE_ALREADY_DEFINED,
-                          begin( i )->first.c_str() );
-        } else if ( bucket_size_i == 1 )
-        {
-            // Check in outer scope
-            const auto& type_name = it->first;
-            if ( scope.getTypeDefOf( type_name ) != nullptr )
-                report.error( *this,
-                              TYPEDECL_TYPE_ALREADY_DEFINED,
-                              type_name.c_str() );
+                          type_name );
         }
     }
 }
 
 void TypeDeclarationScope::checkTypeDepend(
         std::set<std::string>& well_defined_types,
-        Node::Scope& scope,
-        Node::Report& report )
+        Scope& scope,
+        Report& report )
 {
     for ( auto& value : *this )
     {
@@ -178,14 +175,14 @@ void TypeDeclarationScope::checkTypeDepend(
         const auto& type_name = value.first;
 
         // Value of the current type
-        const auto& type = value.second;
+        const auto& type_declaration = value.second;
 
         // Is a well defined type
         bool well_defined_type = true;
 
-        // Get all types that `type` depends on.
+        // Get all types that ``type_declaration`` depends on.
         std::vector< Id > type_depends;
-        type->typeDepends( std::back_inserter( type_depends ) );
+        type_declaration->typeDepends( std::back_inserter( type_depends ) );
 
         for ( auto& type_depend : type_depends )
             if ( find( type_depend ) == end()
@@ -193,7 +190,7 @@ void TypeDeclarationScope::checkTypeDepend(
             {
                 well_defined_type = false;
                 report.error( *this,
-                              "Type `%s` does not exist.",
+                              TYPEDECL_TYPE_DOES_NOT_EXIST,
                               type_depend.c_str() );
             }
         if ( well_defined_type )
@@ -208,8 +205,8 @@ bool TypeDeclarationScope::hasCycle(
     if ( not std::get<1>( touched.insert( x ) ) )
         return true;
     auto& type = find( x )->second;
-    if ( type->isArrayDeclaration() or type->isAliasDeclaration() )
-        return hasCycle( touched, *type->id() );
+    if ( type->isAliasDeclaration() )
+        return hasCycle( touched, *type->type() );
     return false;
 }
 

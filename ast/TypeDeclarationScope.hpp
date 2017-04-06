@@ -3,6 +3,8 @@
 
 #define TYPEDECL_TYPE_ALREADY_DEFINED "Type `%s` already defined."
 
+#define TYPEDECL_TYPE_DOES_NOT_EXIST "Type `%s` does not exist."
+
 #include "DeclarationScope.hpp"
 #include "TypeDeclaration.hpp"
 
@@ -14,6 +16,7 @@
 namespace ast
 {
 
+/// \brief TypeDeclarationScope class
 class TypeDeclarationScope
         : public DeclarationScope,
           public std::unordered_multimap<std::string, std::shared_ptr<TypeDeclaration> >
@@ -39,6 +42,9 @@ public:
 private:
     bool hasCycle( std::set<std::string>& touched, const std::string& x );
 
+    /// \brief Checks if all the defined types have a unique name
+    /// \param scope
+    /// \param report
     void checkUniqueName( Scope& scope, Report& report );
 
     void checkTypeDepend(

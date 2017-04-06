@@ -11,44 +11,58 @@ ArrayExpr::ArrayExpr(
         , m_id( id )
         , m_size( size )
         , m_val( val )
-{
-}
+{ }
+
+const std::shared_ptr<Id> ArrayExpr::id() const
+{ return m_id; }
+
+const std::shared_ptr<Expr> ArrayExpr::size() const
+{ return m_size; }
+
+const std::shared_ptr<Expr> ArrayExpr::value() const
+{ return m_val; }
 
 bool ArrayExpr::checkSemantic( Scope& scope, Report& report )
 {
     bool ok = true;
 
-    // Check if the type exists and if it is of type `ArrayType`
-    std::shared_ptr<Type> type;
-    if ( ( type = scope.getTypeDefOf( *m_id ) ) == nullptr )
+    auto type = scope.getType( *id() );
+    if ( type == nullptr )
     {
-        // TODO: Report error. Type `*m_id` does not exist
+        // If there is no type.
+        report.error( *this, "There is no type named %s", id()->c_str() );
         ok = false;
     }
-    std::shared_ptr<ArrayType> array_type;
-    if ( ( array_type = std::dynamic_pointer_cast<ArrayType>( type ) ) == nullptr )
+    else
     {
-        // TODO: Report error. Type `*m_id` is not of type ArrayType
-        ok = false;
+        auto array_type = std::dynamic_pointer_cast<ArrayType>( type );
+        if ( array_type == nullptr )
+        {
+            // If the type is not an array type.
+            report.error( *this,
+                          "The type %s is not an array type",
+                          type->typeName().c_str() );
+            ok = false;
+        }
+        else
+        {
+            ok = value()->checkSemantic( scope, report) and ok;
+
+            if ( not sameType( array_type->type(), { value() } ) )
+            {
+                // If not the same type of array and value.
+                report.error( *this, "The type of array and value mismatch" );
+                ok = false;
+            }
+        }
     }
 
-    // Check the semantic of the `m_size` and `m_val`
-    if ( not( m_size->checkSemantic( scope, report ) and
-              m_val->checkSemantic( scope, report ) ) )
-    {
-        // If problems with m_size or m_val
-        ok = false;
-    }
+    // Check the semantic of the size
+    ok = size()->checkSemantic( scope, report ) and ok;
 
-    // Check the type of `m_size` and `m_val`
-    if ( not sameType( scope.getTypeDefOf( "Int32" ), { m_size } ) )
+    if ( not sameType( scope.getType("int"), { size() } ) )
     {
-        // TODO: Report error. Type of `m_size` is not Int32
-        ok = false;
-    }
-    if ( array_type != nullptr and not sameType( array_type->type(), { m_val } ) )
-    {
-        // TODO: Report error. The Type of the array and the value differs
+        report.error(*this, "The size is not of type int");
         ok = false;
     }
 

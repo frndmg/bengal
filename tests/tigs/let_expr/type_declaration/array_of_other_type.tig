@@ -1,0 +1,5 @@
+let
+    type A = { a : int }
+    type aArray = array of A
+in
+end

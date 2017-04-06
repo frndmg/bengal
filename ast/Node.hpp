@@ -34,27 +34,26 @@ protected:
 public:
     Node( const Position& pos = { 0, 0, 0, 0 } );
 
-// Virtual Methods
+    /// \brief Check the semantic of the current node.
+    /// \param scope The scope of the current node.
+    /// \param report The reporter to generate errors or warnings.
+    /// \return true if well semantically or false otherwise.
+    virtual bool checkSemantic( Scope& scope, Report& report ) = 0;
+
+    // Commented because not implemented.
 //    virtual void generateCode(const std::shared_ptr<CodeGenerator>& cg) = 0;
 
-    ///
-    /// \brief checkSemantic
-    /// \param scope
-    /// \param report
-    /// \return
-    ///
-    virtual bool checkSemantic( Scope& scope, Report& report ) = 0;
+    /// \brief Gets the position of the node.
+    /// \return The position of the node.
+    const Position& position() const;
 
     virtual operator std::string() const;
 
     friend std::ostream& operator<<( std::ostream& out, const Node& n )
-    {
-        return out << static_cast<std::string>( n );
-    }
-
-    const Position& position() const;
+    { return out << static_cast<std::string>( n ); }
 
 private:
+    /// \brief Position of the node in the file.
     Position m_pos;
 };
 
