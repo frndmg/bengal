@@ -17,7 +17,12 @@ public:
             const std::shared_ptr<Expr>& val,
             const Position& pos = { 0, 0, 0, 0 } );
 
-    // Node interface
+    const std::shared_ptr<Id> id() const;
+
+    const std::shared_ptr<Expr> size() const;
+
+    const std::shared_ptr<Expr> value() const;
+
 public:
     virtual bool checkSemantic( Scope& scope, Report& report ) override;
 
