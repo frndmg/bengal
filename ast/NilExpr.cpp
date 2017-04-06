@@ -2,11 +2,13 @@
 
 using namespace ast;
 
-NilExpr::NilExpr(const Position& pos) : RValue( pos ) { }
+NilExpr::NilExpr( const Position& pos )
+        : RValue( pos )
+{ }
 
-bool NilExpr::checkSemantic(Node::Scope&, Node::Report&)
+bool NilExpr::checkSemantic( Scope& scope, Report& report )
 {
-    setType( single_town<NilType>() );
+    setType( scope.getType( "nil" ) );
     return true;
 }
 
