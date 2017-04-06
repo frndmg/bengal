@@ -1,5 +1,3 @@
-find_package(LLVM 3.6 REQUIRED)
-
 set(BENGAL_SEMANTIC_LIBRARY semantic)
 set(SOURCE
         Scope.cpp
