@@ -17,14 +17,14 @@ ForExpr::ForExpr(const std::shared_ptr<Id>& id,
 bool ForExpr::checkSemantic(Scope &scope, Report &report)
 {
     Scope p( &scope );
-    bool valid_semantic = m_begin->checkSemantic( p, report );
-    valid_semantic      = m_end->checkSemantic( p, report ) and valid_semantic;
-    if ( not sameType( scope.getTypeDefOf( "Int32" ), { m_begin, m_end } ) )
+    bool ok = m_begin->checkSemantic( p, report );
+    ok = m_end->checkSemantic( p, report ) and ok;
+    if ( not sameType( scope.getType( "int" ), { m_begin, m_end } ) )
     {
-        // TODO: Report error
-        valid_semantic = false;
+        report.error( *this, "Bounds of the for must be numbers" );
+        ok = false;
     }
-    return BreakableExpr::checkSemantic( p, report ) and valid_semantic;
+    return BreakableExpr::checkSemantic( p, report ) and ok;
 }
 
 ast::ForExpr::operator std::string() const
