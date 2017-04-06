@@ -13,7 +13,6 @@
 #include <BreakableExpr.hpp>
 #include <FunctionDeclaration.hpp>
 #include <RValue.hpp>
-#include <Declaration.hpp>
 #include <Id.hpp>
 #include <StringExpr.hpp>
 #include <DeclarationList.hpp>
