@@ -23,6 +23,7 @@ bool BinExpr::checkSemantic( Scope& scope, Report& report )
     auto ok = true;
     auto int_type = scope.getType( "int" );
     auto string_type = scope.getType( "string" );
+    auto none_type = scope.getType( "none" );
 
     switch ( m_op )
     {
@@ -60,7 +61,7 @@ bool BinExpr::checkSemantic( Scope& scope, Report& report )
         case EQUAL:
         case NEQUAL:
             return ok and
-                   not sameType( single_town<NoneType>(), { m_lexpr } ) and
+                   not sameType( none_type, { m_lexpr } ) and
                    sameType( { m_lexpr, m_rexpr } );
         default:
             break;
