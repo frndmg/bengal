@@ -13,8 +13,11 @@ bool BreakExpr::checkSemantic(Scope &scope, Report &report)
     switch ( scope.scopeType() )
     {
     case Scope::BreakableScope:
+        // You can not assign to something that can be breakable
+        setType( scope.getType( "none" ) );
         return true;
     default:
+        report.error( *this, "Not breakable scope" );
         return false;
     }
 }
