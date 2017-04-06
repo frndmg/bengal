@@ -16,6 +16,12 @@ public:
             const std::shared_ptr<FieldList>& fields,
             const Position& pos = { 0, 0, 0, 0 } );
 
+    const std::shared_ptr<Id> id() const
+    { return m_id; }
+
+    const std::shared_ptr<FieldList> fields() const
+    { return m_fields; }
+
 private:
     std::shared_ptr<Id> m_id;
     std::shared_ptr<FieldList> m_fields;
